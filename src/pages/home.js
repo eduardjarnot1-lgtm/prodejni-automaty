@@ -36,37 +36,42 @@ function featured() {
 
 function showcase(r) {
   const list = featured();
-  const lines = `<svg class="showcase__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-    ${join([[0, 8], [0, 46], [0, 92], [100, 10], [100, 50], [100, 90], [30, 0], [70, 0]], ([x, y]) => `<line x1="${x}" y1="${y}" x2="50" y2="50"/>`)}
-  </svg>`;
   return `<div class="showcase" data-showcase>
-  <div class="showcase__tabs" role="tablist" aria-label="Vybrané automaty">
-    ${join(list, (f, i) => `<button class="showcase__tab" type="button" role="tab" id="sc-tab-${f.key}" aria-controls="sc-panel-${f.key}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${esc(f.tab)}</button>`)}
-    <span class="showcase__indicator" aria-hidden="true"></span>
-  </div>
   <div class="showcase__stage">
-    ${join(list, (f, i) => `<div class="showcase__panel${i === 0 ? ' is-active' : ''}" role="tabpanel" id="sc-panel-${f.key}" aria-labelledby="sc-tab-${f.key}">
+    ${join(list, (f, i) => `<div class="showcase__panel${i === 0 ? ' is-active' : ''}" id="sc-panel-${f.key}" role="group" aria-roledescription="automat" aria-label="${i + 1} z ${list.length}: ${esc(f.tab)}">
       <figure class="showcase__media">
-        ${lines}
         ${f.photoId
-          ? photo(r, f.photoId, { eager: i === 0, sizes: '(min-width: 1000px) 420px, 80vw', cls: 'showcase__img' })
+          ? photo(r, f.photoId, { eager: i === 0, sizes: '(min-width: 1000px) 520px, 88vw', cls: 'showcase__img' })
           : photoPlaceholder(f.icon)}
-        ${f.isExample ? '<figcaption class="showcase__label">Ukázka provedení</figcaption>' : ''}
+        ${f.isExample ? '<figcaption class="visually-hidden">Ukázka provedení</figcaption>' : ''}
       </figure>
-      <div class="showcase__info">
-        <p class="tag">${esc(f.single ? categories.find((k) => k.key === f.key).name : 'Typ zařízení')}</p>
+      <div class="showcase__card">
+        <p class="showcase__tag">${esc(f.single ? categories.find((k) => k.key === f.key).name : 'Typ zařízení')}${f.isExample ? ' · foto: ukázka provedení' : ''}</p>
         <h2 class="showcase__name">${esc(f.name)}</h2>
-        <p>${esc(f.text)}</p>
         ${f.single
-          ? `<ul class="chips" aria-label="Hlavní parametry">${join(f.single.highlights, (x) => `<li>${esc(x)}</li>`)}</ul>
-             <div class="showcase__foot"><p class="price"><span class="price__label">${esc(priceText(f.single.price).label)}</span> <span class="price__value">${esc(priceText(f.single.price).value)}</span></p>
-             <a class="link-arrow" href="${r(productUrl(f.single))}">Detail automatu ${icons.arrow(18)}</a></div>`
-          : `<ul class="showcase__models">${join(f.items, (p) => `<li><a href="${r(productUrl(p))}">${esc(p.name)} ${icons.arrow(16)}</a></li>`)}</ul>`}
+          ? `<ul class="chips chips--dark" aria-label="Hlavní parametry">${join(f.single.highlights, (x) => `<li>${esc(x)}</li>`)}</ul>
+             <p class="showcase__price">${esc(priceText(f.single.price).label)}: <strong>${esc(priceText(f.single.price).value)}</strong></p>
+             <a class="showcase__more" href="${r(productUrl(f.single))}">Detail automatu ${icons.arrow(16)}</a>`
+          : `<p class="showcase__text">${esc(f.text)}</p>
+             <ul class="showcase__models">${join(f.items, (p) => `<li><a href="${r(productUrl(p))}">${esc(p.name)} ${icons.arrow(16)}</a></li>`)}</ul>`}
       </div>
     </div>`)}
   </div>
+  <div class="showcase__controls" role="group" aria-label="Přepnout automat">
+    <button class="showcase__arrow" type="button" data-sc-prev aria-label="Předchozí automat">${icons.arrow(18)}</button>
+    <div class="showcase__dots">
+      ${join(list, (f, i) => `<button class="showcase__dot" type="button" data-sc-go="${i}" aria-controls="sc-panel-${f.key}" aria-pressed="${i === 0}"><span class="visually-hidden">${esc(f.tab)}</span></button>`)}
+    </div>
+    <button class="showcase__arrow showcase__arrow--next" type="button" data-sc-next aria-label="Další automat">${icons.arrow(18)}</button>
+    <p class="showcase__status" aria-live="polite"><span data-sc-index>1</span> / ${list.length} · <span data-sc-name>${esc(list[0].tab)}</span></p>
+  </div>
 </div>`;
 }
+
+// Converging guide lines behind the machine (decorative).
+const heroLines = `<svg class="hero__lines" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  ${[[0, 210], [0, 330], [0, 470], [190, 700], [1000, 210], [1000, 330], [1000, 470], [810, 700], [230, 0], [770, 0]].map(([x, y]) => `<line x1="${x}" y1="${y}" x2="500" y2="520"/>`).join('')}
+</svg>`;
 
 export default {
   path: 'index.html',
@@ -86,28 +91,51 @@ export default {
     const fridge = publishedProducts.find((p) => p.category === 'chlazene-automaty');
 
     return `
-<section class="hero">
-  <div class="wrap hero__grid">
-    <div class="hero__text">
-      <p class="eyebrow">Výdejní automaty od roku ${site.since}</p>
-      <h1>Prodej a pronájem výdejních automatů</h1>
-      <p class="lead">Dodáváme chlazené automaty na potraviny a výdejní boxové systémy. Pomůžeme vybrat vhodné zařízení, nainstalujeme ho a postaráme se o servis.</p>
-      <div class="actions">
+<section class="hero" aria-labelledby="hero-h">
+  ${heroLines}
+  <div class="hero__inner">
+    <div class="hero__head">
+      <h1 id="hero-h" class="display hero__title"><span class="hero__line">Prodej a pronájem</span> <span class="hero__line">výdejních <span class="stencil">automatů</span></span></h1>
+      <div class="hero__actions">
         ${button(inquiryHref(r), 'Nezávazně poptat', 'primary')}
-        ${button(r('automaty.html'), 'Prohlédnout automaty', 'secondary')}
+        ${button(r('automaty.html'), 'Prohlédnout automaty', 'light')}
       </div>
-      <p class="hero__call">Raději telefonicky? ${phoneLink()} <span>(${esc(site.contact.person)})</span></p>
     </div>
-    ${showcase(r)}
+    <div class="hero__bottom">
+      <div class="hero__aside">
+        <ul class="badges" aria-label="Co zajišťujeme">
+          <li title="Poradenství">${icons.chat(18)}<span class="visually-hidden">Poradenství</span></li>
+          <li title="Instalace">${icons.plug(18)}<span class="visually-hidden">Instalace</span></li>
+          <li title="Servis">${icons.tool(18)}<span class="visually-hidden">Servis</span></li>
+        </ul>
+        <p class="hero__lead">Dodáváme chlazené automaty na potraviny a výdejní boxové systémy. V oboru jsme od roku ${site.since}. Pomůžeme vybrat vhodné zařízení, nainstalujeme ho a postaráme se o servis.</p>
+        <p class="hero__call">${icons.phone(16)} ${phoneLink()}</p>
+      </div>
+      ${showcase(r)}
+    </div>
   </div>
 </section>
-
+<!--break-->
 <section class="reasons" aria-label="Proč se na nás obrátit">
   <ul class="wrap reasons__list">
     ${join(reasons, (x) => `<li>${icons[x.icon](24)}<div><h2 class="reasons__h">${esc(x.title)}</h2><p>${esc(x.text)}</p></div></li>`)}
   </ul>
 </section>
 
+<!--break-->
+<section class="gallery" aria-labelledby="galerie-h">
+  <h2 id="galerie-h" class="visually-hidden">Ukázky výdejních boxových systémů</h2>
+  <p class="gallery__word" aria-hidden="true">Automaty</p>
+  <figure class="gallery__item gallery__item--a">${photo(r, 'boxovy-system-zeleny', { sizes: '(min-width: 1000px) 220px, 44vw' })}</figure>
+  <figure class="gallery__item gallery__item--b">${photo(r, 'boxovy-system-bily', { sizes: '(min-width: 1000px) 420px, 90vw' })}</figure>
+  <figure class="gallery__item gallery__item--c">${photo(r, 'boxovy-system-modry', { sizes: '(min-width: 1000px) 240px, 44vw' })}</figure>
+  <p class="gallery__text gallery__text--a">Výdejní boxové systémy pro výdej předem připraveného zboží a objednávek. Ukázky provedení.</p>
+  <div class="gallery__text gallery__text--b">
+    <p>Počet a velikost schránek navrhneme podle prostoru a druhu zboží. Konkrétní provedení upřesníme v nabídce.</p>
+    <a class="link-arrow" href="${r('automaty.html#boxove-systemy')}">Boxové systémy ${icons.arrow(18)}</a>
+  </div>
+</section>
+<!--break-->
 <section class="section" aria-labelledby="typy-h">
   <div class="wrap">
     <div class="section-head">

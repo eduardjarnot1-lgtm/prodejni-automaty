@@ -46,64 +46,61 @@
     return !window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   };
 
+  // ---- Header: floating pill after scrolling past the top ----
+  var header = document.querySelector('.site-header');
+  if (header) {
+    var stuck = false;
+    var onScroll = function () {
+      var should = window.scrollY > 160;
+      if (should === stuck) return;
+      stuck = should;
+      header.classList.toggle('is-stuck', stuck);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
   // ---- Hero showcase: user-controlled switching between featured machines ----
-  // WAI-ARIA tabs pattern: arrow keys, Home and End move between tabs.
-  // Photo and description live in the same panel, so they always change together.
+  // Previous/next arrows and dots; nothing changes automatically. Photo and
+  // detail card share one panel, so they always change together.
   Array.prototype.forEach.call(document.querySelectorAll('[data-showcase]'), function (box) {
-    var tabs = Array.prototype.slice.call(box.querySelectorAll('[role="tab"]'));
-    var indicator = box.querySelector('.showcase__indicator');
-    if (!tabs.length) return;
-
-    function placeIndicator(tab) {
-      if (!indicator) return;
-      indicator.style.setProperty('--x', (tab.offsetLeft - 4) + 'px');
-      indicator.style.setProperty('--w', tab.offsetWidth + 'px');
+    var panels = Array.prototype.slice.call(box.querySelectorAll('.showcase__panel'));
+    var dots = Array.prototype.slice.call(box.querySelectorAll('[data-sc-go]'));
+    var idxOut = box.querySelector('[data-sc-index]');
+    var nameOut = box.querySelector('[data-sc-name]');
+    if (panels.length < 2) {
+      var controls = box.querySelector('.showcase__controls');
+      if (controls) controls.hidden = true;
+      return;
     }
+    var current = 0;
 
-    function select(tab, focus) {
-      if (tab.getAttribute('aria-selected') === 'true') { if (focus) tab.focus(); return; }
+    panels.forEach(function (panel, i) { if (i !== current) panel.setAttribute('inert', ''); });
+
+    function go(i) {
+      i = (i + panels.length) % panels.length;
+      if (i === current) return;
       box.classList.add('has-switched');
-      tabs.forEach(function (t) {
-        var on = t === tab;
-        t.setAttribute('aria-selected', String(on));
-        t.tabIndex = on ? 0 : -1;
-        var panel = document.getElementById(t.getAttribute('aria-controls'));
-        panel.classList.toggle('is-active', on);
-        // Inactive panels are invisible and removed from keyboard focus.
-        if (on) panel.removeAttribute('inert'); else panel.setAttribute('inert', '');
-      });
-      placeIndicator(tab);
-      if (focus) tab.focus();
+      panels[current].classList.remove('is-active');
+      panels[current].setAttribute('inert', '');
+      panels[i].classList.add('is-active');
+      panels[i].removeAttribute('inert');
+      dots.forEach(function (d, k) { d.setAttribute('aria-pressed', String(k === i)); });
+      current = i;
+      if (idxOut) idxOut.textContent = String(i + 1);
+      if (nameOut) nameOut.textContent = dots[i] ? dots[i].textContent.trim() : '';
     }
 
-    tabs.forEach(function (tab, i) {
-      var panel = document.getElementById(tab.getAttribute('aria-controls'));
-      if (tab.getAttribute('aria-selected') !== 'true') panel.setAttribute('inert', '');
-      tab.addEventListener('click', function () { select(tab, false); });
-      tab.addEventListener('keydown', function (e) {
-        var next = null;
-        if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
-        else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
-        else if (e.key === 'Home') next = tabs[0];
-        else if (e.key === 'End') next = tabs[tabs.length - 1];
-        if (next) { e.preventDefault(); select(next, true); }
-      });
+    var prev = box.querySelector('[data-sc-prev]');
+    var next = box.querySelector('[data-sc-next]');
+    if (prev) prev.addEventListener('click', function () { go(current - 1); });
+    if (next) next.addEventListener('click', function () { go(current + 1); });
+    dots.forEach(function (d, k) { d.addEventListener('click', function () { go(k); }); });
+    box.addEventListener('keydown', function (e) {
+      if (!e.target.closest('.showcase__controls')) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(current + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(current - 1); }
     });
-
-    var current = tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0] || tabs[0];
-    // Position the sliding indicator without animating it into place.
-    if (indicator) {
-      indicator.style.transition = 'none';
-      placeIndicator(current);
-      indicator.getBoundingClientRect();
-      indicator.style.transition = '';
-    }
-    box.classList.add('is-ready');
-    window.addEventListener('resize', function () {
-      var sel = box.querySelector('[role="tab"][aria-selected="true"]');
-      if (sel) placeIndicator(sel);
-    });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { placeIndicator(current); });
   });
 
   // ---- Scroll reveals (played once) ----
@@ -114,6 +111,7 @@
     '.reasons__list > li', '.section-head', '.cat', '.pcard', '.svc', '.step',
     '.svc-item', '.examples__list > li', '.product-info > section', '.about-short > *',
     '.about__text', '.facts', '.band-dark__grid > *', '.disclosure', '.narrow > h2',
+    '.gallery__item', '.gallery__text',
   ].join(',');
 
   if (!reduceMotion() && 'IntersectionObserver' in window) {

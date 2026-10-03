@@ -45,13 +45,14 @@ export function button(href, label, variant = 'primary', extra = '') {
 
 export function pageHead({ eyebrow, title, lead, crumbs, r }) {
   return `<header class="page-head">
-  <div class="wrap">
+  <div class="wrap page-head__inner">
     ${crumbs ? breadcrumbs(r, crumbs) : ''}
     ${eyebrow ? `<p class="eyebrow">${esc(eyebrow)}</p>` : ''}
-    <h1>${esc(title)}</h1>
+    <h1 class="display">${esc(title)}</h1>
     ${lead ? `<p class="lead">${lead}</p>` : ''}
   </div>
-</header>`;
+</header>
+<!--break-->`;
 }
 
 export function breadcrumbs(r, crumbs) {
@@ -114,7 +115,8 @@ ${hasOptional ? '<p class="note">Položky označené „Volitelné“ nejsou sou
 
 // Contact strip shown at the bottom of most pages.
 export function contactBand(r, { heading = 'Poradíme vám s výběrem automatu' } = {}) {
-  return `<section class="band-dark" aria-labelledby="kontakt-band-h">
+  return `<!--break-->
+<section class="band-dark" aria-labelledby="kontakt-band-h">
   <div class="wrap band-dark__grid">
     <div>
       <h2 id="kontakt-band-h">${esc(heading)}</h2>

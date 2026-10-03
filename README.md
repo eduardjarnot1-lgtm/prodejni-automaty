@@ -86,3 +86,10 @@ Safety: animations run only when `<html>` has the `motion` class. That class is
 set in `<head>` only if the visitor hasn't asked for reduced motion. Content
 starts visible; reveals hide elements only after the script has initialised.
 Without JavaScript, every showcase panel is shown.
+
+## Layout
+
+The page sits on a light frame and is split into rounded panels ("sheets").
+Templates mark where a new panel starts with `<!--break-->`, and `layout.js`
+wraps each part in `<div class="sheet">`. The header's logo sits in a notch at
+the top of the first panel. After scrolling, the header becomes a floating pill.

@@ -31,7 +31,7 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 
   const header = `<a class="skip-link" href="#obsah">Přeskočit na obsah</a>
 <header class="site-header">
-  <div class="wrap site-header__bar">
+  <div class="site-header__bar">
     <a class="brand" href="${r('index.html')}"${navKey === 'home' ? ' aria-current="page"' : ''}>
       ${logoMark}
       <span class="brand__text"><span class="brand__name">${esc(site.brandName)}</span><span class="brand__tag">Prodej · pronájem · servis</span></span>
@@ -41,12 +41,18 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
       <span class="nav-toggle__label">Menu</span>
     </button>
     <nav class="site-nav" id="hlavni-navigace" aria-label="Hlavní navigace">
-      <ul>
-        ${join(site.nav, (n) => `<li><a href="${r(n.href)}"${n.key === navKey ? ' aria-current="page"' : ''}>${esc(n.label)}</a></li>`)}
+      <ul class="site-nav__list site-nav__list--start">
+        ${join(site.nav.slice(0, 3), (n) => `<li><a href="${r(n.href)}"${n.key === navKey ? ' aria-current="page"' : ''}>${esc(n.label)}</a></li>`)}
       </ul>
-      <div class="site-nav__actions">
-        <a class="header-phone" href="${c.phoneHref}">${icons.phone(18)}<span>${esc(c.phone)}</span></a>
-        ${button(inquiryHref(r), 'Nezávazně poptat', 'primary', ' data-size="sm"')}
+      <div class="site-nav__end">
+        <ul class="site-nav__list">
+          ${join(site.nav.slice(3), (n) => `<li><a href="${r(n.href)}"${n.key === navKey ? ' aria-current="page"' : ''}>${esc(n.label)}</a></li>`)}
+        </ul>
+        <div class="site-nav__actions">
+          <a class="btn btn--dark" href="${inquiryHref(r)}" data-size="sm">Nezávazně poptat</a>
+          <a class="icon-btn" href="${c.phoneHref}" aria-label="Zavolat ${esc(c.phone)}" title="${esc(c.phone)}">${icons.phone(18)}</a>
+          <a class="header-phone" href="${c.phoneHref}">${icons.phone(18)}<span>${esc(c.phone)}</span></a>
+        </div>
       </div>
     </nav>
   </div>
@@ -93,7 +99,7 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 
   const content = `${header}
 <main id="obsah" tabindex="-1">
-${body}
+${body.split('<!--break-->').filter((x) => x.trim()).map((chunk) => `<div class="sheet">${chunk}</div>`).join('\n')}
 </main>
 ${footer}`;
 
