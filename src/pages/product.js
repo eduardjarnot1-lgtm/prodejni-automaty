@@ -4,8 +4,7 @@ import { esc, join } from '../lib/html.js';
 import { icons } from '../lib/icons.js';
 import { site } from '../data/site.js';
 import { categories, publishedProducts, productUrl } from '../data/products.js';
-import { pageHead, productMedia, priceBlock, specTable, button, inquiryHref, phoneLink, contactBand, productCard, photo } from '../lib/components.js';
-import { categoryGallery } from './catalog.js';
+import { pageHead, priceBlock, specTable, button, inquiryHref, phoneLink, contactBand, productCard, productGallery } from '../lib/components.js';
 
 export function productPage(p) {
   const cat = categories.find((k) => k.key === p.category);
@@ -16,9 +15,7 @@ export function productPage(p) {
     description: p.summary,
     render(r) {
       const related = publishedProducts.filter((x) => x.slug !== p.slug).slice(0, 2);
-      const gallery = p.photos.length > 1
-        ? `<ul class="thumbs">${join(p.photos.slice(1), (id) => `<li><div class="plinth plinth--sm">${photo(r, id, { sizes: '200px' })}</div></li>`)}</ul>`
-        : '';
+
 
       return `
 ${pageHead({
@@ -34,8 +31,7 @@ ${pageHead({
 
 <div class="wrap product">
   <div class="product__media">
-    <div class="plinth plinth--lg">${productMedia(r, p, { eager: true, sizes: '(min-width: 1000px) 560px, 92vw' })}</div>
-    ${gallery}
+    ${productGallery(r, p)}
   </div>
 
   <aside class="product__summary" aria-label="Shrnutí a poptávka">
@@ -76,7 +72,7 @@ ${pageHead({
   </section>
 </div>
 
-${p.photos.length ? '' : `<section class="section section--tight"><div class="wrap">${categoryGallery(r, p.category, 2)}</div></section>`}
+
 
 ${related.length ? `<section class="section section--alt" aria-labelledby="dalsi-h">
   <div class="wrap">

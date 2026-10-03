@@ -27,6 +27,34 @@ export function photoPlaceholder(kind = 'machine', label = 'Fotografie bude dopl
   return `<div class="ph" role="img" aria-label="${esc(label)}">${icons[kind === 'box' ? 'box' : 'machine'](40)}<span>${esc(label)}</span></div>`;
 }
 
+// Photos shown for a product: its own confirmed photos; otherwise the
+// examples of its category (labelled "Ukázka provedení" on the page).
+export function productPhotos(p) {
+  if (p.photos.length) return { ids: p.photos, example: false };
+  return { ids: photosByCategory(p.category).map((x) => x.id), example: true };
+}
+
+// Product photo browser: one large photo with thumbnails (main.js switches
+// them). Specifications stay in the text; photos only illustrate.
+export function productGallery(r, p) {
+  const { ids, example } = productPhotos(p);
+  if (!ids.length) return `<div class="plinth plinth--lg">${photoPlaceholder(p.category === 'boxove-systemy' ? 'box' : 'machine')}</div>`;
+  const first = photoById(ids[0]);
+  return `<div class="pgallery" data-pgallery>
+  <div class="plinth plinth--lg pgallery__stage">
+    ${join(ids, (id, i) => photo(r, id, { eager: i === 0, sizes: '(min-width: 1000px) 560px, 92vw', cls: 'pgallery__img' }).replace('<img ', `<img data-i="${i}"${i ? ' hidden' : ''} `))}
+    ${example ? '<span class="media-label">Ukázka provedení</span>' : ''}
+  </div>
+  <p class="pgallery__caption" aria-live="polite">${esc(first.title || first.alt)}</p>
+  ${ids.length > 1 ? `<div class="pgallery__thumbs" role="group" aria-label="Fotografie (${ids.length})">
+    ${join(ids, (id, i) => {
+      const ph = photoById(id);
+      return `<button class="pgallery__thumb" type="button" data-i="${i}" aria-pressed="${i === 0}" aria-label="Fotografie ${i + 1} z ${ids.length}: ${esc(ph.title || ph.alt)}">${photo(r, id, { sizes: '96px' })}</button>`;
+    })}
+  </div>` : ''}
+</div>`;
+}
+
 // Main image of a product: its own confirmed photo; otherwise the first
 // example photo of its category, clearly labelled as an example; otherwise
 // a neutral placeholder.
@@ -86,7 +114,7 @@ export function productCard(r, p, { headingLevel = 3 } = {}) {
     ${p.highlights.length ? `<ul class="chips" aria-label="Hlavní parametry">${join(p.highlights, (x) => `<li>${esc(x)}</li>`)}</ul>` : ''}
     <div class="pcard__foot">
       ${priceBlock(p)}
-      <a class="link-arrow" href="${url}" aria-hidden="true" tabindex="-1">Detail automatu ${icons.arrow(18)}</a>
+      <span class="pcard__cta" aria-hidden="true">Detail automatu <span class="arrow-swap">${icons.arrow(16)}${icons.arrow(16)}</span></span>
     </div>
   </div>
 </article>`;

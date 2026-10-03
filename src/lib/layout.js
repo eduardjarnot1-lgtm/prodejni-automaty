@@ -25,8 +25,12 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 <meta property="og:description" content="${esc(description)}">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="${r('assets/favicon.svg')}" type="image/svg+xml">
-<script>(function(d){d.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: no-preference)').matches)d.classList.add('motion')}catch(e){}})(document.documentElement)</script>
+<script>(function(d){d.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: no-preference)').matches){d.classList.add('motion','anim-pending');setTimeout(function(){d.classList.remove('anim-pending')},2500)}}catch(e){}})(document.documentElement)</script>
 <link rel="stylesheet" href="${r('assets/css/styles.css')}">
+<script src="${r('assets/vendor/gsap/gsap.min.js')}" defer></script>
+<script src="${r('assets/vendor/gsap/ScrollTrigger.min.js')}" defer></script>
+<script src="${r('assets/vendor/gsap/Flip.min.js')}" defer></script>
+<script src="${r('assets/js/motion.js')}" defer></script>
 <script src="${r('assets/js/main.js')}" defer></script>
 <script>window.ZOOM_THROUGH=${JSON.stringify(site.pageTransition)}</script>
 <script src="${r('assets/js/zoom-through.js')}" defer></script>`;

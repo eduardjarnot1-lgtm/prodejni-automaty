@@ -2,7 +2,7 @@ import { esc, join } from '../lib/html.js';
 import { icons } from '../lib/icons.js';
 import { site } from '../data/site.js';
 import { categories, publishedProducts, productUrl, priceText } from '../data/products.js';
-import { photosByCategory } from '../data/photos.js';
+import { photosByCategory, photoById } from '../data/photos.js';
 import { services, process } from '../data/services.js';
 import { photo, photoPlaceholder, button, inquiryHref, contactBand, phoneLink } from '../lib/components.js';
 
@@ -68,6 +68,44 @@ function showcase(r) {
 </div>`;
 }
 
+// Interactive gallery panel: the large photo in the middle and two smaller
+// ones; choosing a small one swaps it into the large position (main.js +
+// GSAP Flip). The caption always describes the large photo.
+const GALLERY = ['chlazeny-automat-dotykovy-displej', 'boxovy-system-12-schranek', 'chlazeny-automat-dvojita-sestava'];
+
+function galleryItem(r, id, isMain) {
+  const ph = photoById(id);
+  const cat = categories.find((k) => k.key === ph.category);
+  return `<button class="gallery__item" type="button" data-photo="${id}" data-name="${esc(ph.title)}" data-cat="${esc(cat.name)}" data-href="${r('automaty.html#' + cat.key)}"
+      aria-pressed="${isMain}" aria-label="Zobrazit ve velkém náhledu: ${esc(ph.title)}">
+      ${photo(r, id, { sizes: '(min-width: 1000px) 420px, 90vw' })}
+      <span class="gallery__expand" aria-hidden="true">${icons.plus(16)}</span>
+    </button>`;
+}
+
+function gallery(r) {
+  const [main, a, c] = GALLERY;
+  const mainPhoto = photoById(main);
+  const mainCat = categories.find((k) => k.key === mainPhoto.category);
+  return `<section class="gallery" aria-labelledby="galerie-h" data-gallery>
+  <h2 id="galerie-h" class="visually-hidden">Ukázky provedení automatů</h2>
+  <p class="gallery__word" aria-hidden="true">Automaty</p>
+  <div class="gallery__slot gallery__slot--a">${galleryItem(r, a, false)}</div>
+  <div class="gallery__slot gallery__slot--b">${galleryItem(r, main, true)}</div>
+  <div class="gallery__slot gallery__slot--c">${galleryItem(r, c, false)}</div>
+  <div class="gallery__caption">
+    <p class="gallery__tag">Ukázka provedení · <span data-g-cat>${esc(mainCat.name)}</span></p>
+    <p class="gallery__name" data-g-name aria-live="polite">${esc(mainPhoto.title)}</p>
+    <a class="link-arrow" data-g-link href="${r('automaty.html#' + mainCat.key)}">Zobrazit kategorii <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>
+  </div>
+  <p class="gallery__text gallery__text--a">Chlazené automaty na potraviny a výdejní boxové systémy pro samoobslužný prodej a výdej zboží. Vyberte fotografii pro větší náhled.</p>
+  <div class="gallery__text gallery__text--b">
+    <p>Konkrétní model, výbavu a počet schránek navrhneme podle vašeho provozu a místa instalace.</p>
+    <a class="link-arrow" href="${r('automaty.html')}">Prohlédnout automaty <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>
+  </div>
+</section>`;
+}
+
 // Hero video: decorative product visualisation (see site.heroVideo).
 // Without JavaScript the native player with controls is shown instead of
 // the poster overlay.
@@ -120,7 +158,7 @@ export default {
       <p class="hero__lead">Dodáváme chlazené automaty na potraviny a výdejní boxové systémy. V oboru jsme od roku ${site.since}. Pomůžeme vybrat vhodné zařízení, nainstalujeme ho a postaráme se o servis.</p>
       <div class="hero__actions">
         ${button(inquiryHref(r), 'Nezávazně poptat', 'primary')}
-        ${button(r('automaty.html'), 'Prohlédnout automaty', 'secondary')}
+        <a class="btn btn--secondary" href="${r('automaty.html')}">Prohlédnout automaty <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>
       </div>
       <p class="hero__call">${icons.phone(16)} ${phoneLink()} <span>(${esc(site.contact.person)})</span></p>
     </div>
@@ -147,18 +185,7 @@ export default {
   </div>
 </section>
 <!--break-->
-<section class="gallery" aria-labelledby="galerie-h">
-  <h2 id="galerie-h" class="visually-hidden">Ukázky provedení automatů</h2>
-  <p class="gallery__word" aria-hidden="true">Automaty</p>
-  <figure class="gallery__item gallery__item--a">${photo(r, 'boxovy-system-12-schranek', { sizes: '(min-width: 1000px) 220px, 44vw' })}</figure>
-  <figure class="gallery__item gallery__item--b">${photo(r, 'chlazeny-automat-dotykovy-displej', { sizes: '(min-width: 1000px) 420px, 90vw' })}</figure>
-  <figure class="gallery__item gallery__item--c">${photo(r, 'chlazeny-automat-dvojita-sestava', { sizes: '(min-width: 1000px) 280px, 44vw' })}</figure>
-  <p class="gallery__text gallery__text--a">Chlazené automaty na potraviny a výdejní boxové systémy pro samoobslužný prodej a výdej zboží. Ukázky provedení.</p>
-  <div class="gallery__text gallery__text--b">
-    <p>Konkrétní model, výbavu a počet schránek navrhneme podle vašeho provozu a místa instalace.</p>
-    <a class="link-arrow" href="${r('automaty.html')}">Prohlédnout automaty ${icons.arrow(18)}</a>
-  </div>
-</section>
+${gallery(r)}
 <!--break-->
 <section class="section" aria-labelledby="typy-h">
   <div class="wrap">
@@ -172,7 +199,7 @@ export default {
         <div class="cat__body">
           <h3>${esc(categories[0].name)}</h3>
           <p>${esc(categories[0].short)}</p>
-          <ul class="cat__links"><li><a href="${r(productUrl(fridge))}">${esc(fridge.name)} ${icons.arrow(16)}</a></li></ul>
+          <ul class="cat__links"><li><a href="${r(productUrl(fridge))}">${esc(fridge.name)} <span class="arrow-swap">${icons.arrow(16)}${icons.arrow(16)}</span></a></li></ul>
         </div>
       </article>
       <article class="cat">
@@ -180,7 +207,7 @@ export default {
         <div class="cat__body">
           <h3>${esc(categories[1].name)}</h3>
           <p>${esc(categories[1].short)}</p>
-          <ul class="cat__links">${join(boxProducts, (p) => `<li><a href="${r(productUrl(p))}">${esc(p.name)} ${icons.arrow(16)}</a></li>`)}</ul>
+          <ul class="cat__links">${join(boxProducts, (p) => `<li><a href="${r(productUrl(p))}">${esc(p.name)} <span class="arrow-swap">${icons.arrow(16)}${icons.arrow(16)}</span></a></li>`)}</ul>
         </div>
       </article>
     </div>
@@ -208,7 +235,7 @@ export default {
       <p>Termíny dodání a instalace upřesníme v nabídce podle zvoleného zařízení.</p>
     </div>
     <ol class="steps">
-      ${join(process, (s) => `<li class="step"><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></li>`)}
+      ${join(process, (s) => `<li class="step"><span class="step__bar" aria-hidden="true"></span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></li>`)}
     </ol>
   </div>
 </section>

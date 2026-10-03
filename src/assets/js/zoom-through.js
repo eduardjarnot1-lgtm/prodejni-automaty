@@ -24,7 +24,8 @@
   var DURATION = Number(cfg.duration) || 2500;
   var SCALE_OUT = Number(cfg.scaleOut) || 3;
   var SCALE_IN = Number(cfg.scaleIn) || 3;
-  var EASING = cfg.easing || 'cubic-bezier(0.65, 0, 0.35, 1)';
+  var EASING = cfg.easing || 'cubic-bezier(0.65, 0, 0.35, 1)'; // Web Animations fallback
+  var GSAP_EASE = cfg.gsapEase || 'power2.inOut';              // used when GSAP is loaded
   var REDUCED_DURATION = cfg.reducedMotionDuration == null ? 180 : Number(cfg.reducedMotionDuration);
   var IMAGE_WAIT = 1500;   // ms, max wait for visible images of the destination
   var FETCH_TIMEOUT = 8000;
@@ -158,6 +159,9 @@
   function run(newMain, nextDoc, url, opts) {
     var oldMain = doc.getElementById('obsah');
     var reduce = app.reduceMotion();
+    // Stop the outgoing page's own motion first: its ScrollTriggers, timelines
+    // and video. Nothing from it keeps running during or after the transition.
+    if (app.destroyPage) app.destroyPage(oldMain);
     var rect = oldMain.getBoundingClientRect();
     var docTop = rect.top + window.scrollY;
     var targetScroll = opts.scrollY || 0;
@@ -215,9 +219,11 @@
       if (opts.push && target) target.scrollIntoView();
       else window.scrollTo(0, targetScroll);
       app.updateHeader();
+      if (app.updateNav) app.updateNav();
       saveScroll();
 
-      app.initPage(newMain, { skipInView: true });
+      // The zoom was this page's entrance: set up its scroll animations only.
+      app.initPage(newMain, { skipInView: true, fromRoute: true });
 
       // Move focus to the new page's main heading for keyboard and screen-reader users.
       var h1 = newMain.querySelector('h1');
@@ -233,6 +239,16 @@
     // Prepare the destination: wait (briefly) for images visible at the start.
     return waitForImages(newMain).then(function () {
       if (committed) return;
+      var gsap = window.gsap;
+      if (gsap && !reduce) {
+        // One GSAP timeline drives both layers, so it can be stopped as a whole.
+        var tl = gsap.timeline({ defaults: { duration: DURATION / 1000, ease: GSAP_EASE } });
+        tl.fromTo(oldLayer, { scale: 1, autoAlpha: 1 }, { scale: SCALE_OUT, autoAlpha: 0 }, 0)
+          .fromTo(newLayer, { scale: SCALE_IN, autoAlpha: 0 }, { scale: 1, autoAlpha: 1 }, 0);
+        anims.push({ cancel: function () { tl.kill(); } });
+        newLayer.style.opacity = '';
+        return new Promise(function (res) { tl.eventCallback('onComplete', res); });
+      }
       if (reduce) {
         oldLayer.style.opacity = '0';
         anims.push(newLayer.animate([{ opacity: 0 }, { opacity: 1 }], { duration: REDUCED_DURATION, easing: 'ease-out', fill: 'forwards' }));

@@ -22,7 +22,8 @@ export const site = {
     duration: 2500,       // ms, whole transition (reference: 2.5 s)
     scaleOut: 3,          // outgoing page grows from 1 to this scale
     scaleIn: 3,           // incoming page shrinks from this scale to 1
-    easing: 'cubic-bezier(0.65, 0, 0.35, 1)', // smooth ease-in-out
+    gsapEase: 'power2.inOut', // GSAP ease used for the zoom (gsap.com/docs/v3/Eases)
+    easing: 'cubic-bezier(0.65, 0, 0.35, 1)', // same curve for the no-GSAP fallback
     reducedMotionDuration: 180, // ms, plain fade when reduced motion is preferred
     pages: ['index.html', 'automaty.html', 'sluzby.html', 'o-nas.html', 'kontakt.html'],
   },

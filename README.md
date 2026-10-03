@@ -29,7 +29,7 @@ src/data/services.js    services and the cooperation process
 src/data/photos.js      photo registry (alt texts, category, product assignment)
 src/lib/                layout, reusable components, icons
 src/pages/              page templates (product.js = product detail template)
-src/assets/             CSS, JS, optimized images (font: Georgia, serif – system font, no files)
+src/assets/             CSS, JS, GSAP (vendor/), optimized images (font: Georgia, serif – system font, no files)
 media/originals/        original photos (source for npm run images)
 scripts/                build, image optimization, link check, dev server
 ```
@@ -65,27 +65,43 @@ server response.
 
 See `CONTENT-TODO.md` for information still to be confirmed.
 
+## Colours
+
+All colours are tokens at the top of `src/assets/css/styles.css` (`:root`):
+- `--accent` (near-black `#121417`) and `--accent-hover`: buttons, links, icons, focus ring
+- `--ink` (anthracite): text, dark panels, card hover borders
+- `--green` and `--green-bright`: restrained secondary accent (current-page marker, link hover, tags, step numbers)
+- `--frame`, `--panel-gray`, `--surface`, `--hero-bg`: neutral greys for the frame, panels and backgrounds
+
+The favicon colour is in `src/assets/favicon.svg`.
+
 ## Motion
 
-All timing comes from tokens in `src/assets/css/styles.css` (`--dur-fast` 180 ms
-for control feedback, `--dur-base` 240 ms, `--dur-reveal` 600 ms for entrances,
-`--dur-leave` 200 ms, `--stagger` 80 ms, decelerating easings `--ease-out` and
-`--ease-emph`). Mobile uses shorter offsets and stagger.
+GSAP 3.15 (self-hosted in `src/assets/vendor/gsap/`: core, ScrollTrigger, Flip)
+drives all JavaScript animation through `src/assets/js/motion.js`.
 
-- **Hero entrance:** CSS keyframes with `fill-mode: backwards`, under 1 s.
-- **Machine showcase** (homepage hero): an accessible tab control (arrow keys,
-  Home/End). Photo and description share one panel, so they always change together.
-  It shows a confirmed product photo when one exists, otherwise a labelled
-  category example ("Ukázka provedení").
-- **Scroll reveals:** `IntersectionObserver` in `main.js`, played once. The
-  selectors are in the `REVEAL` list.
-- **Hover and focus feedback** on buttons, nav links, cards and form fields.
-- **FAQ accordion:** native `<details>`, with smooth height animation added by JS.
-
-Safety: animations run only when `<html>` has the `motion` class. That class is
-set in `<head>` only if the visitor hasn't asked for reduced motion. Content
-starts visible; reveals hide elements only after the script has initialised.
-Without JavaScript, every showcase panel is shown.
+- **Settings:** the `MOTION` object at the top of `motion.js` (eases, durations,
+  stagger, distances, ScrollTrigger start). Hover/focus feedback is CSS; its
+  timings are the `--dur-*` / `--ease-*` tokens in `styles.css`.
+- **Hero entrance** (first load only): headline lines, intro, buttons, phone and
+  video in one short timeline. The video only fades and rises, because the clip
+  zooms by itself.
+- **Scroll reveals** (ScrollTrigger, played once) with a different choreography per
+  section type: headings, trust points, product cards (photo settles in its
+  frame), service tiles (grid cascade), process steps (rule draws, then text),
+  gallery, contact band. Desktop only: subtle scroll-linked drift of the
+  gallery's big word and side photos.
+- **Interactions:** sliding nav indicator (green under the current page); animated
+  mobile menu and FAQ; gallery panel swaps photos with Flip; product pages switch
+  photos via thumbnails.
+- **Lifecycle:** each page's animations live in a `gsap.matchMedia()` context
+  (`Motion.initPage` / `Motion.destroyPage`). The page transition reverts the
+  outgoing page before swapping, so no ScrollTrigger or timeline survives a
+  route change. The zoom itself is a single GSAP timeline (`gsapEase` in
+  `site.pageTransition`).
+- **Safety:** entrances animate opacity only (content stays focusable). With
+  reduced motion nothing is animated or hidden. If GSAP fails to load, the
+  site works without motion.
 
 ## Layout
 

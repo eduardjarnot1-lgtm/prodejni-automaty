@@ -41,7 +41,7 @@ ${pageHead({
 <section class="section section--alt" aria-labelledby="postup-h">
   <div class="wrap">
     <div class="section-head"><h2 id="postup-h">Jak spolupráce probíhá</h2></div>
-    <ol class="steps">${join(process, (s) => `<li class="step"><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></li>`)}</ol>
+    <ol class="steps">${join(process, (s) => `<li class="step"><span class="step__bar" aria-hidden="true"></span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></li>`)}</ol>
   </div>
 </section>
 

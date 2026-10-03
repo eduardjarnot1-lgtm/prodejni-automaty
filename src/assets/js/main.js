@@ -23,8 +23,20 @@
   var setNavOpen = function () {};
   if (toggle && nav) {
     setNavOpen = function (open) {
+      var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      if (open === isOpen) return;
       toggle.setAttribute('aria-expanded', String(open));
-      nav.classList.toggle('is-open', open);
+      var compact = !window.matchMedia('(min-width: 1061px)').matches;
+      if (open) {
+        nav.classList.add('is-open');
+        if (window.Motion && compact) window.Motion.navPanel(nav, true);
+      } else if (window.Motion && compact) {
+        window.Motion.navPanel(nav, false, function () {
+          if (toggle.getAttribute('aria-expanded') !== 'true') nav.classList.remove('is-open');
+        });
+      } else {
+        nav.classList.remove('is-open');
+      }
     };
     toggle.addEventListener('click', function () {
       setNavOpen(toggle.getAttribute('aria-expanded') !== 'true');
@@ -55,36 +67,6 @@
     updateHeader();
   }
 
-  // ---- Scroll reveals (one observer for the whole session) ----
-  // Content is visible by default. Elements are only hidden after this code
-  // has run, and each is revealed once when it enters the viewport.
-  var REVEAL = [
-    '.reasons__list > li', '.section-head', '.cat', '.pcard', '.svc', '.step',
-    '.svc-item', '.examples__list > li', '.product-info > section', '.about-short > *',
-    '.about__text', '.facts', '.band-dark__grid > *', '.disclosure', '.narrow > h2',
-    '.gallery__item', '.gallery__text', '.featured__head', '.showcase',
-  ].join(',');
-  var io = null;
-  if (!reduceMotion() && 'IntersectionObserver' in window) {
-    io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        var el = entry.target;
-        io.unobserve(el);
-        el.setAttribute('data-reveal', 'in');
-        // Drop the reveal styles afterwards so hover transitions are not delayed.
-        var done = function () { el.setAttribute('data-reveal', 'done'); el.style.removeProperty('--i'); };
-        el.addEventListener('transitionend', function handler(ev) {
-          if (ev.target !== el || ev.propertyName !== 'opacity') return;
-          el.removeEventListener('transitionend', handler);
-          done();
-        });
-        setTimeout(done, 1600); // fallback if transitionend does not fire
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
-    root.classList.add('reveal-ready');
-  }
-
   // Preselect product/service in the inquiry form from kontakt.html#poptat-<id>.
   function preselect() {
     var select = document.getElementById('f-zajem');
@@ -98,21 +80,6 @@
   // =========================================================================
   // Page features (per <main>)
   // =========================================================================
-
-  // opts.skipInView: content swapped in by a page transition is already shown,
-  // so elements currently in the viewport are not hidden again.
-  function initReveals(scope, opts) {
-    if (!io) return;
-    each(scope.querySelectorAll(REVEAL), function (el) {
-      if (opts && opts.skipInView && el.getBoundingClientRect().top < window.innerHeight) return;
-      // Stagger siblings of the same group, capped so long lists stay quick.
-      var idx = 0, sib = el.previousElementSibling;
-      while (sib && idx < 4) { if (sib.matches(REVEAL)) idx++; sib = sib.previousElementSibling; }
-      el.style.setProperty('--i', idx);
-      el.setAttribute('data-reveal', 'pending');
-      io.observe(el);
-    });
-  }
 
   // ---- Map: loaded only on request (third-party content) ----
   function initMap(scope) {
@@ -182,26 +149,19 @@
     each(scope.querySelectorAll('details.disclosure'), function (d) {
       var summary = d.querySelector('summary');
       var body = d.querySelector('.disclosure__body');
-      var anim = null;
       summary.addEventListener('click', function (e) {
-        if (reduceMotion() || !d.animate) return; // default toggle
+        if (!window.Motion || reduceMotion()) return; // default toggle
         e.preventDefault();
-        if (anim) anim.cancel();
-        var opening = !d.open;
-        var start = d.offsetHeight;
-        if (opening) d.open = true;
-        var end = opening ? d.offsetHeight : summary.offsetHeight;
-        d.classList.add('is-animating');
-        anim = d.animate([{ height: start + 'px' }, { height: end + 'px' }], {
-          duration: 320, easing: 'cubic-bezier(0.22, 0.61, 0.36, 1)',
-        });
-        if (opening) body.animate([{ opacity: 0, transform: 'translateY(-4px)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'ease-out' });
-        anim.onfinish = function () {
-          if (!opening) d.open = false;
-          d.classList.remove('is-animating');
-          anim = null;
-        };
-        anim.oncancel = function () { d.classList.remove('is-animating'); };
+        if (!d.open) {
+          d.open = true;
+          window.Motion.toggleHeight(body, true);
+        } else {
+          d.classList.add('is-closing');
+          window.Motion.toggleHeight(body, false, function () {
+            d.open = false;
+            d.classList.remove('is-closing');
+          });
+        }
       });
     });
   }
@@ -403,17 +363,117 @@
     });
   }
 
+  // ---- Gallery panel: choose a small photo to swap it into the large slot ----
+  function initGalleryPanel(scope) {
+    each(scope.querySelectorAll('[data-gallery]'), function (g) {
+      var slotMain = g.querySelector('.gallery__slot--b');
+      var nameOut = g.querySelector('[data-g-name]');
+      var catOut = g.querySelector('[data-g-cat]');
+      var linkOut = g.querySelector('[data-g-link]');
+      var caption = g.querySelector('.gallery__caption');
+      var busy = false;
+
+      function show(item) {
+        var current = slotMain.querySelector('.gallery__item');
+        if (busy || item === current) return;
+        busy = true;
+        var fromSlot = item.parentNode;
+        var swap = function () {
+          fromSlot.appendChild(current);
+          slotMain.appendChild(item);
+          current.setAttribute('aria-pressed', 'false');
+          item.setAttribute('aria-pressed', 'true');
+          nameOut.textContent = item.getAttribute('data-name');
+          catOut.textContent = item.getAttribute('data-cat');
+          linkOut.setAttribute('href', item.getAttribute('data-href'));
+        };
+        var done = function () { busy = false; };
+        if (window.Motion) {
+          window.Motion.flip([item, current], swap, done);
+          window.Motion.crossfade(null, caption);
+        } else {
+          swap();
+          done();
+        }
+        item.focus({ preventScroll: true });
+      }
+
+      g.addEventListener('click', function (e) {
+        var item = e.target.closest('.gallery__item');
+        if (item && g.contains(item)) show(item);
+      });
+    });
+  }
+
+  // ---- Product photo browser: thumbnails switch the large photo ----
+  function initProductGallery(scope) {
+    each(scope.querySelectorAll('[data-pgallery]'), function (box) {
+      var imgs = Array.prototype.slice.call(box.querySelectorAll('.pgallery__img'));
+      var thumbs = Array.prototype.slice.call(box.querySelectorAll('.pgallery__thumb'));
+      var caption = box.querySelector('.pgallery__caption');
+      if (thumbs.length < 2) return;
+      var current = 0;
+      var token = 0;
+
+      function ready(img) {
+        if (img.complete && img.naturalWidth) return Promise.resolve();
+        var wait = img.decode ? img.decode().catch(function () {}) : new Promise(function (res) { img.onload = img.onerror = res; });
+        return Promise.race([wait, new Promise(function (res) { setTimeout(res, 800); })]);
+      }
+
+      function select(i) {
+        if (i === current) return;
+        var my = ++token;
+        var out = imgs[current];
+        var inn = imgs[i];
+        // Finish any interrupted switch: only the outgoing and incoming photos stay visible.
+        imgs.forEach(function (im, k) { if (k !== current && k !== i) im.hidden = true; });
+        thumbs.forEach(function (t, k) { t.setAttribute('aria-pressed', String(k === i)); });
+        caption.textContent = thumbs[i].getAttribute('aria-label').replace(/^Fotografie \d+ z \d+: /, '');
+        current = i;
+        inn.hidden = false;
+        ready(inn).then(function () {
+          if (my !== token) return;
+          var finish = function () { if (my === token) out.hidden = true; };
+          if (window.Motion) window.Motion.crossfade(out, inn, finish); else finish();
+        });
+      }
+
+      thumbs.forEach(function (t, k) {
+        t.addEventListener('click', function () { select(k); });
+        t.addEventListener('keydown', function (e) {
+          var next = e.key === 'ArrowRight' ? k + 1 : e.key === 'ArrowLeft' ? k - 1 : null;
+          if (next === null) return;
+          e.preventDefault();
+          next = (next + thumbs.length) % thumbs.length;
+          thumbs[next].focus();
+          select(next);
+        });
+      });
+    });
+  }
+
   function initPage(main, opts) {
     initHeroVideo(main);
     initMap(main);
     initShowcase(main);
+    initGalleryPanel(main);
+    initProductGallery(main);
     initAccordions(main);
     initForm(main);
-    initReveals(main, opts);
+    if (window.Motion) window.Motion.initPage(main, opts);
+  }
+
+  // Called before <main> is replaced by the page transition.
+  function destroyPage(main) {
+    each(main.querySelectorAll('video'), function (v) { try { v.pause(); } catch (e) { /* ignore */ } });
+    if (window.Motion) window.Motion.destroyPage(main);
   }
 
   window.SiteApp = {
     initPage: initPage,
+    destroyPage: destroyPage,
+    updateNav: function () { if (window.Motion) window.Motion.updateNav(); },
     closeNav: function () { setNavOpen(false); },
     updateHeader: function () { updateHeader(); },
     reduceMotion: reduceMotion,

@@ -11,6 +11,7 @@
 //
 // Fields:
 //   id        file name in media/originals without extension
+//   title     short Czech name shown in captions and thumbnails
 //   alt       Czech alternative text describing what is visible
 //   category  'chlazene-automaty' | 'boxove-systemy' | 'instalace' | null
 //   product   product slug when the assignment is confirmed, otherwise null
@@ -21,6 +22,7 @@ export const photos = [
   // used as the main example of their category.
   {
     id: 'chlazeny-automat-dotykovy-displej',
+    title: 'Prodejní automat s dotykovým displejem',
     alt: 'Prodejní automat s proskleným výdejním prostorem, šesti policemi se zbožím, dotykovým displejem a platebním terminálem',
     category: 'chlazene-automaty',
     product: null,
@@ -28,6 +30,7 @@ export const photos = [
   },
   {
     id: 'chlazeny-automat-dvojita-sestava',
+    title: 'Sestava dvou prodejních automatů',
     alt: 'Sestava dvou prosklených prodejních automatů se společným ovládacím panelem s dotykovým displejem',
     category: 'chlazene-automaty',
     product: null,
@@ -35,6 +38,7 @@ export const photos = [
   },
   {
     id: 'boxovy-system-12-schranek',
+    title: 'Boxový systém s 12 schránkami',
     alt: 'Výdejní boxový systém s dvanácti prosklenými schránkami, dotykovým displejem a čtečkou',
     category: 'boxove-systemy',
     product: null,
@@ -42,6 +46,7 @@ export const photos = [
   },
   {
     id: 'boxovy-system-bily',
+    title: 'Boxový systém s prosklenými schránkami',
     alt: 'Bílý výdejní boxový systém s prosklenými schránkami a centrálním dotykovým terminálem',
     category: 'boxove-systemy',
     product: null,
@@ -49,6 +54,7 @@ export const photos = [
   },
   {
     id: 'boxovy-system-zeleny',
+    title: 'Boxový systém se zelenými schránkami',
     alt: 'Výdejní boxový systém se zelenými schránkami, dotykovým displejem a stříškou nad terminálem',
     category: 'boxove-systemy',
     product: null,
@@ -56,6 +62,7 @@ export const photos = [
   },
   {
     id: 'boxovy-system-modry',
+    title: 'Boxový systém, vizualizace výrobce',
     alt: 'Modrý výdejní boxový systém s dotykovým terminálem uprostřed, vizualizace výrobce',
     category: 'boxove-systemy',
     product: null,
@@ -63,6 +70,7 @@ export const photos = [
   },
   {
     id: 'boxovy-system-oranzovy-potisk',
+    title: 'Boxový systém s potiskem, vizualizace',
     alt: 'Vizualizace chlazeného boxového systému s barevným potiskem dvířek a ovládacím terminálem s displejem',
     category: 'boxove-systemy',
     product: null,
