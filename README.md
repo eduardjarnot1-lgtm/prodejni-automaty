@@ -29,7 +29,7 @@ src/data/services.js    services and the cooperation process
 src/data/photos.js      photo registry (alt texts, category, product assignment)
 src/lib/                layout, reusable components, icons
 src/pages/              page templates (product.js = product detail template)
-src/assets/             CSS, JS, fonts (IBM Plex, OFL), optimized images
+src/assets/             CSS, JS, optimized images (font: Georgia, serif – system font, no files)
 media/originals/        original photos (source for npm run images)
 scripts/                build, image optimization, link check, dev server
 ```

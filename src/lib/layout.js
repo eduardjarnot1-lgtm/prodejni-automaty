@@ -25,8 +25,6 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 <meta property="og:description" content="${esc(description)}">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="${r('assets/favicon.svg')}" type="image/svg+xml">
-<link rel="preload" href="${r('assets/fonts/ibm-plex-sans-latin-400-normal.woff2')}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="${r('assets/fonts/ibm-plex-sans-latin-600-normal.woff2')}" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.add('js')</script>
 <link rel="stylesheet" href="${r('assets/css/styles.css')}">
 <script src="${r('assets/js/main.js')}" defer></script>`;
