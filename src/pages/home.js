@@ -47,7 +47,7 @@ function showcase(r) {
       </figure>
       <div class="showcase__card">
         <p class="showcase__tag">${esc(f.single ? categories.find((k) => k.key === f.key).name : 'Typ zařízení')}${f.isExample ? ' · foto: ukázka provedení' : ''}</p>
-        <h2 class="showcase__name">${esc(f.name)}</h2>
+        <h3 class="showcase__name">${esc(f.name)}</h3>
         ${f.single
           ? `<ul class="chips chips--dark" aria-label="Hlavní parametry">${join(f.single.highlights, (x) => `<li>${esc(x)}</li>`)}</ul>
              <p class="showcase__price">${esc(priceText(f.single.price).label)}: <strong>${esc(priceText(f.single.price).value)}</strong></p>
@@ -68,8 +68,30 @@ function showcase(r) {
 </div>`;
 }
 
-// Converging guide lines behind the machine (decorative).
-const heroLines = `<svg class="hero__lines" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+// Hero video: decorative product visualisation (see site.heroVideo).
+// Without JavaScript the native player with controls is shown instead of
+// the poster overlay.
+function heroVideo(r) {
+  const v = site.heroVideo;
+  return `<figure class="hero-video" data-hero-video data-loop="${v.loop ? 'true' : 'false'}" style="--video-ar: ${v.width} / ${v.height}">
+  <div class="hero-video__frame">
+    <video class="hero-video__media" muted playsinline preload="none" controls disablepictureinpicture
+      width="${v.width}" height="${v.height}" poster="${r(v.poster)}">
+      ${join(v.sources, (x) => `<source src="${r(x.src)}" type='${x.type}'>`)}
+    </video>
+    <img class="hero-video__poster" src="${r(v.poster)}" alt="" width="${v.width}" height="${v.height}" fetchpriority="high" decoding="async">
+    <button class="hero-video__toggle" type="button" aria-label="Přehrát video" hidden>
+      <span class="hero-video__icon hero-video__icon--play">${icons.play(18)}</span>
+      <span class="hero-video__icon hero-video__icon--pause">${icons.pause(18)}</span>
+      <span class="hero-video__icon hero-video__icon--replay">${icons.replay(18)}</span>
+    </button>
+  </div>
+  <figcaption class="hero-video__caption">${esc(v.caption)}</figcaption>
+</figure>`;
+}
+
+// Converging guide lines behind the featured machine (decorative).
+const guideLines = `<svg class="featured__lines" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true" focusable="false">
   ${[[0, 210], [0, 330], [0, 470], [190, 700], [1000, 210], [1000, 330], [1000, 470], [810, 700], [230, 0], [770, 0]].map(([x, y]) => `<line x1="${x}" y1="${y}" x2="500" y2="520"/>`).join('')}
 </svg>`;
 
@@ -92,27 +114,17 @@ export default {
 
     return `
 <section class="hero" aria-labelledby="hero-h">
-  ${heroLines}
   <div class="hero__inner">
-    <div class="hero__head">
+    <div class="hero__text">
       <h1 id="hero-h" class="display hero__title"><span class="hero__line">Prodej a pronájem</span> <span class="hero__line">výdejních <span class="stencil">automatů</span></span></h1>
+      <p class="hero__lead">Dodáváme chlazené automaty na potraviny a výdejní boxové systémy. V oboru jsme od roku ${site.since}. Pomůžeme vybrat vhodné zařízení, nainstalujeme ho a postaráme se o servis.</p>
       <div class="hero__actions">
         ${button(inquiryHref(r), 'Nezávazně poptat', 'primary')}
-        ${button(r('automaty.html'), 'Prohlédnout automaty', 'light')}
+        ${button(r('automaty.html'), 'Prohlédnout automaty', 'secondary')}
       </div>
+      <p class="hero__call">${icons.phone(16)} ${phoneLink()} <span>(${esc(site.contact.person)})</span></p>
     </div>
-    <div class="hero__bottom">
-      <div class="hero__aside">
-        <ul class="badges" aria-label="Co zajišťujeme">
-          <li title="Poradenství">${icons.chat(18)}<span class="visually-hidden">Poradenství</span></li>
-          <li title="Instalace">${icons.plug(18)}<span class="visually-hidden">Instalace</span></li>
-          <li title="Servis">${icons.tool(18)}<span class="visually-hidden">Servis</span></li>
-        </ul>
-        <p class="hero__lead">Dodáváme chlazené automaty na potraviny a výdejní boxové systémy. V oboru jsme od roku ${site.since}. Pomůžeme vybrat vhodné zařízení, nainstalujeme ho a postaráme se o servis.</p>
-        <p class="hero__call">${icons.phone(16)} ${phoneLink()}</p>
-      </div>
-      ${showcase(r)}
-    </div>
+    ${heroVideo(r)}
   </div>
 </section>
 <!--break-->
@@ -122,6 +134,18 @@ export default {
   </ul>
 </section>
 
+<!--break-->
+<section class="featured" aria-labelledby="featured-h">
+  ${guideLines}
+  <div class="featured__inner">
+    <div class="featured__head">
+      <p class="eyebrow">Vybrané automaty</p>
+      <h2 id="featured-h" class="featured__title">Chlazené automaty a boxové systémy</h2>
+      <p>Přepínejte mezi typy zařízení. Konkrétní model a výbavu doporučíme podle vašeho provozu.</p>
+    </div>
+    ${showcase(r)}
+  </div>
+</section>
 <!--break-->
 <section class="gallery" aria-labelledby="galerie-h">
   <h2 id="galerie-h" class="visually-hidden">Ukázky provedení automatů</h2>

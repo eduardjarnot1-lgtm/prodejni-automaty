@@ -16,6 +16,9 @@ export const icons = {
   close: (s) => svg('<path d="M6 6l12 12M18 6 6 18"/>', s),
   copy: (s) => svg('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>', s),
   external: (s) => svg('<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>', s),
+  play: (s) => svg('<path d="M8 5.5v13l11-6.5z" fill="currentColor"/>', s),
+  pause: (s) => svg('<path d="M8 5v14M16 5v14" stroke-width="3"/>', s),
+  replay: (s) => svg('<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/>', s),
   // Service / reason pictograms
   calendar: (s) => svg('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', s),
   chat: (s) => svg('<path d="M4 5h16v11H9l-5 4z"/>', s),

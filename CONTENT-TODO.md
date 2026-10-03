@@ -70,3 +70,11 @@ form until confirmed.
 - [ ] Real form submission (form service or serverless function) + privacy policy page.
 - [ ] Privacy/cookie information (site uses no cookies; the map loads Google only on click).
 - [ ] Analytics only after explicit approval.
+
+## Hero video
+- [ ] The clip is AI-generated (PixVerse) and carries its watermark. Replace it with a
+      clean, authorised export before launch (steps in README → Hero video).
+- [ ] The clip shows a spiral dispensing a snack. The chilled-food machine is listed with
+      **elevator** dispensing ("Výdej výtahem"). The caption calls the clip an
+      illustrative visualisation. Ideally the final video should match the machine you sell.
+

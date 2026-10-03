@@ -298,20 +298,13 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
 .ph .icon { color: #9aa4b2; }
 
 /* ---------- Hero ----------
-   Centred two-line headline and pill buttons; the machine stands centred
-   on converging guide lines, with a short text bottom-left and a dark
-   detail card bottom-right. */
-.hero { position: relative; background: var(--hero-bg); padding: calc(var(--header-space) + clamp(1rem, 3vw, 2.5rem)) clamp(18px, 4vw, 56px) 0; }
-.hero__lines {
-  position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
-  /* Lines fade out before reaching the machine, as if passing behind it. */
-  -webkit-mask-image: radial-gradient(ellipse 34% 40% at 50% 76%, transparent 0 62%, #000 100%);
-  mask-image: radial-gradient(ellipse 34% 40% at 50% 76%, transparent 0 62%, #000 100%);
-}
-.hero__lines line { stroke: rgba(255, 255, 255, 0.85); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
-.hero__inner { position: relative; max-width: 1280px; margin-inline: auto; }
-.hero__head { text-align: center; }
-.hero__title { font-size: clamp(2rem, 0.8rem + 4.3vw, 4.4rem); line-height: 0.98; margin: 0 auto; max-width: none; }
+   Two columns: headline, introduction and calls to action on the left; the
+   product video on the right, on the same white as the clip's background. */
+.hero { position: relative; background: var(--white); padding: calc(var(--header-space) + clamp(0.5rem, 2vw, 1.5rem)) clamp(18px, 4vw, 56px) clamp(2rem, 4vw, 3.5rem); }
+.hero__inner { position: relative; max-width: 1200px; margin-inline: auto; display: grid; gap: clamp(1.75rem, 4vw, 3rem); align-items: center; }
+@media (min-width: 900px) { .hero__inner { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); } }
+.hero__text { min-width: 0; }
+.hero__title { font-size: clamp(2.1rem, 1rem + 3.3vw, 4rem); line-height: 1; margin: 0; max-width: none; }
 .hero__line { display: block; }
 .stencil { font-weight: 400; }
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
@@ -322,26 +315,59 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
     -webkit-background-clip: text; background-clip: text;
   }
 }
-.hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: clamp(1.25rem, 2.5vw, 2rem); }
-
-.hero__bottom { display: grid; gap: 24px; margin-top: clamp(1rem, 2vw, 1.5rem); }
-@media (min-width: 900px) {
-  .hero__bottom { grid-template-columns: minmax(0, 1fr) minmax(0, 2.65fr); align-items: end; gap: 0; }
-}
-.hero__aside { padding-bottom: clamp(1.5rem, 5vw, 4.5rem); max-width: 22em; }
-.badges { list-style: none; display: flex; margin-bottom: 1.5rem; }
-.badges li {
-  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
-  background: var(--white); color: var(--blue); border: 3px solid #dce5ea;
-  box-shadow: 0 6px 14px -10px rgba(28, 32, 39, 0.5);
-}
-.badges li + li { margin-left: -12px; }
-.badges li:nth-child(2) { color: var(--green); }
-.badges li:nth-child(3) { color: var(--ink); }
-.hero__lead { font-size: var(--fs-sm); color: var(--ink-2); text-indent: 3.5em; line-height: 1.55; }
-.hero__call { display: flex; align-items: center; gap: 8px; margin-top: 0.75rem; font-size: var(--fs-sm); }
+.hero__lead { font-size: var(--fs-md); line-height: 1.55; color: var(--ink-2); max-width: 31em; margin: clamp(1rem, 2vw, 1.5rem) 0 0; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(1.25rem, 2.5vw, 2rem); }
+.hero__call { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 1rem; font-size: var(--fs-sm); color: var(--ink-2); }
 .hero__call .icon { color: var(--blue); }
 .hero__call a { font-weight: 700; color: var(--ink); }
+
+/* ---------- Hero video ----------
+   Portrait clip shown whole (object-fit: contain) in a box that reserves its
+   aspect ratio. No frame or shadow: its white background meets the white
+   hero. The poster image sits on top until playback starts and fades back
+   in when the clip ends, returning to the full machine. */
+.hero-video { margin: 0; justify-self: center; width: min(100%, 380px); }
+.hero-video__frame { position: relative; aspect-ratio: var(--video-ar, 624 / 1024); max-width: 100%; border-radius: 28px; overflow: hidden; background: var(--white); }
+.hero-video__media, .hero-video__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--white); }
+.hero-video__poster { pointer-events: none; transition: opacity 700ms var(--ease-out); }
+/* The poster is the first frame with near-white lifted to pure white; the
+   video gets the same small lift so the two match when they swap. */
+.js .hero-video__media { filter: brightness(1.053); }
+html:not(.js) .hero-video__poster { display: none; }
+.hero-video.is-playing .hero-video__poster { opacity: 0; transition-duration: 250ms; }
+.hero-video__toggle {
+  position: absolute; right: 12px; bottom: 12px; z-index: 1; display: grid; place-items: center;
+  width: 42px; height: 42px; padding: 0; border-radius: 50%; cursor: pointer;
+  background: rgba(255, 255, 255, 0.9); color: var(--ink); border: 1px solid rgba(28, 32, 39, 0.14);
+  box-shadow: 0 6px 16px -10px rgba(28, 32, 39, 0.5); opacity: 0.85;
+  transition: opacity var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.hero-video__toggle:hover, .hero-video__toggle:focus-visible { opacity: 1; background: var(--white); }
+.motion .hero-video__toggle:hover { transform: scale(1.06); }
+.hero-video__icon { display: none; }
+.hero-video__toggle[data-icon="play"] .hero-video__icon--play,
+.hero-video__toggle[data-icon="pause"] .hero-video__icon--pause,
+.hero-video__toggle[data-icon="replay"] .hero-video__icon--replay { display: inline-flex; }
+.hero-video__caption { margin-top: 10px; font-size: 0.8125rem; line-height: 1.45; color: var(--ink-2); text-align: center; }
+@media (max-width: 899px) {
+  /* Below the calls to action, never taller than ~60 % of the screen. */
+  .hero-video { width: min(100%, calc(min(60vh, 560px) * 624 / 1024)); }
+}
+
+/* ---------- Featured machines panel (switcher) ---------- */
+.featured { position: relative; background: var(--hero-bg); padding: clamp(2.5rem, 5vw, 4.5rem) clamp(18px, 4vw, 56px) 0; }
+.featured__lines {
+  position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 34% 40% at 50% 76%, transparent 0 62%, #000 100%);
+  mask-image: radial-gradient(ellipse 34% 40% at 50% 76%, transparent 0 62%, #000 100%);
+}
+.featured__lines line { stroke: rgba(255, 255, 255, 0.85); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
+.featured__inner { position: relative; max-width: 1280px; margin-inline: auto; display: grid; gap: 24px; }
+@media (min-width: 900px) { .featured__inner { grid-template-columns: minmax(0, 1fr) minmax(0, 2.65fr); align-items: end; gap: 0; } }
+.featured__head { padding-bottom: clamp(1.5rem, 5vw, 4.5rem); max-width: 22em; }
+.featured__title { font-size: var(--fs-xl); }
+.featured__head p:not(.eyebrow) { color: var(--ink-2); font-size: var(--fs-sm); }
+@media (max-width: 899px) { .featured__head { padding-bottom: 0; } }
 
 /* ---------- Gallery panel: giant word behind staggered photos ---------- */
 .gallery {
@@ -361,8 +387,6 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
 .gallery__text--b { grid-column: 1 / -1; }
 .gallery__text--b .link-arrow { margin-top: 0.75rem; font-size: var(--fs-sm); }
 @media (max-width: 899px) {
-  .hero__bottom .showcase { order: -1; }
-  .hero__aside { padding-bottom: 2rem; }
   .gallery__word { font-size: 14.5vw; }
   .gallery__item--b { order: 1; }
   .gallery__item--a, .gallery__item--c { order: 2; aspect-ratio: 1 / 1; }
@@ -650,7 +674,7 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
 }
 @media (max-width: 760px) {
   :root { --fg: 8px; --r-panel: 20px; --header-space: 80px; --header-h: 64px; }
-  .hero__lines { opacity: 0.6; }
+  .featured__lines { opacity: 0.6; }
 }
 @media (max-width: 420px) {
   :root { --gutter: 16px; }
@@ -765,18 +789,13 @@ html:not(.js) .showcase__controls { display: none; }
 @keyframes radiate { from { clip-path: circle(0% at 50% 50%); opacity: 0.2; } to { clip-path: circle(75% at 50% 50%); opacity: 1; } }
 @keyframes drop { from { opacity: 0; transform: translate3d(0, -6px, 0); } }
 
-/* 1. Hero entrance: text block in sequence, then the machine. < 1 s total. */
-/* 1. Hero entrance: headline lines, buttons, then the machine and its card. < 1 s. */
-.motion .hero__line, .motion .hero__actions, .motion .hero__aside > * { animation: rise var(--dur-reveal) var(--ease-emph) backwards; }
+/* 1. Hero entrance: headline, introduction, buttons, then the video. < 1 s. */
+.motion .hero__line, .motion .hero__lead, .motion .hero__actions, .motion .hero__call { animation: rise var(--dur-reveal) var(--ease-emph) backwards; }
 .motion .hero__line:nth-child(2) { animation-delay: 80ms; }
-.motion .hero__actions { animation-delay: 180ms; }
-.motion .hero__aside > :nth-child(1) { animation-delay: 380ms; }
-.motion .hero__aside > :nth-child(2) { animation-delay: 440ms; }
-.motion .hero__aside > :nth-child(3) { animation-delay: 500ms; }
-.motion .showcase__stage { animation: settle 800ms var(--ease-emph) 140ms backwards; }
-.motion .showcase:not(.has-switched) .showcase__panel.is-active .showcase__card { animation: rise var(--dur-reveal) var(--ease-emph) 360ms backwards; }
-.motion .showcase__controls { animation: fade 500ms var(--ease-out) 460ms backwards; }
-.motion .hero__lines { animation: radiate 1000ms var(--ease-out) 120ms backwards; }
+.motion .hero__lead { animation-delay: 160ms; }
+.motion .hero__actions { animation-delay: 240ms; }
+.motion .hero__call { animation-delay: 320ms; }
+.motion .hero-video { animation: settle 800ms var(--ease-emph) 120ms backwards; }
 .motion .site-header__bar { animation: fade 500ms var(--ease-out) backwards; }
 .motion .site-header.is-stuck { animation: drop var(--dur-base) var(--ease-out); }
 .motion .page-head__inner > * { animation: rise 500ms var(--ease-emph) backwards; }

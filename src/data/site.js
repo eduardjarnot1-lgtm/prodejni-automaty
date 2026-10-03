@@ -27,6 +27,24 @@ export const site = {
     pages: ['index.html', 'automaty.html', 'sluzby.html', 'o-nas.html', 'kontakt.html'],
   },
 
+  // Homepage hero video. AI-generated (PixVerse) decorative visualisation,
+  // with the PixVerse watermark kept in this draft. To replace it with a
+  // clean, authorised export: put the new file in src/assets/video/, extract
+  // its first frame as the poster (see README) and update the paths and size.
+  heroVideo: {
+    // Original H.264 stream (remuxed, not re-encoded) for all major browsers;
+    // VP9 WebM only as a fallback for browsers without H.264.
+    sources: [
+      { src: 'assets/video/prodejni-automat-vizualizace.mp4', type: 'video/mp4; codecs="avc1.64001F"' },
+      { src: 'assets/video/prodejni-automat-vizualizace.webm', type: 'video/webm; codecs="vp9"' },
+    ],
+    poster: 'assets/video/prodejni-automat-vizualizace-poster.webp',
+    width: 624,
+    height: 1024,
+    loop: false, // the clip ends in a close-up, so it plays once and returns to the poster
+    caption: 'Ilustrační vizualizace. Skutečné provedení a způsob výdeje se liší podle modelu.',
+  },
+
   since: 1992,
   coverage: 'Česká republika',
 

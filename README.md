@@ -119,3 +119,39 @@ Product detail pages, `tel:`/`mailto:` links, external links, downloads,
 in-page anchors and modifier-clicks (new tab) use normal browser behaviour.
 Back/Forward replays the transition and restores the scroll position. If
 loading or animating fails, the browser does a normal page load.
+
+## Hero video
+
+The homepage hero shows a decorative, AI-generated product visualisation
+(PixVerse; its watermark is kept in this draft). Settings are in
+`src/data/site.js` → `heroVideo`. Playback logic is `initHeroVideo` in
+`src/assets/js/main.js`:
+
+- Muted, inline playback starts after the page has loaded, and only while
+  the video is on screen. It pauses off-screen and in background tabs.
+- The clip ends in a close-up, so it plays once (`loop: false`) and the
+  full-machine poster fades back in. The round button pauses, plays or replays it.
+- With reduced motion, or if autoplay is blocked, the poster stays and the
+  button starts playback. Without JavaScript, the native player is shown.
+
+Files in `src/assets/video/`:
+- `prodejni-automat-vizualizace.mp4`: original H.264 stream, remuxed (audio
+  removed, fast start), not re-encoded
+- `prodejni-automat-vizualizace.webm`: VP9 fallback for browsers without H.264
+- `prodejni-automat-vizualizace-poster.webp`: first frame, near-white lifted to white
+
+The untouched source is in `media/video/`.
+
+To replace the clip with a clean export (same file names, or update `heroVideo`):
+
+```sh
+ffmpeg -i NEW.mp4 -map 0:v:0 -c:v copy -an -movflags +faststart src/assets/video/prodejni-automat-vizualizace.mp4
+ffmpeg -i NEW.mp4 -c:v libvpx-vp9 -crf 22 -b:v 0 -row-mt 1 -an src/assets/video/prodejni-automat-vizualizace.webm
+ffmpeg -i NEW.mp4 -frames:v 1 poster.png
+convert poster.png -level 0%,95% -quality 90 src/assets/video/prodejni-automat-vizualizace-poster.webp
+```
+
+If the new clip has a pure white background, drop `-level 0%,95%` and the
+`filter: brightness(1.053)` on `.hero-video__media` in the CSS. Update
+`width`/`height` if the size changes, and the codec string if the H.264
+profile changes (check with `ffprobe`).
