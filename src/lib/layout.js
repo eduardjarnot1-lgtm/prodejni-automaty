@@ -27,7 +27,9 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 <link rel="icon" href="${r('assets/favicon.svg')}" type="image/svg+xml">
 <script>(function(d){d.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: no-preference)').matches)d.classList.add('motion')}catch(e){}})(document.documentElement)</script>
 <link rel="stylesheet" href="${r('assets/css/styles.css')}">
-<script src="${r('assets/js/main.js')}" defer></script>`;
+<script src="${r('assets/js/main.js')}" defer></script>
+<script>window.ZOOM_THROUGH=${JSON.stringify(site.pageTransition)}</script>
+<script src="${r('assets/js/zoom-through.js')}" defer></script>`;
 
   const header = `<a class="skip-link" href="#obsah">Přeskočit na obsah</a>
 <header class="site-header">

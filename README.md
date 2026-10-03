@@ -93,3 +93,29 @@ The page sits on a light frame and is split into rounded panels ("sheets").
 Templates mark where a new panel starts with `<!--break-->`, and `layout.js`
 wraps each part in `<div class="sheet">`. The header's logo sits in a notch at
 the top of the first panel. After scrolling, the header becomes a floating pill.
+
+## Page transition ("Zoom Through")
+
+Links between the main pages (Úvod, Automaty, Služby, O nás, Kontakt) use a
+zoom-through transition, implemented in `src/assets/js/zoom-through.js` with
+the Web Animations API (no dependencies). The destination page is fetched and
+its visible images are decoded first. Then the real outgoing `<main>` scales
+1 → 3 while fading out, and the incoming `<main>` scales 3 → 1 while fading in,
+both around the viewport centre. The header stays in place.
+
+Settings are in `src/data/site.js` → `pageTransition`:
+
+| Setting | Default | Meaning |
+| --- | --- | --- |
+| `enabled` | `true` | Turn the transition off entirely |
+| `duration` | `2500` | Length in ms |
+| `scaleOut` | `3` | Final scale of the outgoing page |
+| `scaleIn` | `3` | Starting scale of the incoming page |
+| `easing` | `cubic-bezier(0.65, 0, 0.35, 1)` | Any CSS easing |
+| `reducedMotionDuration` | `180` | Fade length when reduced motion is preferred |
+| `pages` | 5 main pages | Pages that take part |
+
+Product detail pages, `tel:`/`mailto:` links, external links, downloads,
+in-page anchors and modifier-clicks (new tab) use normal browser behaviour.
+Back/Forward replays the transition and restores the scroll position. If
+loading or animating fails, the browser does a normal page load.

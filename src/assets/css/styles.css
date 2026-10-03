@@ -801,6 +801,21 @@ html:not(.js) .showcase__controls { display: none; }
   :root { --reveal-y: 10px; --stagger: 50ms; --dur-reveal: 480ms; }
 }
 
+/* ---------- Zoom Through page transition (zoom-through.js) ----------
+   Both pages sit in viewport-sized, clipped layers on a fixed stage above
+   the page and below the header, on the site's own frame background. */
+html { scrollbar-gutter: stable; }
+html.zt-lock { overflow: hidden; }
+html.zt-loading, html.zt-loading * { cursor: progress; }
+.zt-stage { position: fixed; inset: 0; z-index: 30; overflow: hidden; background: var(--frame); touch-action: none; }
+.zt-layer {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  transform-origin: 50% 50%;
+}
+/* Entrance animations already played on the first page; swapped-in content
+   relies on the zoom alone. */
+[data-zt-swapped], [data-zt-swapped] * { animation: none !important; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
