@@ -1,0 +1,32 @@
+{
+  "boxovy-system-bily": {
+    "width": 322,
+    "height": 240,
+    "variants": [
+      {
+        "w": 322,
+        "file": "boxovy-system-bily-322.webp"
+      }
+    ]
+  },
+  "boxovy-system-modry": {
+    "width": 361,
+    "height": 238,
+    "variants": [
+      {
+        "w": 361,
+        "file": "boxovy-system-modry-361.webp"
+      }
+    ]
+  },
+  "boxovy-system-zeleny": {
+    "width": 240,
+    "height": 240,
+    "variants": [
+      {
+        "w": 240,
+        "file": "boxovy-system-zeleny-240.webp"
+      }
+    ]
+  }
+}

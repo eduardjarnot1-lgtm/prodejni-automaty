@@ -1,0 +1,16 @@
+{
+  "name": "prodejni-automaty",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Web pro prodej, pronájem a servis výdejních automatů (statický web, bez závislostí).",
+  "type": "module",
+  "engines": { "node": ">=20.10" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:preview": "node scripts/build.mjs --preview",
+    "images": "node scripts/optimize-images.mjs",
+    "serve": "node scripts/serve.mjs",
+    "check": "node scripts/build.mjs && node scripts/check.mjs",
+    "dev": "node scripts/build.mjs && node scripts/serve.mjs"
+  }
+}
