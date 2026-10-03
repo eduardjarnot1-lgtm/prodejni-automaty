@@ -1,4 +1,14 @@
 {
+  "boxovy-system-12-schranek": {
+    "width": 398,
+    "height": 583,
+    "variants": [
+      {
+        "w": 398,
+        "file": "boxovy-system-12-schranek-398.webp"
+      }
+    ]
+  },
   "boxovy-system-bily": {
     "width": 322,
     "height": 240,
@@ -40,6 +50,34 @@
       {
         "w": 240,
         "file": "boxovy-system-zeleny-240.webp"
+      }
+    ]
+  },
+  "chlazeny-automat-dotykovy-displej": {
+    "width": 492,
+    "height": 810,
+    "variants": [
+      {
+        "w": 480,
+        "file": "chlazeny-automat-dotykovy-displej-480.webp"
+      },
+      {
+        "w": 492,
+        "file": "chlazeny-automat-dotykovy-displej-492.webp"
+      }
+    ]
+  },
+  "chlazeny-automat-dvojita-sestava": {
+    "width": 705,
+    "height": 697,
+    "variants": [
+      {
+        "w": 480,
+        "file": "chlazeny-automat-dvojita-sestava-480.webp"
+      },
+      {
+        "w": 705,
+        "file": "chlazeny-automat-dvojita-sestava-705.webp"
       }
     ]
   }

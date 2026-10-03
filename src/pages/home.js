@@ -124,15 +124,15 @@ export default {
 
 <!--break-->
 <section class="gallery" aria-labelledby="galerie-h">
-  <h2 id="galerie-h" class="visually-hidden">Ukázky výdejních boxových systémů</h2>
+  <h2 id="galerie-h" class="visually-hidden">Ukázky provedení automatů</h2>
   <p class="gallery__word" aria-hidden="true">Automaty</p>
-  <figure class="gallery__item gallery__item--a">${photo(r, 'boxovy-system-zeleny', { sizes: '(min-width: 1000px) 220px, 44vw' })}</figure>
-  <figure class="gallery__item gallery__item--b">${photo(r, 'boxovy-system-bily', { sizes: '(min-width: 1000px) 420px, 90vw' })}</figure>
-  <figure class="gallery__item gallery__item--c">${photo(r, 'boxovy-system-modry', { sizes: '(min-width: 1000px) 240px, 44vw' })}</figure>
-  <p class="gallery__text gallery__text--a">Výdejní boxové systémy pro výdej předem připraveného zboží a objednávek. Ukázky provedení.</p>
+  <figure class="gallery__item gallery__item--a">${photo(r, 'boxovy-system-12-schranek', { sizes: '(min-width: 1000px) 220px, 44vw' })}</figure>
+  <figure class="gallery__item gallery__item--b">${photo(r, 'chlazeny-automat-dotykovy-displej', { sizes: '(min-width: 1000px) 420px, 90vw' })}</figure>
+  <figure class="gallery__item gallery__item--c">${photo(r, 'chlazeny-automat-dvojita-sestava', { sizes: '(min-width: 1000px) 280px, 44vw' })}</figure>
+  <p class="gallery__text gallery__text--a">Chlazené automaty na potraviny a výdejní boxové systémy pro samoobslužný prodej a výdej zboží. Ukázky provedení.</p>
   <div class="gallery__text gallery__text--b">
-    <p>Počet a velikost schránek navrhneme podle prostoru a druhu zboží. Konkrétní provedení upřesníme v nabídce.</p>
-    <a class="link-arrow" href="${r('automaty.html#boxove-systemy')}">Boxové systémy ${icons.arrow(18)}</a>
+    <p>Konkrétní model, výbavu a počet schránek navrhneme podle vašeho provozu a místa instalace.</p>
+    <a class="link-arrow" href="${r('automaty.html')}">Prohlédnout automaty ${icons.arrow(18)}</a>
   </div>
 </section>
 <!--break-->
@@ -144,7 +144,7 @@ export default {
     </div>
     <div class="cats">
       <article class="cat">
-        <div class="cat__media">${photoPlaceholder('machine')}</div>
+        <div class="cat__media">${photo(r, 'chlazeny-automat-dotykovy-displej', { sizes: '(min-width: 1000px) 200px, 60vw' })}<span class="media-label">Ukázka provedení</span></div>
         <div class="cat__body">
           <h3>${esc(categories[0].name)}</h3>
           <p>${esc(categories[0].short)}</p>
@@ -152,7 +152,7 @@ export default {
         </div>
       </article>
       <article class="cat">
-        <div class="cat__media cat__media--photo">${photo(r, 'boxovy-system-zeleny', { sizes: '(min-width: 1000px) 240px, 60vw' })}</div>
+        <div class="cat__media cat__media--photo">${photo(r, 'boxovy-system-12-schranek', { sizes: '(min-width: 1000px) 200px, 60vw' })}<span class="media-label">Ukázka provedení</span></div>
         <div class="cat__body">
           <h3>${esc(categories[1].name)}</h3>
           <p>${esc(categories[1].short)}</p>

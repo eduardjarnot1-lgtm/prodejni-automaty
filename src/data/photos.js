@@ -17,6 +17,29 @@
 //   note      internal note, never rendered on the website
 
 export const photos = [
+  // Batch 3 (higher resolution, white background). Listed first so they are
+  // used as the main example of their category.
+  {
+    id: 'chlazeny-automat-dotykovy-displej',
+    alt: 'Prodejní automat s proskleným výdejním prostorem, šesti policemi se zbožím, dotykovým displejem a platebním terminálem',
+    category: 'chlazene-automaty',
+    product: null,
+    note: 'Batch 3. Very likely the chilled-food machine (touchscreen, 6 shelves, pickup door), but the matching dimension drawing (media/pending) shows 1352 × 951 × 1950 mm vs. the listed 1330 × 815 × 1915 mm. Assign to product after confirmation.',
+  },
+  {
+    id: 'chlazeny-automat-dvojita-sestava',
+    alt: 'Sestava dvou prosklených prodejních automatů se společným ovládacím panelem s dotykovým displejem',
+    category: 'chlazene-automaty',
+    product: null,
+    note: 'Batch 3. Two-cabinet assembly. Possibly the unnamed 200 000 Kč assembly from the old site – needs confirmation.',
+  },
+  {
+    id: 'boxovy-system-12-schranek',
+    alt: 'Výdejní boxový systém s dvanácti prosklenými schránkami, dotykovým displejem a čtečkou',
+    category: 'boxove-systemy',
+    product: null,
+    note: 'Batch 3. Manufacturer photo with "YOUR LOGO HERE" placeholder on the top panel. Model not confirmed (transparent doors fit the automatic locker system).',
+  },
   {
     id: 'boxovy-system-bily',
     alt: 'Bílý výdejní boxový systém s prosklenými schránkami a centrálním dotykovým terminálem',

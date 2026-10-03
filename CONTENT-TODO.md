@@ -53,6 +53,17 @@ form until confirmed.
 - [ ] Not used from batch 2: stock photos of a button panel, a food stand and a
       van bar (the brief excludes unrelated stock photos). The remaining
       screenshots contained only text, and no new facts were taken from them.
+- [ ] Batch 3 (received, good quality): now the main photos of the site, shown as
+      labelled examples ("Ukázka provedení") until the model is confirmed:
+  - `chlazeny-automat-dotykovy-displej`: is this the chilled-food machine
+    (21.5″ display, elevator, 54 positions)? If yes, assign it in `products.js`
+    and the "Ukázka provedení" label disappears.
+  - `chlazeny-automat-dvojita-sestava` (two cabinets, shared panel): is this the
+    unnamed 200 000 Kč assembly from the old site? If yes, send its name and specs.
+  - `boxovy-system-12-schranek`: which locker model is it (automatic or modular)?
+  - The dimension drawing (`media/pending/`) shows **1352 × 951 × 1950 mm**, but the
+    chilled-food machine is listed as **1330 × 815 × 1915 mm**. Which is correct, and
+    which model does the drawing belong to? It's not published until confirmed.
 - [ ] Real installation photos would strengthen the site.
 
 ## Later phases

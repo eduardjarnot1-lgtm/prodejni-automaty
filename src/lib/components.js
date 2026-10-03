@@ -4,7 +4,7 @@
 import { esc, join } from './html.js';
 import { icons } from './icons.js';
 import { site, addressOneLine } from '../data/site.js';
-import { photoById } from '../data/photos.js';
+import { photoById, photosByCategory } from '../data/photos.js';
 import { categories, priceText, productUrl, publishedProducts } from '../data/products.js';
 import { services } from '../data/services.js';
 import manifest from '../data/photo-manifest.json' with { type: 'json' };
@@ -27,9 +27,14 @@ export function photoPlaceholder(kind = 'machine', label = 'Fotografie bude dopl
   return `<div class="ph" role="img" aria-label="${esc(label)}">${icons[kind === 'box' ? 'box' : 'machine'](40)}<span>${esc(label)}</span></div>`;
 }
 
+// Main image of a product: its own confirmed photo; otherwise the first
+// example photo of its category, clearly labelled as an example; otherwise
+// a neutral placeholder.
 export function productMedia(r, p, opts = {}) {
-  const cat = p.category === 'boxove-systemy' ? 'box' : 'machine';
-  return p.photos.length ? photo(r, p.photos[0], opts) : photoPlaceholder(cat);
+  if (p.photos.length) return photo(r, p.photos[0], opts);
+  const example = photosByCategory(p.category)[0];
+  if (example) return `${photo(r, example.id, opts)}<span class="media-label">Ukázka provedení</span>`;
+  return photoPlaceholder(p.category === 'boxove-systemy' ? 'box' : 'machine');
 }
 
 export const phoneLink = (cls = '') =>
