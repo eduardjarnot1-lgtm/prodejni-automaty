@@ -25,7 +25,7 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 <meta property="og:description" content="${esc(description)}">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="${r('assets/favicon.svg')}" type="image/svg+xml">
-<script>document.documentElement.classList.add('js')</script>
+<script>(function(d){d.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: no-preference)').matches)d.classList.add('motion')}catch(e){}})(document.documentElement)</script>
 <link rel="stylesheet" href="${r('assets/css/styles.css')}">
 <script src="${r('assets/js/main.js')}" defer></script>`;
 

@@ -1,6 +1,6 @@
 import { esc, join } from '../lib/html.js';
 import { icons } from '../lib/icons.js';
-import { services, process } from '../data/services.js';
+import { services, process, faq } from '../data/services.js';
 import { pageHead, contactBand, button, inquiryHref } from '../lib/components.js';
 
 const checklist = [
@@ -51,6 +51,18 @@ ${pageHead({
     <p>Nic z toho není podmínkou. Pomůže nám to ale rychleji doporučit vhodné zařízení.</p>
     <ul class="checks">${join(checklist, (x) => `<li>${icons.check(20)}<span>${esc(x)}</span></li>`)}</ul>
     <div class="actions">${button(inquiryHref(r), 'Nezávazně poptat', 'primary')}</div>
+  </div>
+</section>
+
+<section class="section section--alt" aria-labelledby="faq-h">
+  <div class="wrap narrow">
+    <h2 id="faq-h">Časté dotazy</h2>
+    <div class="faq">
+      ${join(faq, (f) => `<details class="disclosure">
+        <summary><span>${esc(f.q)}</span>${icons.plus(20)}</summary>
+        <div class="disclosure__body"><p>${esc(f.a)}</p></div>
+      </details>`)}
+    </div>
   </div>
 </section>
 

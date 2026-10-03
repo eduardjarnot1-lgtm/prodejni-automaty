@@ -79,3 +79,32 @@ export const process = [
     text: 'Automat nainstalujeme a uvedeme do provozu. Servis a údržbu zajistíme i během provozu.',
   },
 ];
+
+// Frequently asked questions. Answers use only confirmed facts already
+// published elsewhere on the site.
+export const faq = [
+  {
+    q: 'Je konzultace opravdu zdarma?',
+    a: 'Ano. Poradenství a konzultace k vašemu projektu jsou zdarma a k ničemu vás nezavazují.',
+  },
+  {
+    q: 'Můžu si automat pronajmout místo koupě?',
+    a: 'Ano, automaty nabízíme ke koupi i k pronájmu. Možnost pronájmu pro konkrétní typ a podmínky upřesníme v nabídce.',
+  },
+  {
+    q: 'Zajistíte instalaci a uvedení do provozu?',
+    a: 'Ano. Automat nainstalujeme a uvedeme do provozu. Před instalací s vámi projdeme požadavky na místo, například přívod elektřiny a přístup.',
+  },
+  {
+    q: 'Jsou ceny na webu konečné?',
+    a: 'Ne. Uvedené ceny jsou orientační. Konečnou cenu podle konfigurace, výbavy a rozsahu instalace uvedeme v nezávazné nabídce.',
+  },
+  {
+    q: 'Je servis součástí kupní ceny?',
+    a: 'Rozsah a podmínky servisu sjednáváme individuálně a uvedeme je v nabídce.',
+  },
+  {
+    q: 'Kde působíte?',
+    a: 'Automaty dodáváme a servisujeme po celé České republice.',
+  },
+];

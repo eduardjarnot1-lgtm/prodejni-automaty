@@ -1,9 +1,72 @@
 import { esc, join } from '../lib/html.js';
 import { icons } from '../lib/icons.js';
 import { site } from '../data/site.js';
-import { categories, publishedProducts, productUrl } from '../data/products.js';
+import { categories, publishedProducts, productUrl, priceText } from '../data/products.js';
+import { photosByCategory } from '../data/photos.js';
 import { services, process } from '../data/services.js';
 import { photo, photoPlaceholder, button, inquiryHref, contactBand, phoneLink } from '../lib/components.js';
+
+// Featured machines in the hero, one tab per category. A category shows a
+// photo confirmed for one of its products; otherwise the first category
+// example photo, labelled "Ukázka provedení" so it is never presented as a
+// specific model. Product specs appear only when the category has exactly
+// one product, so photo and specs always belong together.
+function featured() {
+  return categories
+    .map((k) => {
+      const items = publishedProducts.filter((p) => p.category === k.key);
+      const withPhoto = items.find((p) => p.photos.length);
+      const example = photosByCategory(k.key)[0];
+      return {
+        key: k.key,
+        tab: k.name.replace('Výdejní boxové systémy', 'Boxové systémy').replace('Chlazené automaty na potraviny', 'Chlazené automaty'),
+        name: items.length === 1 ? items[0].name : k.name,
+        text: items.length === 1 ? items[0].summary : k.short,
+        single: items.length === 1 ? items[0] : null,
+        items,
+        photoId: withPhoto ? withPhoto.photos[0] : example?.id,
+        isExample: !withPhoto && !!example,
+        icon: k.key === 'boxove-systemy' ? 'box' : 'machine',
+      };
+    })
+    .filter((f) => f.items.length)
+    // Show a category with a photo first.
+    .sort((a, b) => Number(!!b.photoId) - Number(!!a.photoId));
+}
+
+function showcase(r) {
+  const list = featured();
+  const lines = `<svg class="showcase__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    ${join([[0, 8], [0, 46], [0, 92], [100, 10], [100, 50], [100, 90], [30, 0], [70, 0]], ([x, y]) => `<line x1="${x}" y1="${y}" x2="50" y2="50"/>`)}
+  </svg>`;
+  return `<div class="showcase" data-showcase>
+  <div class="showcase__tabs" role="tablist" aria-label="Vybrané automaty">
+    ${join(list, (f, i) => `<button class="showcase__tab" type="button" role="tab" id="sc-tab-${f.key}" aria-controls="sc-panel-${f.key}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${esc(f.tab)}</button>`)}
+    <span class="showcase__indicator" aria-hidden="true"></span>
+  </div>
+  <div class="showcase__stage">
+    ${join(list, (f, i) => `<div class="showcase__panel${i === 0 ? ' is-active' : ''}" role="tabpanel" id="sc-panel-${f.key}" aria-labelledby="sc-tab-${f.key}">
+      <figure class="showcase__media">
+        ${lines}
+        ${f.photoId
+          ? photo(r, f.photoId, { eager: i === 0, sizes: '(min-width: 1000px) 420px, 80vw', cls: 'showcase__img' })
+          : photoPlaceholder(f.icon)}
+        ${f.isExample ? '<figcaption class="showcase__label">Ukázka provedení</figcaption>' : ''}
+      </figure>
+      <div class="showcase__info">
+        <p class="tag">${esc(f.single ? categories.find((k) => k.key === f.key).name : 'Typ zařízení')}</p>
+        <h2 class="showcase__name">${esc(f.name)}</h2>
+        <p>${esc(f.text)}</p>
+        ${f.single
+          ? `<ul class="chips" aria-label="Hlavní parametry">${join(f.single.highlights, (x) => `<li>${esc(x)}</li>`)}</ul>
+             <div class="showcase__foot"><p class="price"><span class="price__label">${esc(priceText(f.single.price).label)}</span> <span class="price__value">${esc(priceText(f.single.price).value)}</span></p>
+             <a class="link-arrow" href="${r(productUrl(f.single))}">Detail automatu ${icons.arrow(18)}</a></div>`
+          : `<ul class="showcase__models">${join(f.items, (p) => `<li><a href="${r(productUrl(p))}">${esc(p.name)} ${icons.arrow(16)}</a></li>`)}</ul>`}
+      </div>
+    </div>`)}
+  </div>
+</div>`;
+}
 
 export default {
   path: 'index.html',
@@ -35,10 +98,7 @@ export default {
       </div>
       <p class="hero__call">Raději telefonicky? ${phoneLink()} <span>(${esc(site.contact.person)})</span></p>
     </div>
-    <figure class="hero__media">
-      <div class="plinth">${photo(r, 'boxovy-system-bily', { eager: true, sizes: '(min-width: 1000px) 440px, 90vw' })}</div>
-      <figcaption>Výdejní boxový systém s dotykovým terminálem</figcaption>
-    </figure>
+    ${showcase(r)}
   </div>
 </section>
 

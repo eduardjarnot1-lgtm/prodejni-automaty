@@ -41,6 +41,139 @@
     });
   }
 
+  var root = document.documentElement;
+  var reduceMotion = function () {
+    return !window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  };
+
+  // ---- Hero showcase: user-controlled switching between featured machines ----
+  // WAI-ARIA tabs pattern: arrow keys, Home and End move between tabs.
+  // Photo and description live in the same panel, so they always change together.
+  Array.prototype.forEach.call(document.querySelectorAll('[data-showcase]'), function (box) {
+    var tabs = Array.prototype.slice.call(box.querySelectorAll('[role="tab"]'));
+    var indicator = box.querySelector('.showcase__indicator');
+    if (!tabs.length) return;
+
+    function placeIndicator(tab) {
+      if (!indicator) return;
+      indicator.style.setProperty('--x', (tab.offsetLeft - 4) + 'px');
+      indicator.style.setProperty('--w', tab.offsetWidth + 'px');
+    }
+
+    function select(tab, focus) {
+      if (tab.getAttribute('aria-selected') === 'true') { if (focus) tab.focus(); return; }
+      box.classList.add('has-switched');
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        var panel = document.getElementById(t.getAttribute('aria-controls'));
+        panel.classList.toggle('is-active', on);
+        // Inactive panels are invisible and removed from keyboard focus.
+        if (on) panel.removeAttribute('inert'); else panel.setAttribute('inert', '');
+      });
+      placeIndicator(tab);
+      if (focus) tab.focus();
+    }
+
+    tabs.forEach(function (tab, i) {
+      var panel = document.getElementById(tab.getAttribute('aria-controls'));
+      if (tab.getAttribute('aria-selected') !== 'true') panel.setAttribute('inert', '');
+      tab.addEventListener('click', function () { select(tab, false); });
+      tab.addEventListener('keydown', function (e) {
+        var next = null;
+        if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+        else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+        else if (e.key === 'Home') next = tabs[0];
+        else if (e.key === 'End') next = tabs[tabs.length - 1];
+        if (next) { e.preventDefault(); select(next, true); }
+      });
+    });
+
+    var current = tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0] || tabs[0];
+    // Position the sliding indicator without animating it into place.
+    if (indicator) {
+      indicator.style.transition = 'none';
+      placeIndicator(current);
+      indicator.getBoundingClientRect();
+      indicator.style.transition = '';
+    }
+    box.classList.add('is-ready');
+    window.addEventListener('resize', function () {
+      var sel = box.querySelector('[role="tab"][aria-selected="true"]');
+      if (sel) placeIndicator(sel);
+    });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { placeIndicator(current); });
+  });
+
+  // ---- Scroll reveals (played once) ----
+  // Content is visible by default. Elements are only hidden after this code
+  // has run successfully, and every element is revealed when it enters the
+  // viewport (or immediately when it is already in view).
+  var REVEAL = [
+    '.reasons__list > li', '.section-head', '.cat', '.pcard', '.svc', '.step',
+    '.svc-item', '.examples__list > li', '.product-info > section', '.about-short > *',
+    '.about__text', '.facts', '.band-dark__grid > *', '.disclosure', '.narrow > h2',
+  ].join(',');
+
+  if (!reduceMotion() && 'IntersectionObserver' in window) {
+    var items = Array.prototype.slice.call(document.querySelectorAll(REVEAL));
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        io.unobserve(el);
+        el.setAttribute('data-reveal', 'in');
+        // Drop the reveal styles afterwards so hover transitions are not delayed.
+        var done = function () { el.setAttribute('data-reveal', 'done'); el.style.removeProperty('--i'); };
+        el.addEventListener('transitionend', function handler(ev) {
+          if (ev.target !== el || ev.propertyName !== 'opacity') return;
+          el.removeEventListener('transitionend', handler);
+          done();
+        });
+        setTimeout(done, 1600); // fallback if transitionend does not fire
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+
+    items.forEach(function (el) {
+      // Stagger siblings of the same group, capped so long lists stay quick.
+      var idx = 0, sib = el.previousElementSibling;
+      while (sib && idx < 4) { if (sib.matches(REVEAL)) idx++; sib = sib.previousElementSibling; }
+      el.style.setProperty('--i', idx);
+      el.setAttribute('data-reveal', 'pending');
+      io.observe(el);
+    });
+    root.classList.add('reveal-ready');
+  }
+
+  // ---- Accordions (<details>): smooth height animation ----
+  // Native <details> keeps working without JavaScript.
+  Array.prototype.forEach.call(document.querySelectorAll('details.disclosure'), function (d) {
+    var summary = d.querySelector('summary');
+    var body = d.querySelector('.disclosure__body');
+    var anim = null;
+    summary.addEventListener('click', function (e) {
+      if (reduceMotion() || !d.animate) return; // default toggle
+      e.preventDefault();
+      if (anim) anim.cancel();
+      var opening = !d.open;
+      var start = d.offsetHeight;
+      if (opening) d.open = true;
+      var end = opening ? d.offsetHeight : summary.offsetHeight;
+      d.classList.add('is-animating');
+      anim = d.animate([{ height: start + 'px' }, { height: end + 'px' }], {
+        duration: 320, easing: 'cubic-bezier(0.22, 0.61, 0.36, 1)',
+      });
+      if (opening) body.animate([{ opacity: 0, transform: 'translateY(-4px)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'ease-out' });
+      anim.onfinish = function () {
+        if (!opening) d.open = false;
+        d.classList.remove('is-animating');
+        anim = null;
+      };
+      anim.oncancel = function () { d.classList.remove('is-animating'); };
+    });
+  });
+
   // ---- Inquiry form ----
   // No submission backend exists yet. The form validates input and prepares
   // an e-mail (mailto:) for the visitor to send. It never claims the inquiry

@@ -64,3 +64,25 @@ small serverless function), change the submit handler in
 server response.
 
 See `CONTENT-TODO.md` for information still to be confirmed.
+
+## Motion
+
+All timing comes from tokens in `src/assets/css/styles.css` (`--dur-fast` 180 ms
+for control feedback, `--dur-base` 240 ms, `--dur-reveal` 600 ms for entrances,
+`--dur-leave` 200 ms, `--stagger` 80 ms, decelerating easings `--ease-out` and
+`--ease-emph`). Mobile uses shorter offsets and stagger.
+
+- **Hero entrance:** CSS keyframes with `fill-mode: backwards`, under 1 s.
+- **Machine showcase** (homepage hero): an accessible tab control (arrow keys,
+  Home/End). Photo and description share one panel, so they always change together.
+  It shows a confirmed product photo when one exists, otherwise a labelled
+  category example ("Ukázka provedení").
+- **Scroll reveals:** `IntersectionObserver` in `main.js`, played once. The
+  selectors are in the `REVEAL` list.
+- **Hover and focus feedback** on buttons, nav links, cards and form fields.
+- **FAQ accordion:** native `<details>`, with smooth height animation added by JS.
+
+Safety: animations run only when `<html>` has the `motion` class. That class is
+set in `<head>` only if the visitor hasn't asked for reduced motion. Content
+starts visible; reveals hide elements only after the script has initialised.
+Without JavaScript, every showcase panel is shown.
