@@ -38,6 +38,13 @@ export const photos = [
     product: null,
     note: 'Batch 1, manufacturer visual with decorative background and partly illegible text. Model not confirmed.',
   },
+  {
+    id: 'boxovy-system-oranzovy-potisk',
+    alt: 'Vizualizace chlazeného boxového systému s barevným potiskem dvířek a ovládacím terminálem s displejem',
+    category: 'boxove-systemy',
+    product: null,
+    note: 'Batch 2, cropped from a screenshot of the old site (548 px). Manufacturer mock-up with English text "Refrigerated Locker 24/7" and "Put Your Brand Here" – does not imply 24/7 operation or a branding service. Model not confirmed.',
+  },
 ];
 
 export const photoById = (id) => photos.find((p) => p.id === id);

@@ -221,8 +221,8 @@ main:focus { outline: none; }
   border: 1px solid var(--line); border-radius: var(--radius);
 }
 .plinth img { width: auto; max-height: 100%; object-fit: contain; border-radius: 3px; box-shadow: 0 1px 2px rgba(28,32,39,.08); }
-.plinth--sm { padding: 14px; aspect-ratio: 4 / 3; }
-.plinth--sm img { max-height: 100%; }
+.plinth--sm { display: block; position: relative; aspect-ratio: 4 / 3; max-width: 100%; padding: 0; }
+.plinth--sm img { position: absolute; inset: 14px; width: calc(100% - 28px); height: calc(100% - 28px); object-fit: contain; box-shadow: none; }
 .plinth--lg { width: 100%; }
 
 .ph {
@@ -241,9 +241,10 @@ main:focus { outline: none; }
 .hero__call a { font-weight: 600; font-variant-numeric: tabular-nums; }
 .hero__media { margin: 0; }
 .hero__media .plinth { aspect-ratio: 5 / 4; }
-.hero__media figcaption, .examples figcaption {
+.hero__media figcaption {
   margin-top: 10px; font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink-2); letter-spacing: 0.02em;
 }
+.examples figcaption { margin-top: 8px; font-size: var(--fs-sm); line-height: 1.45; color: var(--ink-2); }
 
 /* ---------- Reasons strip ---------- */
 .reasons { border-block: 1px solid var(--line); background: var(--white); }

@@ -15,6 +15,8 @@ form until confirmed.
 - [ ] **Address use.** Is Kaštanová 489/34, Brno (Brno-Tuřany) an office, a
       showroom or only a registered address? Opening hours / visits by appointment?
 - [ ] **Coverage.** Site states Czech Republic only. Slovakia / Poland pending.
+      (The old site's “Profesionální prodej automatů” section also mentions sales
+      and service in Slovakia; confirm before adding it.)
 - [ ] **Facebook.** The “@facebookovástránka” placeholder was removed. Send the
       real profile URL if there is one.
 - [ ] **Logo.** Temporary blue logo mark. Supply the official logo if one exists.
@@ -43,7 +45,15 @@ form until confirmed.
 - [ ] Which model each locker photo shows (white / green / blue). Currently used
       only as category examples (“Ukázky provedení”), not assigned to a model.
 - [ ] No photo of the chilled-food vending machine yet (placeholder shown).
-- [ ] Batch 2: real installation photos would strengthen the site.
+- [ ] Batch 2 (received): added the orange locker visual
+      (`boxovy-system-oranzovy-potisk`) as a category example. It is a manufacturer
+      mock-up with English text (“Refrigerated Locker 24/7”, “Put Your Brand Here”);
+      the website does not promise 24/7 operation or custom branding. Confirm whether
+      custom door printing is offered and send the original file without the texts.
+- [ ] Not used from batch 2: stock photos of a button panel, a food stand and a
+      van bar (the brief excludes unrelated stock photos). The remaining
+      screenshots contained only text, and no new facts were taken from them.
+- [ ] Real installation photos would strengthen the site.
 
 ## Later phases
 - [ ] Real form submission (form service or serverless function) + privacy policy page.

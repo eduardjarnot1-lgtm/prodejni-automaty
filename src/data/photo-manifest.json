@@ -19,6 +19,20 @@
       }
     ]
   },
+  "boxovy-system-oranzovy-potisk": {
+    "width": 548,
+    "height": 408,
+    "variants": [
+      {
+        "w": 480,
+        "file": "boxovy-system-oranzovy-potisk-480.webp"
+      },
+      {
+        "w": 548,
+        "file": "boxovy-system-oranzovy-potisk-548.webp"
+      }
+    ]
+  },
   "boxovy-system-zeleny": {
     "width": 240,
     "height": 240,
