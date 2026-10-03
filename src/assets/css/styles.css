@@ -166,7 +166,7 @@ a:hover .arrow-swap .icon + .icon, a:focus-visible .arrow-swap .icon + .icon,
    ("sheets"). Templates mark panel breaks with <!--break-->. */
 body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--fg); }
 .sheet { position: relative; background: var(--white); border-radius: var(--r-panel); overflow: clip; margin-bottom: var(--fg); }
-.sheet:has(> .gallery) { background: var(--panel-gray); }
+.sheet:has(> .gallery) { background: var(--hero-bg); }
 .sheet:has(> .band-dark) { background: var(--ink); }
 .sheet:first-child > :first-child:not(.hero):not(.page-head) { padding-top: calc(var(--header-space) + 1rem); }
 
@@ -384,19 +384,23 @@ html:not(.js) .hero-video__poster { display: none; }
 @media (max-width: 899px) { .featured__head { padding-bottom: 0; } }
 
 /* ---------- Gallery panel: interactive viewer ----------
-   Giant word behind three photos. The small photos are buttons: choosing
+   Same backdrop as the featured panel: light grey gradient with white guide
+   lines converging behind the large photo.
+   The small photos are buttons: choosing
    one swaps it into the large slot (GSAP Flip in main.js/motion.js) and the
    caption below the large photo follows. */
+.gallery__lines {
+  position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+  -webkit-mask-image: radial-gradient(ellipse 30% 36% at 50% 43%, transparent 0 55%, #000 100%);
+  mask-image: radial-gradient(ellipse 30% 36% at 50% 43%, transparent 0 55%, #000 100%);
+}
+.gallery__lines line, .featured__lines line { stroke: rgba(255, 255, 255, 0.85); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
 .gallery {
-  position: relative; display: grid; gap: 16px;
+  position: relative; display: grid; gap: 16px; background: var(--hero-bg);
   grid-template-columns: repeat(2, minmax(0, 1fr));
   padding: clamp(2.5rem, 2rem + 4vw, 6rem) clamp(18px, 5vw, 80px);
 }
-.gallery__word {
-  grid-column: 1 / -1; margin: 0; text-align: center; white-space: nowrap; pointer-events: none;
-  font-size: clamp(3.5rem, 19vw, 17rem); line-height: 0.8; font-weight: 400; text-transform: uppercase;
-  letter-spacing: -0.03em; color: rgba(186, 190, 196, 0.5);
-}
+.gallery > :where(:not(.gallery__lines)) { position: relative; z-index: 1; }
 .gallery__slot { position: relative; min-width: 0; aspect-ratio: 1 / 1; max-width: 100%; }
 .gallery__slot--b { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
 .gallery__item {
@@ -429,7 +433,6 @@ html:not(.js) .hero-video__poster { display: none; }
 .gallery__text { font-size: var(--fs-sm); color: var(--ink-2); max-width: 22em; margin: 0; }
 .gallery__text--b .link-arrow { margin-top: 0.75rem; font-size: var(--fs-sm); }
 @media (max-width: 899px) {
-  .gallery__word { font-size: 14.5vw; }
   .gallery__slot--b { order: 1; }
   .gallery__caption { order: 2; }
   .gallery__slot--a, .gallery__slot--c { order: 3; }
@@ -437,7 +440,6 @@ html:not(.js) .hero-video__poster { display: none; }
 }
 @media (min-width: 900px) {
   .gallery { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto auto auto auto; column-gap: 20px; row-gap: 0; min-height: 680px; }
-  .gallery__word { position: absolute; z-index: 2; left: 0; right: 0; top: 46%; transform: translateY(-50%); font-size: clamp(8rem, 17vw, 16rem); }
   .gallery__slot { z-index: 1; }
   .gallery__slot--a { grid-column: 2 / span 2; grid-row: 1; align-self: start; aspect-ratio: 3 / 4; }
   .gallery__slot--b { grid-column: 5 / span 4; grid-row: 1 / span 3; z-index: 3; aspect-ratio: 4 / 5; align-self: center; }
@@ -744,7 +746,7 @@ html:not(.js) .hero-video__poster { display: none; }
 }
 @media (max-width: 760px) {
   :root { --fg: 8px; --r-panel: 20px; --header-space: 80px; --header-h: 64px; }
-  .featured__lines { opacity: 0.6; }
+  .featured__lines, .gallery__lines { opacity: 0.6; }
 }
 @media (max-width: 420px) {
   :root { --gutter: 16px; }

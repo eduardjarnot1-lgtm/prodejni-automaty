@@ -89,7 +89,7 @@ function gallery(r) {
   const mainCat = categories.find((k) => k.key === mainPhoto.category);
   return `<section class="gallery" aria-labelledby="galerie-h" data-gallery>
   <h2 id="galerie-h" class="visually-hidden">Ukázky provedení automatů</h2>
-  <p class="gallery__word" aria-hidden="true">Automaty</p>
+  ${guideLinesSvg('gallery__lines', 300)}
   <div class="gallery__slot gallery__slot--a">${galleryItem(r, a, false)}</div>
   <div class="gallery__slot gallery__slot--b">${galleryItem(r, main, true)}</div>
   <div class="gallery__slot gallery__slot--c">${galleryItem(r, c, false)}</div>
@@ -129,9 +129,12 @@ function heroVideo(r) {
 }
 
 // Converging guide lines behind the featured machine (decorative).
-const guideLines = `<svg class="featured__lines" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-  ${[[0, 210], [0, 330], [0, 470], [190, 700], [1000, 210], [1000, 330], [1000, 470], [810, 700], [230, 0], [770, 0]].map(([x, y]) => `<line x1="${x}" y1="${y}" x2="500" y2="520"/>`).join('')}
+// Converging guide lines (decorative), used behind the featured machine and
+// behind the large gallery photo. cy = where the lines meet (0–700).
+const guideLinesSvg = (cls, cy) => `<svg class="guide-lines ${cls}" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  ${[[0, 210], [0, 330], [0, 470], [190, 700], [1000, 210], [1000, 330], [1000, 470], [810, 700], [230, 0], [770, 0]].map(([x, y]) => `<line x1="${x}" y1="${y}" x2="500" y2="${cy}"/>`).join('')}
 </svg>`;
+const guideLines = guideLinesSvg('featured__lines', 520);
 
 export default {
   path: 'index.html',

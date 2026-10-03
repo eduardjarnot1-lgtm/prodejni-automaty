@@ -135,21 +135,23 @@
     batch('.svc-item, .examples__list > li, .product-info > section, .about__text, .facts > div, .disclosure, .narrow > h2, .contact > *, .pgallery__thumbs',
       { opacity: 0, y: d * 0.6 }, { duration: 0.65 });
 
-    // Gallery panel: photos arrive with depth, the big word drifts with scroll.
+    // Gallery panel: the guide lines open out from the centre, then the photos arrive with depth.
     later(main.querySelectorAll('.gallery')).forEach(function (g) {
       var tl = gsap.timeline({ scrollTrigger: { trigger: g, start: 'top 75%', once: true } });
-      tl.from(g.querySelector('.gallery__slot--b'), { opacity: 0, y: d * 2, duration: 1 })
+      var lines = g.querySelector('.gallery__lines');
+      if (lines) tl.from(lines, { opacity: 0, scale: 1.08, transformOrigin: '50% 43%', duration: 1.2, ease: MOTION.easeInOut }, 0);
+      tl.from(g.querySelector('.gallery__slot--b'), { opacity: 0, y: d * 2, duration: 1 }, 0)
         .from(g.querySelectorAll('.gallery__slot--a, .gallery__slot--c'), { opacity: 0, y: d * 1.4, stagger: 0.12, duration: 0.9 }, 0.15)
         .from(g.querySelectorAll('.gallery__text, .gallery__caption'), { opacity: 0, y: d * 0.5, stagger: 0.08, duration: 0.6 }, 0.35);
     });
   }
 
-  // Subtle scroll-linked depth in the gallery panel (desktop only; normal scrolling).
+  // Subtle scroll-linked depth in the gallery panel: the small photos drift at
+  // different speeds (desktop only; normal scrolling).
   function parallax(main) {
     if (!ScrollTrigger) return;
     toArray(main.querySelectorAll('.gallery')).forEach(function (g) {
       var st = { trigger: g, start: 'top bottom', end: 'bottom top', scrub: 0.6 };
-      gsap.fromTo(g.querySelector('.gallery__word'), { xPercent: 4 }, { xPercent: -4, ease: 'none', scrollTrigger: st });
       gsap.fromTo(g.querySelector('.gallery__slot--a'), { y: 36 }, { y: -36, ease: 'none', scrollTrigger: st });
       gsap.fromTo(g.querySelector('.gallery__slot--c'), { y: -28 }, { y: 28, ease: 'none', scrollTrigger: st });
     });

@@ -89,8 +89,8 @@ drives all JavaScript animation through `src/assets/js/motion.js`.
 - **Scroll reveals** (ScrollTrigger, played once) with a different choreography per
   section type: headings, trust points, product cards (photo settles in its
   frame), service tiles (grid cascade), process steps (rule draws, then text),
-  gallery, contact band. Desktop only: subtle scroll-linked drift of the
-  gallery's big word and side photos.
+  gallery, contact band. Desktop only: subtle scroll-linked drift of the gallery's
+  side photos.
 - **Interactions:** sliding nav indicator (green under the current page); animated
   mobile menu and FAQ; gallery panel swaps photos with Flip; product pages switch
   photos via thumbnails.
