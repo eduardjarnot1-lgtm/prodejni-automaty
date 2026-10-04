@@ -496,13 +496,220 @@
   }
 
   // ---------------------------------------------------------------------
+  // Continuous tour: the COMPLETE clip, chapters follow the footage
+  // (data-continuous="<duration>", data-chapters = contiguous [start, end]).
+  //   scroll  desktop + motion: scroll position through the chapter list is
+  //           mapped piecewise to the whole duration. While chapter k's text
+  //           passes the activation line, the video moves through chapter k's
+  //           time window, so text and footage stay together, forward and back.
+  //   manual  mobile (plays the full clip once on entry, holds the last frame,
+  //           replay), reduced motion or motion off (posters; manual playback).
+  // ---------------------------------------------------------------------
+  function ContinuousTour(section) {
+    var video = section.querySelector('.seq__video');
+    var btn = section.querySelector('[data-media-toggle]');
+    var layers = Array.prototype.slice.call(section.querySelectorAll('[data-layer]'));
+    var items = Array.prototype.slice.call(section.querySelectorAll('.seq__chapter'));
+    var ranges = JSON.parse(section.getAttribute('data-chapters'));
+    var duration = Number(section.getAttribute('data-continuous'));
+    var visual = section.querySelector('.seq__frame');
+    var list = section.querySelector('.seq__chapters');
+    var clip = new Clip(video);
+    var triggers = [];
+    var observers = [];
+    var mode = null;
+    var auto = false;
+    var current = -1;
+    var state = 'idle'; // idle | playing | done (manual mode)
+    var raf = 0;
+    var proxy = { t: 0 };
+    var tween = null;
+
+    function showLayer(i) { layers.forEach(function (l, k) { l.classList.toggle('is-on', k === i); }); }
+    function hideLayers() { layers.forEach(function (l) { l.classList.remove('is-on'); }); }
+    function chapterAt(t) {
+      for (var k = ranges.length - 1; k >= 0; k--) if (t >= ranges[k][0] - 0.001) return k;
+      return 0;
+    }
+    function mark(i) {
+      if (i === current) return;
+      current = i;
+      items.forEach(function (el, k) {
+        el.classList.toggle('is-active', k === i);
+        if (k === i) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current');
+      });
+    }
+
+    clip.onFrame = function () { if (mode === 'scroll') hideLayers(); };
+    clip.onFail = function () { if (btn) btn.hidden = true; showLayer(current < 0 ? 0 : current); section.classList.remove('is-scrub'); refresh(); };
+    function refresh() { if (ST()) ST().refresh(); }
+
+    function setButton2() {
+      if (!btn) return;
+      if (clip.failed) { btn.hidden = true; return; }
+      if (mode === 'scroll') { setButton(btn, 'pause', 'Vypnout pohyb videa'); return; }
+      if (state === 'playing') setButton(btn, 'pause', 'Pozastavit video');
+      else if (state === 'done') setButton(btn, 'replay', 'Přehrát video znovu');
+      else setButton(btn, 'play', 'Přehrát celé video');
+    }
+
+    // Scroll → time, piecewise per chapter.
+    function timeFromScroll() {
+      var line = window.innerHeight * 0.6;
+      var tops = items.map(function (el) { return el.getBoundingClientRect().top; });
+      var listBottom = list.getBoundingClientRect().bottom;
+      if (line <= tops[0]) return 0;
+      for (var k = 0; k < items.length; k++) {
+        var start = tops[k];
+        var end = k + 1 < items.length ? tops[k + 1] : listBottom;
+        if (line < end || k === items.length - 1) {
+          var f = Math.min(1, Math.max(0, (line - start) / Math.max(1, end - start)));
+          return ranges[k][0] + f * (ranges[k][1] - ranges[k][0]);
+        }
+      }
+      return duration;
+    }
+
+    function onScroll() {
+      var t = Math.min(duration - 0.02, Math.max(0, timeFromScroll()));
+      mark(chapterAt(t));
+      // Short smoothing so wheel steps glide; reverses naturally.
+      if (window.gsap) {
+        if (tween) tween.kill();
+        tween = window.gsap.to(proxy, { t: t, duration: 0.25, ease: 'power1.out', onUpdate: function () { clip.seekTo(proxy.t); } });
+      } else {
+        proxy.t = t;
+        clip.seekTo(t);
+      }
+    }
+
+    // Manual: play the complete clip once (from `from`), chapters follow.
+    function follow() {
+      cancelAnimationFrame(raf);
+      (function tick() {
+        mark(chapterAt(video.currentTime));
+        if (!video.paused && !video.ended) raf = requestAnimationFrame(tick);
+      })();
+    }
+    function playFull(from) {
+      state = 'playing';
+      setButton2();
+      var p = clip.playRange(from || 0, duration, 1);
+      video.addEventListener('playing', function onP() { video.removeEventListener('playing', onP); hideLayers(); follow(); });
+      p.then(function () { state = 'done'; mark(ranges.length - 1); setButton2(); },
+        function () { if (state === 'playing') state = 'idle'; setButton2(); });
+    }
+
+    function teardown() {
+      triggers.forEach(function (t) { t.kill(); });
+      observers.forEach(function (o) { o.disconnect(); });
+      triggers = []; observers = [];
+      if (tween) { tween.kill(); tween = null; }
+      cancelAnimationFrame(raf);
+      clip.stop();
+      section.classList.remove('is-scrub');
+    }
+
+    function setup() {
+      teardown();
+      auto = motionAllowed();
+      mode = mqDesktop.matches && auto && !!ST() ? 'scroll' : 'manual';
+      state = 'idle';
+      showLayer(current < 0 ? 0 : current);
+      if (current < 0) mark(0);
+      setButton2();
+
+      var near = new IntersectionObserver(function (entries) {
+        if (entries[entries.length - 1].isIntersecting && (auto || state === 'playing')) { clip.load().catch(function () {}); near.disconnect(); }
+      }, { rootMargin: '60% 0px' });
+      near.observe(section);
+      observers.push(near);
+
+      if (mode === 'scroll') {
+        section.classList.add('is-scrub');
+        triggers.push(ST().create({
+          trigger: list, start: 'top bottom', end: 'bottom top',
+          onUpdate: onScroll,
+          onRefresh: function (self) { if (self.isActive) onScroll(); },
+        }));
+        clip.load().then(function () { if (mode === 'scroll') onScroll(); }, function () {});
+      } else {
+        // Pause when out of view.
+        var vis = new IntersectionObserver(function (entries) {
+          if (!entries[entries.length - 1].isIntersecting && clip.playing()) { clip.stop(); state = 'idle'; setButton2(); }
+        });
+        vis.observe(visual);
+        observers.push(vis);
+        if (auto && !mqDesktop.matches) {
+          var once = new IntersectionObserver(function (entries) {
+            if (entries[entries.length - 1].isIntersecting && state === 'idle') { once.disconnect(); playFull(0); }
+          }, { threshold: 0.6 });
+          once.observe(visual);
+          observers.push(once);
+        } else {
+          // Static: the chapter in view shows its poster.
+          var pickStatic = function () {
+            var line = window.innerHeight * 0.6;
+            var idx = 0;
+            items.forEach(function (el, k) { if (el.getBoundingClientRect().top <= line) idx = k; });
+            if (state !== 'playing') { mark(idx); showLayer(idx); }
+          };
+          window.addEventListener('scroll', pickStatic, { passive: true });
+          triggers.push({ kill: function () { window.removeEventListener('scroll', pickStatic); } });
+        }
+      }
+      refresh();
+    }
+
+    if (btn) btn.addEventListener('click', function () {
+      if (mode === 'scroll') { setPrefOff(true); return; }
+      if (state === 'playing') { clip.stop(); state = 'idle'; setButton2(); return; }
+      if (mqDesktop.matches && !mqReduce.matches && prefOff()) { setPrefOff(false); return; }
+      playFull(0); // the button always plays the complete clip
+    });
+
+    section.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-jump]');
+      if (!b || !section.contains(b)) return;
+      var i = Number(b.getAttribute('data-jump'));
+      if (mode === 'scroll') {
+        var top = items[i].getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.6 + 2;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      } else if (auto) {
+        playFull(ranges[i][0]);
+      } else {
+        clip.stop(); state = 'idle'; mark(i); showLayer(i); setButton2();
+      }
+    });
+
+    var onChange = function () { setup(); };
+    var onHidden = function () { if (document.hidden && clip.playing()) { clip.stop(); state = 'idle'; setButton2(); } };
+    mqDesktop.addEventListener('change', onChange);
+    mqReduce.addEventListener('change', onChange);
+    document.addEventListener('media-motion-change', onChange);
+    document.addEventListener('visibilitychange', onHidden);
+    setup();
+
+    this.destroy = function () {
+      teardown();
+      clip.destroy();
+      mqDesktop.removeEventListener('change', onChange);
+      mqReduce.removeEventListener('change', onChange);
+      document.removeEventListener('media-motion-change', onChange);
+      document.removeEventListener('visibilitychange', onHidden);
+    };
+  }
+
+  // ---------------------------------------------------------------------
   var registry = new WeakMap();
 
   function init(main) {
     destroy(main);
     var list = [];
     each(main.querySelectorAll('[data-stage]'), function (el) { list.push(new HeroStage(el)); });
-    each(main.querySelectorAll('[data-seq]'), function (el) { list.push(new Sequence(el)); });
+    each(main.querySelectorAll('[data-seq]'), function (el) {
+      list.push(el.hasAttribute('data-continuous') ? new ContinuousTour(el) : new Sequence(el));
+    });
     root.classList.toggle('has-stage', !!main.querySelector('[data-stage]'));
     registry.set(main, list);
   }

@@ -476,6 +476,17 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
   .seq--square .seq__frame { max-width: min(100%, 420px); }
 }
 
+/* Continuous tour (full clip scrubbed by scroll, desktop): each chapter
+   gets scroll length proportional to its duration in the video. */
+@media (min-width: 900px) {
+  .seq.is-scrub .seq__chapter { min-height: calc(var(--dur, 1) * 14vh + 4rem); }
+  .seq.is-scrub .seq__chapters { gap: 0; padding-block: 22vh 26vh; }
+}
+/* Text follows the footage: the active chapter settles in, others recede. */
+.seq__chapter h3, .seq__chapter p { transition: color 400ms var(--ease-out), opacity 400ms var(--ease-out), transform 500ms var(--ease-emph); }
+.motion .seq__chapter:not(.is-active) p { opacity: 0.75; transform: translateY(4px); }
+.motion .seq__chapter.is-active h3 { transform: translateX(2px); }
+
 .seq__jump {
   all: unset; cursor: pointer; display: inline; font: inherit; color: inherit; text-align: left;
   border-radius: 4px; transition: color var(--dur-fast) var(--ease-out);

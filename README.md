@@ -147,7 +147,7 @@ mode, reduced-motion fallback) are in `src/data/media.js`. Markup:
 | --- | --- | --- | --- | --- |
 | PixVerse_V6_Image_Text_540P_Create_a_premium_c.mp4 | hero-single-machine-orbit | Úvod, hero | 0.25–1.40 s | Desktop: scroll scrub on a held stage (~205svh); mobile: plays once, holds |
 | PixVerse_V6_Image_Text_540P_Create_a_premium_p.mp4 | locker-cabinet-showcase | automaticky-boxovy-system.html#prohlidka; poster in automaty.html#boxove-systemy | 0.25–1.0 / 1.25–2.45 / 2.75–4.0 s | Chapter playback, each chapter once, holds last frame |
-| PixVerse_V6_Image_Text_540P_create_me_a_vide_w.mp4 | chilled-machine-tour | chlazeny-automat-na-potraviny.html#prohlidka | still at 0.05 / 0.92–1.8 / 3.98–4.28 s | Chapter playback (chapter 1 is a still) |
+| PixVerse_V6_Image_Text_540P_create_me_a_vide_w.mp4 | chilled-machine-tour (complete, all-intra) | chlazeny-automat-na-potraviny.html#prohlidka | entire clip 0–7.04 s; 5 chapters follow the footage | Desktop: scroll mapped to the full duration; mobile: plays once in full, holds, replay |
 | PixVerse_V6_Image_Text_360P_Create_a_premium_p.mp4 | double-machine-details | automaty.html#ukazka-sestavy (in #chlazene-automaty); poster on chlazeny-automat-na-potraviny.html | 0–1.38 / 1.75–2.45 / 2.8–3.7 s + still photo | Chapter playback, then the original photo |
 
 Derivatives in `src/assets/video/`: `<alias>.mp4` (H.264), `<alias>.webm`

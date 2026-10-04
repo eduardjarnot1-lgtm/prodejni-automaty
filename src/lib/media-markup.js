@@ -65,7 +65,7 @@ export function chapterSequence(r, key, { id, eyebrow, title, intro, chapters, t
       : `<img class="seq__layer${i === 0 ? ' is-on' : ''}" data-layer="${i}" src="${r(c.poster)}" alt="" width="${m.width}" height="${m.height}" loading="lazy" decoding="async">`)
     : join(photos, (pid, i) => `<div class="seq__layer seq__layer--photo${i === 0 ? ' is-on' : ''}" data-layer="${i}">${photo(r, pid, { sizes: '(min-width: 1000px) 460px, 90vw' })}</div>`);
   return `<section class="seq seq--${tone}${square ? ' seq--square' : ''}${m ? '' : ' seq--photos'}" id="${id}" aria-labelledby="${id}-h"
-  data-seq data-chapters='${JSON.stringify(data)}'>
+  data-seq data-chapters='${JSON.stringify(data)}'${m && m.continuous ? ` data-continuous="${m.duration}"` : ''}>
   <div class="seq__head">
     ${eyebrow ? `<p class="eyebrow">${esc(eyebrow)}</p>` : ''}
     <h2 id="${id}-h">${esc(title)}</h2>
@@ -82,7 +82,7 @@ export function chapterSequence(r, key, { id, eyebrow, title, intro, chapters, t
       ${m ? toggle('seq__toggle') : ''}
     </div>
     <ol class="seq__chapters">
-      ${join(chapters, (c, i) => `<li class="seq__chapter${i === 0 ? ' is-active' : ''}" data-ch="${i}">
+      ${join(chapters, (c, i) => `<li class="seq__chapter${i === 0 ? ' is-active' : ''}" data-ch="${i}"${m && m.continuous ? ` style="--dur: ${(m.chapters[i].range[1] - m.chapters[i].range[0]).toFixed(2)}"` : ''}>
         <span class="seq__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
         <h3><button class="seq__jump" type="button" data-jump="${i}">${esc(c.title)}</button></h3>
         <p>${c.html || esc(c.text)}</p>

@@ -11,10 +11,15 @@ export const tours = {
     media: 'chilledTour',
     title: 'Chlazený automat zblízka',
     intro: 'Prohlédněte si celkové provedení a detaily automatu. Video je ilustrační; konkrétní výbavu upřesníme v nabídce.',
+    // Five chapters following the full clip. Where the footage shows actions
+    // that are not confirmed for this product (payment, spiral dispensing),
+    // the text says so instead of presenting them as features.
     chapters: [
       { title: 'Celý automat', text: 'Celkové provedení automatu. Rozměry 1330 × 815 × 1915 mm a příkon najdete v technických parametrech níže.' },
       { title: 'Dotykový displej', text: 'Zákazník vybírá zboží na dotykovém displeji o úhlopříčce 21,5″. Řídicí systém běží na platformě Android.' },
+      { title: 'Výběr a platba', text: 'Vizualizace ukazuje výběr na displeji a platbu u terminálu. Podporované způsoby platby upřesníme v nabídce.' },
       { title: 'Prostor pro zboží', text: 'Až 6 polic a 9 kanálů na polici, celkem až 54 prodejních pozic. Chlazení 4–8 °C je volitelné.' },
+      { title: 'Výdej a odběr zboží', text: 'Ve vizualizaci zboží vydává spirála do výdejního otvoru. Tento automat vydává zboží výtahem; způsob výdeje se liší podle modelu.' },
     ],
   },
   'automaticky-boxovy-system': {
