@@ -66,7 +66,7 @@
         .from(hero.querySelectorAll('.hero__actions > *'), { opacity: 0, y: d * 0.5, stagger: MOTION.stagger, duration: 0.6 }, 0.35)
         .from(hero.querySelector('.hero__call'), { opacity: 0, y: d * 0.4, duration: 0.6 }, 0.45)
         // The video zooms by itself, so it only fades and rises: no scaling here.
-        .from(hero.querySelector('.hero-video'), { opacity: 0, y: d, duration: 1 }, 0.15);
+        .from(hero.querySelector('.stage__media'), { opacity: 0, y: d, duration: 1 }, 0.15);
     } else if (head) {
       tl.from(head.children, { opacity: 0, y: d * 0.6, stagger: MOTION.stagger }, 0.05);
     }
@@ -132,7 +132,7 @@
     // Contact band: list items one by one.
     batch('.band-dark__grid > div:first-child, .contact-list--dark > li', { opacity: 0, y: d * 0.5 }, { stagger: 0.07, duration: 0.6 });
     // Everything else: a short, quiet rise.
-    batch('.svc-item, .examples__list > li, .product-info > section, .about__text, .facts > div, .disclosure, .narrow > h2, .contact > *, .pgallery__thumbs',
+    batch('.svc-item, .examples__list > li, .product-info > section, .about__text, .facts > div, .disclosure, .narrow > h2, .contact > *, .pgallery__thumbs, .seq__head > *, .seq__chapter, .teaser',
       { opacity: 0, y: d * 0.6 }, { duration: 0.65 });
 
     // Gallery panel: the guide lines open out from the centre, then the photos arrive with depth.

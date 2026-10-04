@@ -136,38 +136,38 @@ in-page anchors and modifier-clicks (new tab) use normal browser behaviour.
 Back/Forward replays the transition and restores the scroll position. If
 loading or animating fails, the browser does a normal page load.
 
-## Hero video
+## Product videos
 
-The homepage hero shows a decorative, AI-generated product visualisation
-(PixVerse; its watermark is kept in this draft). Settings are in
-`src/data/site.js` → `heroVideo`. Playback logic is `initHeroVideo` in
-`src/assets/js/main.js`:
+Three AI-generated (PixVerse) clips, watermarks kept in this draft. All
+settings (original filename, alias, product, posters, time ranges, playback
+mode, reduced-motion fallback) are in `src/data/media.js`. Markup:
+`src/lib/media-markup.js`. Behaviour: `src/assets/js/media.js`.
 
-- Muted, inline playback starts after the page has loaded, and only while
-  the video is on screen. It pauses off-screen and in background tabs.
-- The clip ends in a close-up, so it plays once (`loop: false`) and the
-  full-machine poster fades back in. The round button pauses, plays or replays it.
-- With reduced motion, or if autoplay is blocked, the poster stays and the
-  button starts playback. Without JavaScript, the native player is shown.
+| Original (media/video/originals/) | Alias / derivative | Where | Used range (original time) | Interaction |
+| --- | --- | --- | --- | --- |
+| PixVerse_V6_Image_Text_540P_Create_a_premium_c.mp4 | hero-single-machine-orbit | Úvod, hero | 0.25–1.40 s | Desktop: scroll scrub on a held stage (~205svh); mobile: plays once, holds |
+| PixVerse_V6_Image_Text_540P_Create_a_premium_p.mp4 | locker-cabinet-showcase | automaticky-boxovy-system.html#prohlidka; poster in automaty.html#boxove-systemy | 0.25–1.0 / 1.25–2.45 / 2.75–4.0 s | Chapter playback, each chapter once, holds last frame |
+| PixVerse_V6_Image_Text_360P_Create_a_premium_p.mp4 | double-machine-details | automaty.html#ukazka-sestavy (in #chlazene-automaty); poster on chlazeny-automat-na-potraviny.html | 0–1.38 / 1.75–2.45 / 2.8–3.7 s + still photo | Chapter playback, then the original photo |
 
-Files in `src/assets/video/`:
-- `prodejni-automat-vizualizace.mp4`: original H.264 stream, remuxed (audio
-  removed, fast start), not re-encoded
-- `prodejni-automat-vizualizace.webm`: VP9 fallback for browsers without H.264
-- `prodejni-automat-vizualizace-poster.webp`: first frame, near-white lifted to white
+Derivatives in `src/assets/video/`: `<alias>.mp4` (H.264), `<alias>.webm`
+(VP9 fallback), and `*-poster.webp`, `*-end.webp` or `*-ch1..3.webp` posters. The hero
+derivative has a keyframe on every frame (scrubbing); the others every 6 frames.
+Clips are fetched completely and played from memory, so seeking works even
+where the server has no HTTP range support.
 
-The untouched source is in `media/video/`.
+Visitors can switch video motion off (button on each video; remembered in
+the browser). Reduced motion: posters only, playback on request.
 
-To replace the clip with a clean export (same file names, or update `heroVideo`):
+### Replacing a clip with a clean export
 
 ```sh
-ffmpeg -i NEW.mp4 -map 0:v:0 -c:v copy -an -movflags +faststart src/assets/video/prodejni-automat-vizualizace.mp4
-ffmpeg -i NEW.mp4 -c:v libvpx-vp9 -crf 22 -b:v 0 -row-mt 1 -an src/assets/video/prodejni-automat-vizualizace.webm
-ffmpeg -i NEW.mp4 -frames:v 1 poster.png
-convert poster.png -level 0%,95% -quality 90 src/assets/video/prodejni-automat-vizualizace-poster.webp
+# Hero (all-intra for scrubbing); set -ss/-to to the chosen range
+ffmpeg -ss 0.25 -to 1.40 -i NEW.mp4 -an -c:v libx264 -crf 20 -g 1 -bf 0 -pix_fmt yuv420p -movflags +faststart src/assets/video/hero-single-machine-orbit.mp4
+ffmpeg -ss 0.25 -to 1.40 -i NEW.mp4 -an -c:v libvpx-vp9 -crf 28 -b:v 0 -g 1 src/assets/video/hero-single-machine-orbit.webm
+# Chapter clips: same, with -g 6 -keyint_min 6 -sc_threshold 0
+# Posters: ffmpeg -ss <t> -i <derivative> -frames:v 1 p.png && convert p.png -quality 86 <name>.webp
 ```
 
-If the new clip has a pure white background, drop `-level 0%,95%` and the
-`filter: brightness(1.053)` on `.hero-video__media` in the CSS. Update
-`width`/`height` if the size changes, and the codec string if the H.264
-profile changes (check with `ffprobe`).
+Then update the times in `src/data/media.js` (derivative time = original
+time minus the trim start) and the `codec` string if the H.264 level changes.
+

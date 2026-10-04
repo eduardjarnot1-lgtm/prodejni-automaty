@@ -71,10 +71,12 @@ form until confirmed.
 - [ ] Privacy/cookie information (site uses no cookies; the map loads Google only on click).
 - [ ] Analytics only after explicit approval.
 
-## Hero video
-- [ ] The clip is AI-generated (PixVerse) and carries its watermark. Replace it with a
-      clean, authorised export before launch (steps in README → Hero video).
-- [ ] The clip shows a spiral dispensing a snack. The chilled-food machine is listed with
-      **elevator** dispensing ("Výdej výtahem"). The caption calls the clip an
-      illustrative visualisation. Ideally the final video should match the machine you sell.
-
+## Product videos
+- [ ] All three clips are AI-generated (PixVerse) with watermarks. Replace with clean,
+      authorised exports before launch (README → Product videos).
+- [ ] Hero clip shows a single glass-front machine; it is presented as an illustration,
+      not as the chilled-food machine's verified look or specifications.
+- [ ] Locker clip: is it the "Automatický výdejní boxový systém"? It is used only there.
+      The interior is a generated setting, not a customer installation.
+- [ ] Double-machine clip: confirm the two-cabinet assembly is offered and send its
+      name, parameters and price basis (currently "individually").

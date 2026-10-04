@@ -15,6 +15,7 @@
 //   alt       Czech alternative text describing what is visible
 //   category  'chlazene-automaty' | 'boxove-systemy' | 'instalace' | null
 //   product   product slug when the assignment is confirmed, otherwise null
+//   config    'double' marks the two-cabinet assembly (kept apart from single-machine galleries)
 //   note      internal note, never rendered on the website
 
 export const photos = [
@@ -31,6 +32,7 @@ export const photos = [
   {
     id: 'chlazeny-automat-dvojita-sestava',
     title: 'Sestava dvou prodejních automatů',
+    config: 'double', // shown in the catalogue's 'Ukázka sestavy', not as a photo of the single machine
     alt: 'Sestava dvou prosklených prodejních automatů se společným ovládacím panelem s dotykovým displejem',
     category: 'chlazene-automaty',
     product: null,

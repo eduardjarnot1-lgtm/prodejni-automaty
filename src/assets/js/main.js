@@ -255,114 +255,6 @@
     });
   }
 
-  // ---- Hero video ----
-  // Muted, inline, decorative clip. Autoplay starts after the page has loaded
-  // and only while the video is on screen; it pauses when scrolled away or
-  // when the tab is hidden. The clip ends in a close-up, so it plays once
-  // (unless data-loop="true") and the full-machine poster fades back in.
-  // With reduced motion, or if the browser blocks autoplay, the poster stays
-  // and the visitor can start playback with the button.
-  function initHeroVideo(scope) {
-    each(scope.querySelectorAll('[data-hero-video]'), function (fig) {
-      var video = fig.querySelector('video');
-      var btn = fig.querySelector('.hero-video__toggle');
-      if (!video || !btn || typeof video.play !== 'function') return;
-
-      video.removeAttribute('controls');
-      video.setAttribute('aria-hidden', 'true');
-      video.setAttribute('tabindex', '-1');
-      video.muted = true;
-      video.defaultMuted = true;
-      video.playsInline = true;
-      video.loop = fig.getAttribute('data-loop') === 'true';
-      btn.hidden = false;
-
-      var autoAllowed = !reduceMotion();
-      var userPaused = false;
-      var ended = false;
-      var inView = false;
-      var rewindTimer = 0;
-
-      function setIcon(state) {
-        var label = state === 'pause' ? 'Pozastavit video' : state === 'replay' ? 'Přehrát video znovu' : 'Přehrát video';
-        btn.setAttribute('data-icon', state);
-        btn.setAttribute('aria-label', label);
-        btn.title = label;
-      }
-      setIcon('play');
-
-      function play() {
-        clearTimeout(rewindTimer);
-        if (ended || video.ended) { try { video.currentTime = 0; } catch (e) { /* ignore */ } }
-        ended = false;
-        var result = video.play();
-        if (result && result.catch) {
-          result.catch(function () {           // autoplay blocked or failed: keep the poster
-            fig.classList.remove('is-playing');
-            setIcon('play');
-          });
-        }
-      }
-
-      video.addEventListener('playing', function () { fig.classList.add('is-playing'); setIcon('pause'); });
-      video.addEventListener('pause', function () { if (!ended && !video.ended) setIcon('play'); });
-      video.addEventListener('ended', function () {
-        ended = true;
-        fig.classList.remove('is-playing');   // poster (full machine) fades back in
-        setIcon('replay');
-        rewindTimer = setTimeout(function () { // rewind once the poster covers the video
-          if (ended) { try { video.currentTime = 0; } catch (e) { /* ignore */ } }
-        }, 800);
-      });
-      // Give up only when no source can be played (one failing <source> is fine).
-      var fail = function () {
-        if (video.error || video.networkState === video.NETWORK_NO_SOURCE) {
-          fig.classList.remove('is-playing');
-          btn.hidden = true;
-        }
-      };
-      video.addEventListener('error', fail);
-      var sources = video.querySelectorAll('source');
-      if (sources.length) sources[sources.length - 1].addEventListener('error', fail);
-
-      btn.addEventListener('click', function () {
-        if (!video.paused && !video.ended) {
-          userPaused = true;
-          video.pause();
-        } else {
-          userPaused = false;
-          play();
-        }
-      });
-
-      function maybeAutoplay() {
-        if (autoAllowed && inView && !userPaused && !ended && video.paused && !document.hidden) play();
-      }
-      function pauseQuietly() { if (!video.paused) video.pause(); }
-
-      var start = function () {
-        if ('IntersectionObserver' in window) {
-          var vio = new IntersectionObserver(function (entries) {
-            if (!fig.isConnected) { vio.disconnect(); return; }
-            inView = entries[entries.length - 1].isIntersecting;
-            if (inView) maybeAutoplay(); else pauseQuietly();
-          }, { threshold: 0.35 });
-          vio.observe(fig);
-        } else {
-          inView = true;
-          maybeAutoplay();
-        }
-        document.addEventListener('visibilitychange', function () {
-          if (!fig.isConnected) return;
-          if (document.hidden) pauseQuietly(); else maybeAutoplay();
-        });
-      };
-      // Never compete with the page itself: wait until it has loaded.
-      if (document.readyState === 'complete') start();
-      else window.addEventListener('load', start, { once: true });
-    });
-  }
-
   // ---- Gallery panel: choose a small photo to swap it into the large slot ----
   function initGalleryPanel(scope) {
     each(scope.querySelectorAll('[data-gallery]'), function (g) {
@@ -454,7 +346,7 @@
   }
 
   function initPage(main, opts) {
-    initHeroVideo(main);
+    if (window.MediaStage) window.MediaStage.init(main);
     initMap(main);
     initShowcase(main);
     initGalleryPanel(main);
@@ -466,6 +358,7 @@
 
   // Called before <main> is replaced by the page transition.
   function destroyPage(main) {
+    if (window.MediaStage) window.MediaStage.destroy(main);
     each(main.querySelectorAll('video'), function (v) { try { v.pause(); } catch (e) { /* ignore */ } });
     if (window.Motion) window.Motion.destroyPage(main);
   }

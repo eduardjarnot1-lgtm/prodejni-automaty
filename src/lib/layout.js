@@ -31,6 +31,7 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 <script src="${r('assets/vendor/gsap/ScrollTrigger.min.js')}" defer></script>
 <script src="${r('assets/vendor/gsap/Flip.min.js')}" defer></script>
 <script src="${r('assets/js/motion.js')}" defer></script>
+<script src="${r('assets/js/media.js')}" defer></script>
 <script src="${r('assets/js/main.js')}" defer></script>
 <script>window.ZOOM_THROUGH=${JSON.stringify(site.pageTransition)}</script>
 <script src="${r('assets/js/zoom-through.js')}" defer></script>`;

@@ -31,7 +31,7 @@ export function photoPlaceholder(kind = 'machine', label = 'Fotografie bude dopl
 // examples of its category (labelled "Ukázka provedení" on the page).
 export function productPhotos(p) {
   if (p.photos.length) return { ids: p.photos, example: false };
-  return { ids: photosByCategory(p.category).map((x) => x.id), example: true };
+  return { ids: photosByCategory(p.category).filter((x) => !x.config).map((x) => x.id), example: true };
 }
 
 // Product photo browser: one large photo with thumbnails (main.js switches
@@ -60,7 +60,7 @@ export function productGallery(r, p) {
 // a neutral placeholder.
 export function productMedia(r, p, opts = {}) {
   if (p.photos.length) return photo(r, p.photos[0], opts);
-  const example = photosByCategory(p.category)[0];
+  const example = photosByCategory(p.category).filter((x) => !x.config)[0];
   if (example) return `${photo(r, example.id, opts)}<span class="media-label">Ukázka provedení</span>`;
   return photoPlaceholder(p.category === 'boxove-systemy' ? 'box' : 'machine');
 }

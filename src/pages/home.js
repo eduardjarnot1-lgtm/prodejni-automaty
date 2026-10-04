@@ -5,6 +5,7 @@ import { categories, publishedProducts, productUrl, priceText } from '../data/pr
 import { photosByCategory, photoById } from '../data/photos.js';
 import { services, process } from '../data/services.js';
 import { photo, photoPlaceholder, button, inquiryHref, contactBand, phoneLink } from '../lib/components.js';
+import { heroStage } from '../lib/media-markup.js';
 
 // Featured machines in the hero, one tab per category. A category shows a
 // photo confirmed for one of its products; otherwise the first category
@@ -106,28 +107,6 @@ function gallery(r) {
 </section>`;
 }
 
-// Hero video: decorative product visualisation (see site.heroVideo).
-// Without JavaScript the native player with controls is shown instead of
-// the poster overlay.
-function heroVideo(r) {
-  const v = site.heroVideo;
-  return `<figure class="hero-video" data-hero-video data-loop="${v.loop ? 'true' : 'false'}" style="--video-ar: ${v.width} / ${v.height}">
-  <div class="hero-video__frame">
-    <video class="hero-video__media" muted playsinline preload="none" controls disablepictureinpicture
-      width="${v.width}" height="${v.height}" poster="${r(v.poster)}">
-      ${join(v.sources, (x) => `<source src="${r(x.src)}" type='${x.type}'>`)}
-    </video>
-    <img class="hero-video__poster" src="${r(v.poster)}" alt="" width="${v.width}" height="${v.height}" fetchpriority="high" decoding="async">
-    <button class="hero-video__toggle" type="button" aria-label="Přehrát video" hidden>
-      <span class="hero-video__icon hero-video__icon--play">${icons.play(18)}</span>
-      <span class="hero-video__icon hero-video__icon--pause">${icons.pause(18)}</span>
-      <span class="hero-video__icon hero-video__icon--replay">${icons.replay(18)}</span>
-    </button>
-  </div>
-  <figcaption class="hero-video__caption">${esc(v.caption)}</figcaption>
-</figure>`;
-}
-
 // Converging guide lines behind the featured machine (decorative).
 // Converging guide lines (decorative), used behind the featured machine and
 // behind the large gallery photo. cy = where the lines meet (0–700).
@@ -150,24 +129,16 @@ export default {
       { icon: 'tool', title: 'Servis během provozu', text: 'Zajišťujeme servis, údržbu a náhradní díly.' },
     ];
 
-    const boxProducts = publishedProducts.filter((p) => p.category === 'boxove-systemy');
-    const fridge = publishedProducts.find((p) => p.category === 'chlazene-automaty');
 
     return `
-<section class="hero" aria-labelledby="hero-h">
-  <div class="hero__inner">
-    <div class="hero__text">
+${heroStage(r, `
       <h1 id="hero-h" class="display hero__title"><span class="hero__line">Prodej a pronájem</span> <span class="hero__line">výdejních <span class="stencil">automatů</span></span></h1>
       <p class="hero__lead">Dodáváme chlazené automaty na potraviny a výdejní boxové systémy. V oboru jsme od roku ${site.since}. Pomůžeme vybrat vhodné zařízení, nainstalujeme ho a postaráme se o servis.</p>
       <div class="hero__actions">
         ${button(inquiryHref(r), 'Nezávazně poptat', 'primary')}
         <a class="btn btn--secondary" href="${r('automaty.html')}">Prohlédnout automaty <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>
       </div>
-      <p class="hero__call">${icons.phone(16)} ${phoneLink()} <span>(${esc(site.contact.person)})</span></p>
-    </div>
-    ${heroVideo(r)}
-  </div>
-</section>
+      <p class="hero__call">${icons.phone(16)} ${phoneLink()} <span>(${esc(site.contact.person)})</span></p>`)}
 <!--break-->
 <section class="reasons" aria-label="Proč se na nás obrátit">
   <ul class="wrap reasons__list">
@@ -183,6 +154,7 @@ export default {
       <p class="eyebrow">Vybrané automaty</p>
       <h2 id="featured-h" class="featured__title">Chlazené automaty a boxové systémy</h2>
       <p>Přepínejte mezi typy zařízení. Konkrétní model a výbavu doporučíme podle vašeho provozu.</p>
+      <p><a class="link-arrow" href="${r('automaty.html')}">Všechny automaty a parametry <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a></p>
     </div>
     ${showcase(r)}
   </div>
@@ -190,34 +162,6 @@ export default {
 <!--break-->
 ${gallery(r)}
 <!--break-->
-<section class="section" aria-labelledby="typy-h">
-  <div class="wrap">
-    <div class="section-head">
-      <h2 id="typy-h">Automaty v nabídce</h2>
-      <p>Dva typy zařízení pro samoobslužný prodej a výdej zboží. Konkrétní model a výbavu doporučíme podle vašeho provozu.</p>
-    </div>
-    <div class="cats">
-      <article class="cat">
-        <div class="cat__media">${photo(r, 'chlazeny-automat-dotykovy-displej', { sizes: '(min-width: 1000px) 200px, 60vw' })}<span class="media-label">Ukázka provedení</span></div>
-        <div class="cat__body">
-          <h3>${esc(categories[0].name)}</h3>
-          <p>${esc(categories[0].short)}</p>
-          <ul class="cat__links"><li><a href="${r(productUrl(fridge))}">${esc(fridge.name)} <span class="arrow-swap">${icons.arrow(16)}${icons.arrow(16)}</span></a></li></ul>
-        </div>
-      </article>
-      <article class="cat">
-        <div class="cat__media cat__media--photo">${photo(r, 'boxovy-system-12-schranek', { sizes: '(min-width: 1000px) 200px, 60vw' })}<span class="media-label">Ukázka provedení</span></div>
-        <div class="cat__body">
-          <h3>${esc(categories[1].name)}</h3>
-          <p>${esc(categories[1].short)}</p>
-          <ul class="cat__links">${join(boxProducts, (p) => `<li><a href="${r(productUrl(p))}">${esc(p.name)} <span class="arrow-swap">${icons.arrow(16)}${icons.arrow(16)}</span></a></li>`)}</ul>
-        </div>
-      </article>
-    </div>
-    <p class="section-more"><a class="link-arrow" href="${r('automaty.html')}">Všechny automaty a parametry ${icons.arrow(18)}</a></p>
-  </div>
-</section>
-
 <section class="section section--alt" aria-labelledby="sluzby-h">
   <div class="wrap">
     <div class="section-head">
