@@ -58,6 +58,32 @@ export const media = {
     reducedMotion: 'chapter posters only; optional manual playback',
   },
 
+  // VIDEO D: single glass-front machine, full view moving into close-ups.
+  // Same file as the first hero clip (identical MD5); now used only here.
+  chilledTour: {
+    alias: 'chilled-machine-tour',
+    original: 'PixVerse_V6_Image_Text_540P_create_me_a_vide_w.mp4',
+    association: 'automaty/chlazeny-automat-na-potraviny.html#prohlidka',
+    product: 'chlazeny-automat-na-potraviny',
+    width: 624,
+    height: 1024,
+    sourceRange: [0, 4.45],
+    // Excluded: 1.9–3.8 s finger on the screen and phone payment (payment
+    // methods are not confirmed); 4.4–5.9 s a spiral drops a snack (the
+    // product is listed with elevator dispensing); 6.0–7.04 s hand at the
+    // pickup door.
+    keyframes: 'every 6 frames (0.25 s)',
+    chapters: [
+      // The camera moves in immediately, so the whole machine is shown as a
+      // still (frame 0.05 s) rather than footage that ends zoomed in.
+      { id: 'automat', poster: 'assets/video/chilled-machine-tour-ch1.webp' },
+      { id: 'displej', range: [0.92, 1.8], source: [0.92, 1.8], poster: 'assets/video/chilled-machine-tour-ch2.webp' },
+      { id: 'zbozi', range: [3.98, 4.28], source: [3.98, 4.28], poster: 'assets/video/chilled-machine-tour-ch3.webp' },
+    ],
+    mode: 'chapter-triggered playback, runs once per chapter and holds the last frame',
+    reducedMotion: 'chapter posters only; optional manual playback',
+  },
+
   // VIDEO C: two glass-front cabinets with a central control area.
   doubleDetails: {
     alias: 'double-machine-details',

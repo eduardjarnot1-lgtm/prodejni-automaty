@@ -476,6 +476,17 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
   .seq--square .seq__frame { max-width: min(100%, 420px); }
 }
 
+.seq__jump {
+  all: unset; cursor: pointer; display: inline; font: inherit; color: inherit; text-align: left;
+  border-radius: 4px; transition: color var(--dur-fast) var(--ease-out);
+}
+.seq__jump:hover { text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+.seq__jump:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.seq--dark .seq__jump:focus-visible { outline-color: #9fd3a7; }
+/* Photo-only tour (no matching footage): photos on a quiet light panel. */
+.seq--photos .seq__frame { -webkit-mask-image: none; mask-image: none; border-radius: 22px; overflow: hidden; background: var(--white); max-width: min(100%, 460px); }
+.seq--photos .media-label { z-index: 2; }
+
 /* ---------- Teaser: static poster linking to a full presentation ---------- */
 .teaser {
   display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr); gap: 20px; align-items: center;

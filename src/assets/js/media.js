@@ -296,7 +296,12 @@
     var items = Array.prototype.slice.call(section.querySelectorAll('.seq__chapter'));
     var ranges = JSON.parse(section.getAttribute('data-chapters'));
     var visual = section.querySelector('.seq__frame');
-    var clip = new Clip(video);
+    // Without matching footage the tour shows photographs only.
+    var clip = video ? new Clip(video) : {
+      failed: false, stop: function () {}, playing: function () { return false; },
+      load: function () { return Promise.resolve(); }, playRange: function () { return Promise.reject(new Error('no video')); },
+      seekTo: function () {}, destroy: function () {},
+    };
     var triggers = [];
     var observers = [];
     var current = 0;
@@ -305,7 +310,7 @@
     var runToken = 0;
     var state = 'idle'; // idle | playing | done
 
-    clip.onFail = function () { btn.hidden = true; showLayer(current); };
+    clip.onFail = function () { if (btn) btn.hidden = true; showLayer(current); };
 
     function showLayer(i) {
       layers.forEach(function (l, k) { l.classList.toggle('is-on', k === i); });
@@ -365,6 +370,7 @@
     function stopAll() { runToken++; clip.stop(); state = 'idle'; showLayer(current); updateButton(); }
 
     function updateButton() {
+      if (!btn) return;
       if (clip.failed) { btn.hidden = true; return; }
       if (mode === 'scroll' && auto) { setButton(btn, 'pause', 'Vypnout pohyb videa'); return; }
       if (state === 'playing') setButton(btn, 'pause', 'Pozastavit video');
@@ -433,7 +439,7 @@
           triggers.push({ kill: function () { window.removeEventListener('scroll', onScroll); } });
           pick();
         }
-      } else if (auto) {
+      } else if (auto && video) {
         // Mobile: play the whole selection once when the visual is in view.
         var once = new IntersectionObserver(function (entries) {
           if (entries[entries.length - 1].isIntersecting && state === 'idle') {
@@ -447,12 +453,28 @@
       if (ST()) ST().refresh();
     }
 
-    btn.addEventListener('click', function () {
+    if (btn) btn.addEventListener('click', function () {
       if (mode === 'scroll' && auto) { setPrefOff(true); return; }
       if (state === 'playing') { stopAll(); return; }
       if (mode === 'scroll' && !mqReduce.matches && prefOff()) { setPrefOff(false); return; }
       clip.load().catch(function () {});
       playAll(state === 'done' ? 0 : current);
+    });
+
+    // Chapter buttons (keyboard and pointer). Desktop: scroll the chapter to
+    // the activation line, so scrolling and choosing stay in sync. Mobile:
+    // show (and, with motion allowed, play) that chapter directly.
+    section.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-jump]');
+      if (!b || !section.contains(b)) return;
+      var i = Number(b.getAttribute('data-jump'));
+      if (mode === 'scroll') {
+        var top = items[i].getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.5;
+        window.scrollTo({ top: top, behavior: mqReduce.matches ? 'auto' : 'smooth' });
+      } else {
+        if (auto && video) clip.load().catch(function () {});
+        chapter(i, 1);
+      }
     });
 
     var onChange = function () { setup(); };

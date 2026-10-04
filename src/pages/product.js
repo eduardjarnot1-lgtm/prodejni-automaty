@@ -4,30 +4,14 @@ import { esc, join } from '../lib/html.js';
 import { icons } from '../lib/icons.js';
 import { site } from '../data/site.js';
 import { categories, publishedProducts, productUrl } from '../data/products.js';
-import { chapterSequence, mediaTeaser } from '../lib/media-markup.js';
+import { productTour, mediaTeaser } from '../lib/media-markup.js';
 import { media } from '../data/media.js';
 import { pageHead, priceBlock, specTable, button, inquiryHref, phoneLink, contactBand, productCard, productGallery } from '../lib/components.js';
 
-// Product-specific video presentations (see src/data/media.js). Video B is
-// attached only to the automatic locker system: it shows one particular
-// cabinet, not every modular arrangement.
-function extraBefore(r, p) {
-  if (p.slug !== 'automaticky-boxovy-system') return '';
-  return `<div class="wrap">${chapterSequence(r, 'lockerShowcase', {
-    id: 'prohlidka',
-    tone: 'dark',
-    eyebrow: 'Vizuální prohlídka',
-    title: 'Boxový systém zblízka',
-    intro: 'Ilustrační vizualizace jednoho provedení. Skutečné uspořádání schránek navrhneme podle vašich požadavků.',
-    chapters: [
-      { title: 'Celá skříň', text: 'Uzamykatelné schránky pro výdej připraveného zboží. Počet a uspořádání schránek odpovídá konfiguraci, kterou s vámi navrhneme.' },
-      { title: 'Schránky a ovládací panel', text: 'Dveře schránek v ocelovém nebo průhledném provedení, chlazení v rozsahu 2–8 °C. Vybavení ovládacího panelu upřesníme v nabídce.' },
-      { title: 'Ilustrační umístění v interiéru', text: 'Například pro výdej předem objednaných jídel a nákupů nebo pro firemní a areálové stravování. Požadavky na místo instalace projdeme předem.' },
-    ],
-    after: `<p class="seq__cta"><a class="btn btn--primary" href="${inquiryHref(r, 'poptat-' + p.slug)}">Nezávazně poptat tento automat</a></p>`,
-  })}</div>`;
-}
-
+// Section order on every product page:
+//   1 title + introduction, 2 photos/summary/price/inquiry, 3 dark visual
+//   tour (src/data/tours.js), 4 benefits + suitable use, 5 optional equipment
+//   + technical parameters, 6 related products + contact.
 function extraAfter(r, p) {
   if (p.slug !== 'chlazeny-automat-na-potraviny') return '';
   return `<section class="section section--tight" aria-labelledby="sestava-h">
@@ -87,7 +71,7 @@ ${pageHead({
   </aside>
 </div>
 
-${extraBefore(r, p)}
+${productTour(r, p, inquiryHref)}
 <div class="wrap product-info">
   ${p.benefits.length ? `<section aria-labelledby="prednosti-h">
     <h2 id="prednosti-h">Přednosti</h2>
