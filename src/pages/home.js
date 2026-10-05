@@ -160,8 +160,8 @@ function aiSection(r) {
     ${mediaTeaser(r, {
       poster: media.haha542Tour.posterSmall, width: 480, height: 480,
       eyebrow: 'Vizuální prohlídka',
-      title: `${pro.name} zblízka`,
-      text: 'Ilustrační vizualizace vytvořená pomocí AI, od detailu polic po celkové provedení. Rozpoznávání zboží ve videu neuvidíte.',
+      title: 'Pro 542: chytrý nákup krok za krokem',
+      text: 'Ilustrační AI vizualizace principu rozpoznávání produktů a automatického dokončení nákupu. Skutečné provedení a funkce se mohou lišit podle konfigurace.',
       href: r(productUrl(pro) + '#prohlidka'),
       cta: 'Zobrazit prohlídku',
     })}

@@ -93,9 +93,13 @@ export function chapterSequence(r, key, { id, eyebrow, title, intro, chapters, t
     </div>
     <ol class="seq__chapters">
       ${join(chapters, (c, i) => `<li class="seq__chapter${i === 0 ? ' is-active' : ''}" data-ch="${i}"${m && m.continuous ? ` style="--dur: ${(m.chapters[i].range[1] - m.chapters[i].range[0]).toFixed(2)}"` : ''}>
-        <span class="seq__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
-        <h3><button class="seq__jump" type="button" data-jump="${i}">${esc(c.title)}</button></h3>
-        <p>${c.html || esc(c.text)}</p>
+        <div class="seq__chapter-body">
+          <span class="seq__num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+          <h3><button class="seq__jump" type="button" data-jump="${i}">${esc(c.title)}</button></h3>
+          <p>${c.html || esc(c.text)}</p>
+          ${c.qual ? `<p class="seq__qual">${esc(c.qual)}</p>` : ''}
+          ${c.ctaHtml || ''}
+        </div>
       </li>`)}
     </ol>
   </div>
@@ -108,17 +112,19 @@ export function chapterSequence(r, key, { id, eyebrow, title, intro, chapters, t
 export function productTour(r, p, inquiryHref) {
   const t = tours[p.slug];
   if (!t) return '';
+  const cta = `<a class="btn btn--primary seq__chapter-cta" href="${inquiryHref(r, 'poptat-' + p.slug)}">${esc(p.cta || 'Nezávazně poptat tento automat')}</a>`;
   return `<div class="wrap">${chapterSequence(r, t.media || null, {
     id: 'prohlidka',
     tone: 'dark',
     eyebrow: 'Vizuální prohlídka',
     title: t.title,
     intro: t.intro,
-    chapters: t.chapters,
+    // A chapter with `cta: true` carries the inquiry button itself.
+    chapters: t.chapters.map((c) => (c.cta ? { ...c, ctaHtml: cta } : c)),
     photos: t.photos || null,
     note: t.note || null,
     label: t.label === undefined ? 'Ukázka provedení' : t.label,
-    after: `<p class="seq__cta"><a class="btn btn--primary" href="${inquiryHref(r, 'poptat-' + p.slug)}">${esc(p.cta || 'Nezávazně poptat tento automat')}</a></p>`,
+    after: t.chapters.some((c) => c.cta) ? '' : `<p class="seq__cta">${cta}</p>`,
   })}</div>`;
 }
 

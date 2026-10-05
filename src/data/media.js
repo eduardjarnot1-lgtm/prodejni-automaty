@@ -86,46 +86,53 @@ export const media = {
     reducedMotion: 'chapter posters; optional manual playback of the full clip',
   },
 
-  // VIDEO E: HAHA VENDING Pro 542. One continuous camera move from the
-  // stocked shelves back to the complete cabinet (no hard cut). Edited
-  // derivative = source frames 32–120 (1.333–5.042 s): the English
-  // specification board and the opening morph are removed (its figures
-  // differ from the brochure and are never used), audio removed, frame rate,
-  // speed and square framing kept. Two delivery sizes of the SAME edit; the
-  // player picks one before loading (`files[].media`), never both.
+  // VIDEO E: HAHA VENDING Pro 542, used COMPLETE (0–8.04 s, 193 frames,
+  // no trimming). Scenes in the footage:
+  //   0–0.25 s  English specification board fading out (its figures differ
+  //             from the brochure and are never used as specifications)
+  //   0.25–1 s  "AI-powered smart vending" title, machine, camera moves closer
+  //   1–3.85 s  shelves close up, green outlines + "AI product recognition"
+  //   3.85–6.5 s camera widens; icons and the Swipe/Tap → Grab Items →
+  //             Auto Checkout captions (partly malformed lettering)
+  //   6.5–8.04 s circle transition into the final "24H Smart Vending" shot
+  // Two delivery sizes of the same clip; the player picks one before loading.
+  // `duration` is a fallback: media.js reads the real one from loadedmetadata.
   haha542Tour: {
-    alias: 'haha-pro-542',
-    original: 'PixVerse_V6_Image_Text_540P_Create_a_6second_p.mp4',
+    alias: 'haha-pro-542-tour',
+    original: 'PixVerse_V6_Image_Text_540P_Create_an_8second_.mp4',
     association: 'automaty/haha-vending-pro-542.html#prohlidka (+ static poster in index.html#automaty-s-ai)',
     product: 'haha-vending-pro-542',
     width: 1024,
     height: 1024,
-    sourceRange: [1.333333, 5.041667],
-    sourceFrames: [32, 120],
+    sourceRange: [0, 8.041667],
     continuous: true,
-    duration: 3.708,
+    duration: 8.041667,
     keyframes: 'web: every frame (scroll scrubbing); mobile: every 6 frames',
     files: [
-      { src: 'assets/video/haha-pro-542-web.mp4', type: 'video/mp4; codecs="avc1.640020"', media: '(min-width: 900px)' },
-      { src: 'assets/video/haha-pro-542-web.webm', type: 'video/webm; codecs="vp9"', media: '(min-width: 900px)' },
-      { src: 'assets/video/haha-pro-542-mobile.mp4', type: 'video/mp4; codecs="avc1.64001F"' },
-      { src: 'assets/video/haha-pro-542-mobile.webm', type: 'video/webm; codecs="vp9"' },
+      { src: 'assets/video/haha-pro-542-tour-web.mp4', type: 'video/mp4; codecs="avc1.640020"', media: '(min-width: 900px)' },
+      { src: 'assets/video/haha-pro-542-tour-web.webm', type: 'video/webm; codecs="vp9"', media: '(min-width: 900px)' },
+      { src: 'assets/video/haha-pro-542-tour-mobile.mp4', type: 'video/mp4; codecs="avc1.64001F"' },
+      { src: 'assets/video/haha-pro-542-tour-mobile.webm', type: 'video/webm; codecs="vp9"' },
     ],
-    poster: 'assets/video/haha-pro-542-poster.webp', // final frame, complete machine
-    posterSmall: 'assets/video/haha-pro-542-poster-480.webp',
-    // Boundary at 1.5 s: the cabinet top enters at ~1.3 s and the whole upper
-    // cabinet is in view by ~1.6 s (continuous move, no cut).
+    poster: 'assets/video/haha-pro-542-tour-poster.webp', // final frame
+    posterSmall: 'assets/video/haha-pro-542-tour-poster-480.webp',
+    // Boundaries at visual changes (frame-checked): 1.0 s green outlines
+    // start, 3.85 s camera widens, 6.5 s the step icons are gone and the
+    // closing transition begins.
     chapters: [
-      { id: 'police', range: [0, 1.5], poster: 'assets/video/haha-pro-542-ch1.webp' },
-      { id: 'celek', range: [1.5, 3.708], poster: 'assets/video/haha-pro-542-poster.webp' },
+      { id: 'automat', range: [0, 1.0], poster: 'assets/video/haha-pro-542-tour-ch1.webp' },
+      { id: 'rozpoznavani', range: [1.0, 3.85], poster: 'assets/video/haha-pro-542-tour-ch2.webp' },
+      { id: 'nakup', range: [3.85, 6.5], poster: 'assets/video/haha-pro-542-tour-ch3.webp' },
+      { id: 'zaver', range: [6.5, 8.041667], poster: 'assets/video/haha-pro-542-tour-poster.webp' },
     ],
-    // Mobile / reduced motion: final-frame poster, playback only on request.
+    // Mobile / reduced motion: final-frame poster, playback on request with
+    // chapters following the video.
     startOnRequest: true,
     labels: { play: 'Přehrát prohlídku', pause: 'Pozastavit prohlídku', replay: 'Přehrát znovu' },
-    scrollPerSecond: '26vh',
-    mode: 'continuous scroll scrub over the full edit (desktop); poster + "Přehrát prohlídku", full playback once, hold, replay (mobile)',
-    reducedMotion: 'final-frame poster; optional manual playback',
-    note: 'Ilustrační vizualizace vytvořená pomocí AI. Skutečné provedení a výbavu upřesníme v nabídce.',
+    scrollPerSecond: '36vh',
+    mode: 'continuous scroll scrub over the full clip (desktop, sticky video); poster + "Přehrát prohlídku", full playback once, pause/resume, replay (mobile)',
+    reducedMotion: 'final-frame poster and all chapter text; optional manual playback',
+    note: 'Ilustrační AI vizualizace. Skutečné provedení a funkce se mohou lišit podle konfigurace.',
   },
 
   // VIDEO C: two glass-front cabinets with a central control area.

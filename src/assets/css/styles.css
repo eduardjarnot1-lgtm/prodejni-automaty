@@ -1098,3 +1098,18 @@ html.zt-loading, html.zt-loading * { cursor: progress; }
   -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 76%, transparent 100%);
   mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 76%, transparent 100%);
 }
+
+/* Chapter qualification and in-chapter inquiry button (Pro 542 tour). */
+.seq__qual { margin-top: 0.5rem; font-size: var(--fs-sm); }
+.seq--dark .seq__chapter .seq__qual { color: #8b9096; }
+.seq--dark .seq__chapter.is-active .seq__qual { color: rgba(244, 245, 246, 0.72); }
+.seq__chapter-cta { margin-top: 1.1rem; }
+
+/* Chapter text wrapper; the number keeps its place in the left gutter. */
+.seq__chapter-body { position: relative; }
+.seq__chapter-body .seq__num { left: -3.25rem; }
+/* Scroll scrubbing (desktop): a chapter is as long as its part of the
+   video, so its text stays in view (sticky) while that part plays. */
+@media (min-width: 900px) {
+  .seq.is-scrub .seq__chapter-body { position: sticky; top: 38vh; }
+}

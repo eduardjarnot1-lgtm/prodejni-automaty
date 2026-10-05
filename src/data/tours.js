@@ -44,16 +44,32 @@ export const tours = {
     ],
   },
   'haha-vending-pro-542': {
-    // Video E (edited clip, no specification board). Chapters describe only
-    // what the footage shows: shelves, then the complete cabinet. No payment,
-    // door opening, recognition or app is shown, so none is claimed here.
-    // The product photographs stay in the gallery above.
+    // Video E, complete clip. Chapters follow its scenes. The English
+    // captions in the footage are explained, not transcribed (some words are
+    // malformed). No accuracy, timing or other figures are taken from it.
     media: 'haha542Tour',
-    title: 'Pro 542 zblízka',
-    intro: 'Prohlédněte si ilustrační vizualizaci automatu od detailu polic po celkové provedení.',
+    title: 'Pro 542: chytrý nákup krok za krokem',
+    intro: 'Prohlédněte si princip rozpoznávání produktů pomocí AI a automatického dokončení nákupu.',
     chapters: [
-      { title: 'Detail polic', text: 'Záběr začíná u polic se zbožím za prosklenými dveřmi. Automat má šest polic, které lze přizpůsobit různým tvarům a velikostem balení.' },
-      { title: 'Celkové provedení', text: 'Kamera se vzdálí až k celému automatu. Rozměry 750 × 650 × 2020 mm (š × h × v) a další údaje najdete v technických parametrech níže.' },
+      {
+        title: 'Chytrý prodejní automat',
+        text: 'Pro 542 propojuje přehlednou nabídku zboží s nákupním procesem využívajícím AI.',
+        qual: 'Úvodní tabulka ve videu je součástí vizualizace. Platné technické parametry najdete níže.',
+      },
+      {
+        title: 'Rozpoznávání produktů pomocí AI',
+        text: 'AI pomáhá rozpoznat odebrané produkty. Zelené zvýraznění ve videu ilustruje princip rozpoznávání; nejde o skutečné světelné efekty uvnitř automatu.',
+      },
+      {
+        title: 'Přiložení, výběr a automatické vyúčtování',
+        text: 'Video představuje postup Swipe / Tap → Grab Items → Auto Checkout: zahájení nákupu kartou nebo telefonem, odebrání zboží a automatické vyúčtování.',
+        qual: 'Konkrétní průběh a podporované platební metody ověříme podle dodané konfigurace.',
+      },
+      {
+        title: 'Prohlédněte si Pro 542',
+        text: 'Probereme s vámi vhodnost automatu pro váš provoz, jeho výbavu a možnosti dodání.',
+        cta: true,
+      },
     ],
   },
 };

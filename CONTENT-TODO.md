@@ -45,10 +45,10 @@ form until confirmed.
       (low resolution: front view only 212 px wide). Wanted: higher-resolution
       views and, optionally, a clean AI VENDING app screenshot without
       third-party store data (tour chapter 03 is a placeholder).
-- [ ] **HAHA VENDING Pro 542 – video**: the edited files mentioned in the
-      brief were not attached; equivalents were encoded from the original
-      upload to the same spec (frames 32–120, silent). Replace them if the
-      supplied edit differs. Watermark (PixVerse) kept.
+- [ ] **HAHA VENDING Pro 542 – video**: AI-generated (PixVerse), watermark
+      kept, opening spec board with figures that contradict the brochure,
+      partly malformed English captions. Replace with an authorised clean
+      export if available.
 - [ ] **HAHA VENDING Pro 542 – self-closing door**: shown in the manufacturer
       detail image but not in the brochure; not claimed in the text.
 - [ ] **HAHA VENDING Pro 542 – certification**: CE/RoHS not mentioned on the

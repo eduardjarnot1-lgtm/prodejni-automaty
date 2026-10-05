@@ -554,6 +554,14 @@
       });
     }
 
+    // The real duration comes from the file (data-continuous is a fallback).
+    video.addEventListener('loadedmetadata', function () {
+      if (isFinite(video.duration) && video.duration > 0) {
+        duration = video.duration;
+        ranges[ranges.length - 1][1] = duration;
+      }
+    });
+
     clip.onFrame = function () { if (mode === 'scroll') hideLayers(); };
     clip.onFail = function () {
       if (btn) btn.hidden = true;
@@ -596,7 +604,7 @@
       // Short smoothing so wheel steps glide; reverses naturally.
       if (window.gsap) {
         if (tween) tween.kill();
-        tween = window.gsap.to(proxy, { t: t, duration: 0.25, ease: 'power1.out', onUpdate: function () { clip.seekTo(proxy.t); } });
+        tween = window.gsap.to(proxy, { t: t, duration: 0.15, ease: 'power1.out', onUpdate: function () { clip.seekTo(proxy.t); } });
       } else {
         proxy.t = t;
         clip.seekTo(t);
