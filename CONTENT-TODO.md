@@ -41,9 +41,12 @@ form until confirmed.
       of 330 ml cans); the English marketing image says 5.96 kWh/24 h and
       324+ bottles. The website uses the **brochure** values. Confirm with
       the manufacturer.
-- [ ] **HAHA VENDING Pro 542 – images**: main photo, additional views,
-      detail images, optional app screenshots (placeholders shown now; see
-      README → “HAHA VENDING Pro 542 – images”).
+- [ ] **HAHA VENDING Pro 542 – images**: three client photos are in use
+      (low resolution: front view only 212 px wide). Wanted: higher-resolution
+      views and, optionally, a clean AI VENDING app screenshot without
+      third-party store data (tour chapter 03 is a placeholder).
+- [ ] **HAHA VENDING Pro 542 – self-closing door**: shown in the manufacturer
+      detail image but not in the brochure; not claimed in the text.
 - [ ] **HAHA VENDING Pro 542 – certification**: CE/RoHS not mentioned on the
       site. Add only if the manufacturer documents it (attributed to the
       manufacturer).

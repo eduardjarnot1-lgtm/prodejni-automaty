@@ -78,7 +78,39 @@ export const photos = [
     product: null,
     note: 'Batch 2, cropped from a screenshot of the old site (548 px). Manufacturer mock-up with English text "Refrigerated Locker 24/7" and "Put Your Brand Here" – does not imply 24/7 operation or a branding service. Model not confirmed.',
   },
+  // HAHA VENDING Pro 542: photos supplied by the client (manufacturer
+  // material). Unmodified uploads: media/source/haha-vending-pro-542/.
+  // Assigned to the product, so they are never used as category examples.
+  // The "24H SMART VENDING" print is the manufacturer's design; the website
+  // does not promise 24/7 operation. The English marketing image
+  // (marketing-pro-542-en.png) is not used: its figures (5.96 kWh/24 h,
+  // 324+ bottles) contradict the brochure.
+  {
+    id: 'haha-pro-542-celkovy-pohled',
+    title: 'HAHA VENDING Pro 542',
+    alt: 'Prodejní automat HAHA VENDING Pro 542 v tmavém provedení: prosklené dveře, šest polic s nápoji a svačinami a platební terminál na dveřích',
+    category: 'chlazene-automaty',
+    product: 'haha-vending-pro-542',
+    note: 'Client upload, three-quarter view on white background (418 × 776 px).',
+  },
+  {
+    id: 'haha-pro-542-pohled-zepredu',
+    title: 'Pohled zepředu',
+    alt: 'HAHA VENDING Pro 542 zepředu: prosklené dveře, šest polic se zbožím a platební terminál',
+    category: 'chlazene-automaty',
+    product: 'haha-vending-pro-542',
+    note: 'Client upload, front view against a grey wall (low resolution, 212 × 488 px).',
+  },
+  {
+    id: 'haha-pro-542-detaily',
+    title: 'Detaily provedení (materiál výrobce)',
+    alt: 'Materiál výrobce s anglickými popisky: detail kamery pro rozpoznávání zboží, hliníkového rámu, vyhřívaných dveří proti zamlžení a samozavíracích dveří',
+    category: 'chlazene-automaty',
+    product: 'haha-vending-pro-542',
+    note: 'Client upload "Clear · Long-Lasting · Secure", headline cropped off (y 105–701). English labels kept. Self-closing door is not in the brochure, so it is not claimed in the text.',
+  },
 ];
 
 export const photoById = (id) => photos.find((p) => p.id === id);
-export const photosByCategory = (cat) => photos.filter((p) => p.category === cat);
+// Category examples only: photos assigned to a product belong to that product.
+export const photosByCategory = (cat) => photos.filter((p) => p.category === cat && !p.product);

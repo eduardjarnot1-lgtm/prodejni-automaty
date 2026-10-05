@@ -164,10 +164,9 @@ export const products = [
     ],
     specsNote: 'Parametry podle podkladů výrobce. Automat je chlazený, není určen pro mražené zboží.',
     price: { type: 'inquiry' },
-    photos: [],
+    photos: ['haha-pro-542-celkovy-pohled', 'haha-pro-542-pohled-zepredu', 'haha-pro-542-detaily'],
     noExamplePhotos: true,
-    // Image slots awaiting the client's photos (see README → Pro 542 images).
-    photoSlots: ['hlavní fotografie', 'další pohledy', 'detaily', 'snímky aplikace (volitelné)'],
+    // Still missing: higher-resolution views, app screenshots (optional).
   },
   {
     slug: 'automaticky-boxovy-system',

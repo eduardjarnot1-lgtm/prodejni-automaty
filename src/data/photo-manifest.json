@@ -80,5 +80,39 @@
         "file": "chlazeny-automat-dvojita-sestava-705.webp"
       }
     ]
+  },
+  "haha-pro-542-celkovy-pohled": {
+    "width": 418,
+    "height": 776,
+    "variants": [
+      {
+        "w": 418,
+        "file": "haha-pro-542-celkovy-pohled-418.webp"
+      }
+    ]
+  },
+  "haha-pro-542-detaily": {
+    "width": 700,
+    "height": 596,
+    "variants": [
+      {
+        "w": 480,
+        "file": "haha-pro-542-detaily-480.webp"
+      },
+      {
+        "w": 700,
+        "file": "haha-pro-542-detaily-700.webp"
+      }
+    ]
+  },
+  "haha-pro-542-pohled-zepredu": {
+    "width": 212,
+    "height": 488,
+    "variants": [
+      {
+        "w": 212,
+        "file": "haha-pro-542-pohled-zepredu-212.webp"
+      }
+    ]
   }
 }

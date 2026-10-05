@@ -62,23 +62,22 @@ category example photos; neutral placeholders until own photos arrive).
 
 ### HAHA VENDING Pro 542 – images
 
-`automaty/haha-vending-pro-542.html` currently shows neutral placeholders
-(“Fotografie bude doplněna”). No photo or video of another machine is used.
-Slots waiting for the client's images:
+Client uploads (unchanged) are kept in `media/source/haha-vending-pro-542/`;
+the web versions are in `media/originals/` (`haha-pro-542-*`):
 
-| Slot | Where it appears | How to fill it |
-| --- | --- | --- |
-| Main photo | catalogue card, product gallery (first image) | `photos: ['<id>', …]` in `products.js` |
-| Additional views | product gallery thumbnails | further ids in `photos` |
-| Detail images (shelves, door) | “Pro 542 zblízka” chapters 01–02 | replace `{ slot }` in `tours.js` with photo ids |
-| App screenshots (optional) | “Pro 542 zblízka” chapter 03 | replace `{ slot }` in `tours.js` |
+| Photo | Use |
+| --- | --- |
+| `haha-pro-542-celkovy-pohled` (three-quarter view) | catalogue card, first gallery image |
+| `haha-pro-542-pohled-zepredu` (front view) | gallery, tour chapter 01 |
+| `haha-pro-542-detaily` (manufacturer detail image, headline cropped, English labels) | gallery, tour chapter 02 |
+| *placeholder* – AI VENDING app screenshot (optional) | tour chapter 03 (`{ slot }` in `tours.js`) |
 
-Steps: put originals into `media/originals/`, run `npm run images`, add
-entries with Czech `alt` to `src/data/photos.js` (`product:
-'haha-vending-pro-542'`), then reference the ids as above. Images keep
-their aspect ratio (object-fit: contain) and the manifest supplies width
-and height, so the layout does not shift. Photos illustrate the machine;
-captions must not present them as proof of the recognition accuracy.
+Not used: the English marketing image (`marketing-pro-542-en.png`), because
+its figures contradict the brochure. Photos assigned to a product
+(`product` in `photos.js`) are never used as category examples. To add or
+replace photos: put the file into `media/originals/`, run `npm run images`,
+add an entry with Czech `alt` to `photos.js` and reference the id. Captions
+must not present photos as proof of the recognition accuracy.
 
 The homepage section “Jak fungují automaty s AI” (`index.html#automaty-s-ai`,
 `src/pages/home.js → aiSection`) is shown while a published product has

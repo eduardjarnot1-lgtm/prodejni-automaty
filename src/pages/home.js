@@ -16,7 +16,8 @@ function featured() {
   return categories
     .map((k) => {
       const items = publishedProducts.filter((p) => p.category === k.key);
-      const withPhoto = items.find((p) => p.photos.length);
+      // A product photo only stands for the category when it is its only product.
+      const withPhoto = items.length === 1 ? items.find((p) => p.photos.length) : null;
       const example = photosByCategory(k.key)[0];
       return {
         key: k.key,
