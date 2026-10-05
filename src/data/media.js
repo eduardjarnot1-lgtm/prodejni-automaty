@@ -128,7 +128,7 @@ export const media = {
   haha542Tour: {
     alias: 'haha-pro-542-tour',
     original: 'PixVerse_V6_Image_Text_540P_Create_an_8second_.mp4',
-    association: 'automaty/haha-vending-pro-542.html#prohlidka (+ static poster in index.html#automaty-s-ai)',
+    association: 'automaty/haha-vending-pro-542.html#prohlidka (+ static poster in ai-automaty.html#jak-probiha-nakup)',
     product: 'haha-vending-pro-542',
     width: 1024,
     height: 1024,

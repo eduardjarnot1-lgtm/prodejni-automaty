@@ -28,7 +28,7 @@ src/data/products.js    products, specs, prices, optional equipment
 src/data/services.js    services and the cooperation process
 src/data/photos.js      photo registry (alt texts, category, product assignment)
 src/lib/                layout, reusable components, icons
-src/pages/              page templates (product.js = product detail template)
+src/pages/              page templates (product.js = product detail template, ai.js = AI automaty)
 src/assets/             CSS, JS, GSAP (vendor/), optimized images (font: Georgia, serif – system font, no files)
 media/originals/        original photos (source for npm run images)
 scripts/                build, image optimization, link check, dev server
@@ -81,9 +81,15 @@ replace photos: put the file into `media/originals/`, run `npm run images`,
 add an entry with Czech `alt` to `photos.js` and reference the id. Captions
 must not present photos as proof of the recognition accuracy.
 
-The homepage section “Jak fungují automaty s AI” (`index.html#automaty-s-ai`,
-`src/pages/home.js → aiSection`) is shown while a published product has
-`ai` data and links to it.
+The page “AI automaty” (`ai-automaty.html`, `src/pages/ai.js`, nav item
+between Úvod and Automaty) explains purchasing with AI recognition, price and
+assortment management, sales/stock, restocking, remote management and a FAQ.
+It replaced the former homepage section `#automaty-s-ai`; the homepage keeps
+three benefits and links to it (“Jak fungují AI automaty”). It uses the
+published product with `ai` data (Pro 542) for its links.
+
+The header shows the full navigation from 1241 px; narrower screens use the
+“Menu” button (six items no longer fit beside the centred logo below that).
 
 ## Inquiry form
 
@@ -181,7 +187,7 @@ mode, reduced-motion fallback) are in `src/data/media.js`. Markup:
 | PixVerse_V6_Image_Text_540P_Create_a_premium_c.mp4 | hero-single-machine-orbit | not used since the AI-led homepage (record kept in media.js) | 0.25–1.40 s | Scroll scrub hero (available via `heroStage(r, text, 'heroOrbit')`) |
 | PixVerse_V6_Image_Text_540P_Create_a_premium_p.mp4 | locker-cabinet-showcase | automaticky-boxovy-system.html#prohlidka; poster in automaty.html#boxove-systemy | 0.25–1.0 / 1.25–2.45 / 2.75–4.0 s | Chapter playback, each chapter once, holds last frame |
 | PixVerse_V6_Image_Text_540P_create_me_a_vide_w.mp4 | chilled-machine-tour (complete, all-intra) | chlazeny-automat-na-potraviny.html#prohlidka | entire clip 0–7.04 s; 5 chapters follow the footage | Desktop: scroll mapped to the full duration; mobile: plays once in full, holds, replay |
-| PixVerse_V6_Image_Text_540P_Create_an_8second_.mp4 | haha-pro-542-tour-web (1024², all-intra) / haha-pro-542-tour-mobile (720², keyframe every 6) + `.webm` fallbacks; poster = final frame | haha-vending-pro-542.html#prohlidka; static poster in index.html#automaty-s-ai | entire clip 0–8.04 s; chapters 0–1.0 / 1.0–3.85 / 3.85–6.5 / 6.5–end | Desktop: scroll mapped to the full duration (~3.7 viewport heights, sticky video and chapter text); mobile/reduced motion: final-frame poster, “Přehrát prohlídku”, plays once with chapters following, pause/resume, “Přehrát znovu” |
+| PixVerse_V6_Image_Text_540P_Create_an_8second_.mp4 | haha-pro-542-tour-web (1024², all-intra) / haha-pro-542-tour-mobile (720², keyframe every 6) + `.webm` fallbacks; poster = final frame | haha-vending-pro-542.html#prohlidka; static poster in ai-automaty.html#jak-probiha-nakup | entire clip 0–8.04 s; chapters 0–1.0 / 1.0–3.85 / 3.85–6.5 / 6.5–end | Desktop: scroll mapped to the full duration (~3.7 viewport heights, sticky video and chapter text); mobile/reduced motion: final-frame poster, “Přehrát prohlídku”, plays once with chapters following, pause/resume, “Přehrát znovu” |
 
 Hero video: the brief named an enhanced 928 × 928 version
 (`haha-pro-542-orbit-neural-v2.mp4`) and a supplied poster; only the

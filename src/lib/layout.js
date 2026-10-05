@@ -8,6 +8,10 @@ import { button, emailLink, inquiryHref, phoneLink } from './components.js';
 
 const c = site.contact;
 
+// Items left of the logo; the last two sit to its right, next to the
+// inquiry button and phone (the right side is the busier one).
+const NAV_SPLIT = site.nav.length - 2;
+
 export function layout({ r, path, navKey, title, description, body, preview = false }) {
   const fullTitle = `${title} | ${site.brandName}`;
   const canonical = site.baseUrl ? `${site.baseUrl.replace(/\/$/, '')}/${path}` : '';
@@ -49,11 +53,11 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
     </button>
     <nav class="site-nav" id="hlavni-navigace" aria-label="Hlavní navigace">
       <ul class="site-nav__list site-nav__list--start">
-        ${join(site.nav.slice(0, 3), (n) => `<li><a href="${r(n.href)}"${n.key === navKey ? ' aria-current="page"' : ''}>${esc(n.label)}</a></li>`)}
+        ${join(site.nav.slice(0, NAV_SPLIT), (n) => `<li><a href="${r(n.href)}"${n.key === navKey ? ' aria-current="page"' : ''}>${esc(n.label)}</a></li>`)}
       </ul>
       <div class="site-nav__end">
         <ul class="site-nav__list">
-          ${join(site.nav.slice(3), (n) => `<li><a href="${r(n.href)}"${n.key === navKey ? ' aria-current="page"' : ''}>${esc(n.label)}</a></li>`)}
+          ${join(site.nav.slice(NAV_SPLIT), (n) => `<li><a href="${r(n.href)}"${n.key === navKey ? ' aria-current="page"' : ''}>${esc(n.label)}</a></li>`)}
         </ul>
         <div class="site-nav__actions">
           <a class="btn btn--dark" href="${inquiryHref(r)}" data-size="sm">Nezávazně poptat</a>

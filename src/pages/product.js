@@ -33,7 +33,7 @@ function aiBlock(r, p) {
       <p class="claim__value">${esc(a.accuracy)}</p>
       <p class="claim__note">${esc(a.accuracyNote)}</p>
     </div>
-    <p><a class="link-arrow" href="${r('index.html#automaty-s-ai')}">Jak fungují automaty s AI <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a></p>
+    <p><a class="link-arrow" href="${r('ai-automaty.html')}">Jak fungují AI automaty <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a></p>
   </div>
 </section>`;
 }
@@ -59,7 +59,7 @@ function remoteBlock(p) {
       </section>
       <section class="remote__panel" aria-labelledby="doplnovani-h">
         <h3 id="doplnovani-h">${esc(m.restock.title)}</h3>
-        <dl class="restock">${join(m.restock.items, (x) => `<div><dt lang="en">${esc(x.name)}</dt><dd>${esc(x.text)}</dd></div>`)}</dl>
+        <dl class="restock">${join(m.restock.items, (x) => `<div><dt>${esc(x.name)}</dt><dd>${esc(x.text)}</dd></div>`)}</dl>
       </section>
     </div>
     <p class="note">${esc(m.note)}</p>

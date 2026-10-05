@@ -25,7 +25,7 @@ export const site = {
     gsapEase: 'power2.inOut', // GSAP ease used for the zoom (gsap.com/docs/v3/Eases)
     easing: 'cubic-bezier(0.65, 0, 0.35, 1)', // same curve for the no-GSAP fallback
     reducedMotionDuration: 180, // ms, plain fade when reduced motion is preferred
-    pages: ['index.html', 'automaty.html', 'sluzby.html', 'o-nas.html', 'kontakt.html'],
+    pages: ['index.html', 'ai-automaty.html', 'automaty.html', 'sluzby.html', 'o-nas.html', 'kontakt.html'],
   },
 
   // Product videos: see src/data/media.js.
@@ -54,6 +54,7 @@ export const site = {
 
   nav: [
     { label: 'Úvod', href: 'index.html', key: 'home' },
+    { label: 'AI automaty', href: 'ai-automaty.html', key: 'ai' },
     { label: 'Automaty', href: 'automaty.html', key: 'automaty' },
     { label: 'Služby', href: 'sluzby.html', key: 'sluzby' },
     { label: 'O nás', href: 'o-nas.html', key: 'o-nas' },

@@ -5,8 +5,7 @@ import { categories, publishedProducts, productUrl, priceText } from '../data/pr
 import { photosByCategory, photoById } from '../data/photos.js';
 import { services, process } from '../data/services.js';
 import { photo, photoPlaceholder, button, inquiryHref, contactBand, phoneLink } from '../lib/components.js';
-import { heroStage, mediaTeaser } from '../lib/media-markup.js';
-import { media } from '../data/media.js';
+import { heroStage } from '../lib/media-markup.js';
 
 // Featured machines in the hero, one tab per category. A category shows a
 // photo confirmed for one of its products; otherwise the first category
@@ -118,70 +117,6 @@ function gallery(r) {
 </section>`;
 }
 
-// "Jak fungují automaty s AI" (anchor #automaty-s-ai, linked from the
-// Pro 542 page). Applies only to HAHA VENDING machines with AI recognition;
-// the other machines in the catalogue work differently. Manufacturer
-// figures are labelled as such.
-function aiSection(r) {
-  const pro = publishedProducts.find((p) => p.ai);
-  if (!pro) return '';
-  const topics = [
-    { title: 'Kamerové rozpoznávání', text: 'Kamery v automatu spolu s umělou inteligencí rozpoznají, které produkty zákazník z polic odebral.' },
-    { title: 'Více produktů najednou', text: 'Během jednoho nákupu si zákazník může vzít několik položek.' },
-    { title: 'Vyúčtování po zavření dveří', text: 'Nákup se vyúčtuje automaticky po zavření dveří. Podle výrobce trvá rozpoznání přibližně 60 sekund.' },
-    { title: 'Flexibilní sortiment', text: 'Zboží se přidává z knihovny produktů, nebo přes žádost o registraci nového produktu.' },
-  ];
-  const steps = [
-    { title: 'Přiložíte kartu nebo mobil', text: 'Podporovanou platební kartou nebo mobilem se otevřou dveře automatu.' },
-    { title: 'Vyberete si zboží', text: 'Zboží si vezmete přímo z polic, klidně i více kusů.' },
-    { title: 'AI rozpozná a vyúčtuje nákup', text: 'Po zavření dveří systém rozpozná odebrané produkty a nákup vyúčtuje.' },
-  ];
-  const ops = [
-    { title: 'Statistiky prodeje', text: 'Prodeje podle produktů, zařízení a období.' },
-    { title: 'Přehled zásob', text: 'Stav zásob a správa sortimentu a cen.' },
-    { title: 'Upozornění na doplnění', text: 'Upozornění na docházející zboží a na stav zařízení.' },
-    { title: 'Správa na dálku', text: 'Teplota, otevření dveří nebo restart automatu z aplikace.' },
-  ];
-  return `<section class="section ai-home" id="automaty-s-ai" aria-labelledby="ai-h">
-  <div class="wrap">
-    <div class="section-head section-head--stack">
-      <p class="eyebrow">Automaty s AI</p>
-      <h2 id="ai-h">Jak fungují automaty s AI</h2>
-      <p>Chytré automaty využívají kamerové rozpoznávání produktů. Zákazník si vybere zboží přímo z polic a systém rozpozná odebrané položky pro automatické vyúčtování nákupu.</p>
-    </div>
-    <ul class="ai-topics">
-      ${join(topics, (t) => `<li><h3>${esc(t.title)}</h3><p>${esc(t.text)}</p></li>`)}
-    </ul>
-    <h3 class="ai-home__sub">Nákup ve třech krocích</h3>
-    <ol class="steps steps--3">
-      ${join(steps, (s) => `<li class="step"><span class="step__bar" aria-hidden="true"></span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></li>`)}
-    </ol>
-    <p class="note">Údaje o době rozpoznání (přibližně 60 sekund) a přesnosti (až 99 %) uvádí výrobce.</p>
-    <div class="ai-ops">
-      <div class="ai-ops__head">
-        <h3>Co získá provozovatel</h3>
-        <p>Nejde o funkce umělé inteligence, ale o správu automatu v cloudové platformě AI VENDING.</p>
-      </div>
-      <ul class="ai-ops__list">
-        ${join(ops, (o) => `<li><strong>${esc(o.title)}</strong><span>${esc(o.text)}</span></li>`)}
-      </ul>
-    </div>
-    ${mediaTeaser(r, {
-      poster: media.haha542Tour.posterSmall, width: 480, height: 480,
-      eyebrow: 'Vizuální prohlídka',
-      title: 'Pro 542: chytrý nákup krok za krokem',
-      text: 'Ilustrační AI vizualizace principu rozpoznávání produktů a automatického dokončení nákupu. Skutečné provedení a funkce se mohou lišit podle konfigurace.',
-      href: r(productUrl(pro) + '#prohlidka'),
-      cta: 'Zobrazit prohlídku',
-    })}
-    <div class="ai-scope">
-      <p>Kamerové rozpoznávání nabízejí pouze automaty HAHA VENDING s AI. V naší nabídce je to model <a href="${r(productUrl(pro))}">${esc(pro.name)}</a>. Ostatní automaty v katalogu tuto funkci nemají.</p>
-      <a class="btn btn--primary" href="${r(productUrl(pro))}">Detail ${esc(pro.name)}</a>
-    </div>
-  </div>
-</section>`;
-}
-
 // Converging guide lines behind the featured machine (decorative).
 // Converging guide lines (decorative), used behind the featured machine and
 // behind the large gallery photo. cy = where the lines meet (0–700).
@@ -230,7 +165,10 @@ ${heroStage(r, `
     <ul class="benefits__list">
       ${join(benefits, (x) => `<li>${icons[x.icon](26)}<div><h3 class="benefits__h">${esc(x.title)}</h3><p>${esc(x.text)}</p></div></li>`)}
     </ul>
-    <p class="benefits__note">Platí pro automaty HAHA VENDING s AI rozpoznáváním produktů. Správu na dálku zajišťuje cloudová platforma AI VENDING.</p>
+    <div class="benefits__foot">
+      <p class="benefits__note">Platí pro automaty HAHA VENDING s AI rozpoznáváním produktů. Správu na dálku zajišťuje cloudová platforma AI VENDING.</p>
+      <a class="link-arrow" href="${r('ai-automaty.html')}">Jak fungují AI automaty <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>
+    </div>
   </div>
 </section>
 
@@ -247,8 +185,6 @@ ${heroStage(r, `
     ${showcase(r)}
   </div>
 </section>
-<!--break-->
-${aiSection(r)}
 <!--break-->
 ${gallery(r)}
 <!--break-->

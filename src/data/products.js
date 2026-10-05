@@ -98,9 +98,9 @@ export const products = [
       restock: {
         title: 'Způsoby doplňování',
         items: [
-          { name: 'Quick Restock', text: 'Rychlé doplnění bez zadávání množství jednotlivých produktů.' },
-          { name: 'One-Click Restock', text: 'Doplnění jedním krokem s vypočteným množstvím. Hodí se pro stálý sortiment.' },
-          { name: 'Restock Order Refill', text: 'Doplnění podle objednávek na doplnění, s přesnou evidencí zásob.' },
+          { name: 'Rychlé doplnění', text: 'Bez zadávání množství jednotlivých produktů; pro jednodušší provoz, kde rozhoduje rychlost.' },
+          { name: 'Doplnění jedním kliknutím', text: 'S vypočteným množstvím k doplnění. Hodí se pro poměrně stálý sortiment.' },
+          { name: 'Doplnění podle objednávky', text: 'Podle objednávek na doplnění, pro uspořádanější práci se skladem.' },
         ],
       },
       note: 'Popis funkcí vychází z podkladů výrobce. Rozsah funkcí a podmínky používání platformy upřesníme v nabídce.',

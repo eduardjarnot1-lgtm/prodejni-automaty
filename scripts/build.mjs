@@ -10,6 +10,7 @@ import { layout } from '../src/lib/layout.js';
 import { publishedProducts } from '../src/data/products.js';
 import home from '../src/pages/home.js';
 import catalog from '../src/pages/catalog.js';
+import ai from '../src/pages/ai.js';
 import { productPage } from '../src/pages/product.js';
 import services from '../src/pages/services.js';
 import about from '../src/pages/about.js';
@@ -19,7 +20,7 @@ import notFound from '../src/pages/not-found.js';
 const preview = process.argv.includes('--preview');
 const OUT = preview ? 'preview' : 'dist';
 
-const pages = [home, catalog, ...publishedProducts.map(productPage), services, about, contact, notFound];
+const pages = [home, ai, catalog, ...publishedProducts.map(productPage), services, about, contact, notFound];
 
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
