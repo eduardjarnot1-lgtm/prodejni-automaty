@@ -28,10 +28,11 @@ const toggle = (cls = '') => `<button class="media-toggle ${cls}" type="button" 
 // Homepage hero: dark stage, Video A scrubbed by scrolling (desktop).
 // `text` is the hero copy (headline, lead, buttons, phone).
 // ---------------------------------------------------------------------------
-export function heroStage(r, text) {
-  const m = media.heroOrbit;
-  return `<section class="hero hero--stage" aria-labelledby="hero-h" data-stage
-  data-range="${m.range.join(',')}">
+export function heroStage(r, text, key = 'heroOrbit') {
+  const m = media[key];
+  // `once` clips play once when visible; the others are scrubbed by scroll.
+  return `<section class="hero hero--stage${m.once ? ' hero--once' : ''}" aria-labelledby="hero-h" data-stage
+  data-range="${m.range.join(',')}"${m.once ? ` data-once data-rate="${m.rate || 1}" data-poster-start="${r(m.posterStart)}"` : ''}>
   <div class="stage__sticky">
     <div class="stage__inner">
       <div class="stage__text">${text}</div>
@@ -41,7 +42,7 @@ export function heroStage(r, text) {
       </figure>
     </div>
     <div class="stage__meta">
-      <p class="stage__note">${esc(MEDIA_NOTE)}</p>
+      <p class="stage__note">${esc(m.note || MEDIA_NOTE)}</p>
       ${toggle('stage__toggle')}
     </div>
   </div>

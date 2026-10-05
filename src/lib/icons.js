@@ -25,6 +25,9 @@ export const icons = {
   tool: (s) => svg('<path d="M14.5 6.5a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3l7.5-7.5"/><path d="M14.5 6.5 17 4"/>', s),
   plug: (s) => svg('<path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/>', s),
   machine: (s) => svg('<rect x="5" y="2.5" width="14" height="19" rx="1.5"/><path d="M8 6h5M8 9.5h5M8 13h5M16 6v7M8 17.5h8"/>', s),
+  shelves: (s) => svg('<rect x="4" y="2.5" width="16" height="19" rx="1.5"/><path d="M4 8.5h16M4 14.5h16M8 6.5v-1.5M11 6.5v-1.5M8 12.5v-1.5M11 12.5v-1.5M14 12.5v-1.5"/>', s),
+  receipt: (s) => svg('<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="m9 11 2 2 4-4"/>', s),
+  chart: (s) => svg('<path d="M4 20h16"/><path d="M7 16v-4M12 16V8M17 16v-6"/>', s),
   box: (s) => svg('<rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M3 9h18M3 15h18M12 3v18"/>', s),
 };
 

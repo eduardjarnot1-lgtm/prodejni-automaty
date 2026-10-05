@@ -36,44 +36,6 @@ export const categories = [
 
 export const products = [
   {
-    slug: 'chlazeny-automat-na-potraviny',
-    status: 'published',
-    category: 'chlazene-automaty',
-    name: 'Chlazený automat na potraviny',
-    summary:
-      'Prodejní automat s dotykovým displejem a výtahem pro výdej zboží. Až 54 prodejních pozic, volitelně s chlazením 4–8 °C.',
-    useCases: [
-      'Firmy, výrobní provozy a sklady',
-      'Kanceláře a administrativní budovy',
-      'Školy, nemocnice a veřejné budovy',
-    ],
-    highlights: ['Displej 21,5″', 'Až 54 pozic', 'Výdej výtahem'],
-    benefits: [
-      'Velký dotykový displej 21,5″ pro přehledný výběr zboží.',
-      'Zboží se k výdejnímu otvoru přepravuje výtahem.',
-      'Až 6 polic a 9 kanálů na polici, celkem až 54 prodejních pozic.',
-      'Řídicí systém na platformě Android.',
-    ],
-    options: [
-      { label: 'Chlazení', value: 'Udržuje teplotu 4–8 °C' },
-    ],
-    specs: [
-      { label: 'Displej', value: 'Dotykový, 21,5″' },
-      { label: 'Operační systém', value: 'Android' },
-      { label: 'Počet polic', value: 'až 6' },
-      { label: 'Kanály na polici', value: 'až 9' },
-      { label: 'Prodejní pozice', value: 'max. 54' },
-      { label: 'Způsob výdeje', value: 'Výtah' },
-      // Axis order (W × D × H) not confirmed, so values are shown as listed.
-      { label: 'Rozměry', value: '1330 × 815 × 1915 mm' },
-      { label: 'Chlazení', value: '4–8 °C', optional: true },
-      { label: 'Maximální příkon', value: '500 W' },
-      { label: 'Příkon v pohotovostním režimu', value: '60 W' },
-    ],
-    price: { type: 'from', amount: 170000, confirmed: false },
-    photos: [],
-  },
-  {
     // Source: manufacturer brochure (spec page) and app screenshots supplied
     // by the client. Marketing image values that differ from the brochure
     // (5.96 kWh/24 h, 324+ bottles) are NOT used; see CONTENT-TODO.md.
@@ -167,6 +129,44 @@ export const products = [
     photos: ['haha-pro-542-celkovy-pohled', 'haha-pro-542-pohled-zepredu', 'haha-pro-542-detaily'],
     noExamplePhotos: true,
     // Still missing: higher-resolution views, app screenshots (optional).
+  },
+  {
+    slug: 'chlazeny-automat-na-potraviny',
+    status: 'published',
+    category: 'chlazene-automaty',
+    name: 'Chlazený automat na potraviny',
+    summary:
+      'Prodejní automat s dotykovým displejem a výtahem pro výdej zboží. Až 54 prodejních pozic, volitelně s chlazením 4–8 °C.',
+    useCases: [
+      'Firmy, výrobní provozy a sklady',
+      'Kanceláře a administrativní budovy',
+      'Školy, nemocnice a veřejné budovy',
+    ],
+    highlights: ['Displej 21,5″', 'Až 54 pozic', 'Výdej výtahem'],
+    benefits: [
+      'Velký dotykový displej 21,5″ pro přehledný výběr zboží.',
+      'Zboží se k výdejnímu otvoru přepravuje výtahem.',
+      'Až 6 polic a 9 kanálů na polici, celkem až 54 prodejních pozic.',
+      'Řídicí systém na platformě Android.',
+    ],
+    options: [
+      { label: 'Chlazení', value: 'Udržuje teplotu 4–8 °C' },
+    ],
+    specs: [
+      { label: 'Displej', value: 'Dotykový, 21,5″' },
+      { label: 'Operační systém', value: 'Android' },
+      { label: 'Počet polic', value: 'až 6' },
+      { label: 'Kanály na polici', value: 'až 9' },
+      { label: 'Prodejní pozice', value: 'max. 54' },
+      { label: 'Způsob výdeje', value: 'Výtah' },
+      // Axis order (W × D × H) not confirmed, so values are shown as listed.
+      { label: 'Rozměry', value: '1330 × 815 × 1915 mm' },
+      { label: 'Chlazení', value: '4–8 °C', optional: true },
+      { label: 'Maximální příkon', value: '500 W' },
+      { label: 'Příkon v pohotovostním režimu', value: '60 W' },
+    ],
+    price: { type: 'from', amount: 170000, confirmed: false },
+    photos: [],
   },
   {
     slug: 'automaticky-boxovy-system',

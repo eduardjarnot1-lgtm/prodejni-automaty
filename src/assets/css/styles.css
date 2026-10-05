@@ -1113,3 +1113,50 @@ html.zt-loading, html.zt-loading * { cursor: progress; }
 @media (min-width: 900px) {
   .seq.is-scrub .seq__chapter-body { position: sticky; top: 38vh; }
 }
+
+/* ---------- AI-led homepage (HAHA VENDING Pro 542) ----------
+   Same dark stage as before, but the square orbit clip plays once and is
+   shown at a moderate size (its source is 464 px): the stage gives it room
+   with tonal light instead of enlarging the footage. */
+.hero__eyebrow { color: #9fd3a7; margin-bottom: 0.9rem; }
+.hero--once .stage__sticky {
+  min-height: min(calc(100svh - 2 * var(--fg)), 860px);
+  background:
+    radial-gradient(circle at 74% 56%, rgba(63, 163, 77, 0.10) 0%, rgba(63, 163, 77, 0) 30%),
+    radial-gradient(ellipse 40% 62% at 74% 54%, #34373b 0%, rgba(52, 55, 59, 0) 72%),
+    linear-gradient(180deg, #0e0f11 0%, #141518 55%, #1c1d20 100%);
+}
+@media (min-width: 900px) { .hero--once .stage__inner { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); } }
+.hero--once .hero__title { font-size: clamp(2.3rem, 1rem + 3.4vw, 4rem); }
+.hero--once .stage__media {
+  height: auto; max-height: none; width: clamp(300px, 32vw, 440px);
+  /* A quiet rounded studio tile, no mask: the machine and the watermark stay
+     intact. Soft shadow and a faint green light tie it to the stage. */
+  -webkit-mask-image: none; mask-image: none;
+  border-radius: 28px; overflow: hidden; background: #3a3c3e;
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.06), 0 0 120px -30px rgba(63, 163, 77, 0.35);
+}
+.hero--once .hero__actions .btn--secondary { background: transparent; color: var(--white); border-color: rgba(255, 255, 255, 0.55); }
+.hero--once .hero__actions .btn--secondary:hover { background: var(--white); color: var(--ink); }
+@media (max-width: 899px) {
+  .hero--once .stage__sticky { min-height: 0; }
+  .hero--once .stage__media { width: min(100%, 340px); border-radius: 22px; margin-top: 0.25rem; }
+}
+
+/* Three AI benefits directly below the hero. */
+.benefits { background: var(--white); padding-block: clamp(1.75rem, 3vw, 2.5rem) clamp(1.25rem, 2.5vw, 2rem); }
+.benefits__list { list-style: none; display: grid; gap: 8px 32px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.benefits__list li { display: flex; gap: 14px; padding: 14px 0; border-top: 2px solid var(--ink); }
+.benefits__list .icon { flex: none; color: var(--green-bright); margin-top: 4px; }
+.benefits__h { font-size: var(--fs-md); margin: 0 0 0.2em; }
+.benefits__list p { margin: 0; font-size: var(--fs-sm); color: var(--ink-2); }
+.benefits__note { margin: 0.75rem 0 0; font-size: 0.8125rem; color: var(--ink-2); }
+
+/* Featured switcher: AI product label and its two links. */
+.showcase__tag--ai { color: var(--white); }
+.showcase__tag--ai::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--green-bright); vertical-align: 1px; }
+.showcase__links { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0; }
+
+/* Second, quieter action on dark bands. */
+.btn--ghost-light { background: transparent; color: var(--white); border-color: rgba(255, 255, 255, 0.5); }
+.btn--ghost-light:hover { background: var(--white); color: var(--ink); text-decoration: none; }

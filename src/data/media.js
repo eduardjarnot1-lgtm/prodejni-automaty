@@ -16,7 +16,35 @@
 // adjust the times here if the cut changes.
 
 export const media = {
-  // VIDEO A: single glass-front machine, camera moves from front to three-quarter.
+  // HERO (homepage): HAHA VENDING Pro 542 turning from a side view to the
+  // front, dark studio with green accent light. Supplied web version
+  // (haha-pro-542-orbit-web.mp4, 464 × 464, 4.25 s, silent, fast start) is
+  // used unchanged; WebM is a fallback for browsers without H.264. Shown at
+  // about 360–440 CSS px, never enlarged beyond that. Plays once when
+  // visible (native speed), holds the final frame; no scroll pinning.
+  // To use the enhanced 928 × 928 version later, replace the files with the
+  // same names and update width/height here.
+  heroPro542: {
+    alias: 'haha-pro-542-orbit',
+    original: 'haha-pro-542-orbit-web.mp4',
+    association: 'Úvod: hero (HAHA VENDING Pro 542, ilustrační)',
+    product: 'haha-vending-pro-542',
+    width: 464,
+    height: 464,
+    codec: 'avc1.640016',
+    range: [0, 4.25],
+    once: true,
+    rate: 1,
+    posterStart: 'assets/video/haha-pro-542-orbit-start.webp', // first frame (side view)
+    poster: 'assets/video/haha-pro-542-orbit-poster.webp', // final frame (front view)
+    mode: 'play once when visible, hold final frame; pause/replay button',
+    reducedMotion: 'final-frame poster; optional manual playback',
+    alt: 'Ilustrační vizualizace černého prodejního automatu HAHA VENDING Pro 542 na tmavém pozadí',
+    note: 'Ilustrační vizualizace. Skutečné provedení se může lišit.',
+  },
+
+  // VIDEO A (no longer on the homepage, kept for reference): single
+  // glass-front machine, camera moves from front to three-quarter.
   heroOrbit: {
     alias: 'hero-single-machine-orbit',
     original: 'PixVerse_V6_Image_Text_540P_Create_a_premium_c.mp4',

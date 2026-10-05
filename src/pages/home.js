@@ -14,27 +14,36 @@ import { media } from '../data/media.js';
 // specific model. Product specs appear only when the category has exactly
 // one product, so photo and specs always belong together.
 function featured() {
-  return categories
-    .map((k) => {
-      const items = publishedProducts.filter((p) => p.category === k.key);
-      // A product photo only stands for the category when it is its only product.
-      const withPhoto = items.length === 1 ? items.find((p) => p.photos.length) : null;
-      const example = photosByCategory(k.key)[0];
-      return {
-        key: k.key,
-        tab: k.name.replace('Výdejní boxové systémy', 'Boxové systémy').replace('Chlazené automaty na potraviny', 'Chlazené automaty'),
-        name: items.length === 1 ? items[0].name : k.name,
-        text: items.length === 1 ? items[0].summary : k.short,
-        single: items.length === 1 ? items[0] : null,
-        items,
-        photoId: withPhoto ? withPhoto.photos[0] : example?.id,
-        isExample: !withPhoto && !!example,
-        icon: k.key === 'boxove-systemy' ? 'box' : 'machine',
-      };
-    })
-    .filter((f) => f.items.length)
-    // Show a category with a photo first.
-    .sort((a, b) => Number(!!b.photoId) - Number(!!a.photoId));
+  const ai = publishedProducts.find((p) => p.ai);
+  const items = (key) => publishedProducts.filter((p) => p.category === key && !p.ai);
+  const list = [];
+  // 1) The AI machine, with its own confirmed photo.
+  if (ai) {
+    list.push({
+      key: ai.slug, tab: 'AI automat Pro 542', label: 'AI prodejní automat', name: ai.name, single: ai,
+      photoId: ai.photos[0], isExample: false, icon: 'machine', inquiry: true,
+    });
+  }
+  // 2) Other machines per category, labelled with their real category.
+  categories.forEach((k) => {
+    const its = items(k.key);
+    if (!its.length) return;
+    const withPhoto = its.length === 1 ? its.find((p) => p.photos.length) : null;
+    const example = photosByCategory(k.key)[0];
+    list.push({
+      key: k.key,
+      tab: k.key === 'boxove-systemy' ? 'Boxové systémy' : 'Chlazené automaty',
+      label: its.length === 1 ? k.name : 'Typ zařízení',
+      name: its.length === 1 ? its[0].name : k.name,
+      text: k.short,
+      single: its.length === 1 ? its[0] : null,
+      items: its,
+      photoId: withPhoto ? withPhoto.photos[0] : example?.id,
+      isExample: !withPhoto && !!example,
+      icon: k.key === 'boxove-systemy' ? 'box' : 'machine',
+    });
+  });
+  return list;
 }
 
 function showcase(r) {
@@ -49,12 +58,12 @@ function showcase(r) {
         ${f.isExample ? '<figcaption class="visually-hidden">Ukázka provedení</figcaption>' : ''}
       </figure>
       <div class="showcase__card">
-        <p class="showcase__tag">${esc(f.single ? categories.find((k) => k.key === f.key).name : 'Typ zařízení')}${f.isExample ? ' · foto: ukázka provedení' : ''}</p>
+        <p class="showcase__tag${f.inquiry ? ' showcase__tag--ai' : ''}">${esc(f.label)}${f.isExample ? ' · foto: ukázka provedení' : ''}</p>
         <h3 class="showcase__name">${esc(f.name)}</h3>
         ${f.single
           ? `<ul class="chips chips--dark" aria-label="Hlavní parametry">${join(f.single.highlights, (x) => `<li>${esc(x)}</li>`)}</ul>
              <p class="showcase__price">${esc(priceText(f.single.price).label)}: <strong>${esc(priceText(f.single.price).value)}</strong></p>
-             <a class="showcase__more" href="${r(productUrl(f.single))}">Detail automatu ${icons.arrow(16)}</a>`
+             <p class="showcase__links"><a class="showcase__more" href="${r(productUrl(f.single))}">Detail automatu ${icons.arrow(16)}</a>${f.inquiry ? `<a class="showcase__more" href="${inquiryHref(r, 'poptat-' + f.single.slug)}">Nezávazně poptat ${icons.arrow(16)}</a>` : ''}</p>`
           : `<p class="showcase__text">${esc(f.text)}</p>
              <ul class="showcase__models">${join(f.items, (p) => `<li><a href="${r(productUrl(p))}">${esc(p.name)} ${icons.arrow(16)}</a></li>`)}</ul>`}
       </div>
@@ -184,9 +193,9 @@ const guideLines = guideLinesSvg('featured__lines', 520);
 export default {
   path: 'index.html',
   navKey: 'home',
-  title: 'Prodej a pronájem výdejních automatů',
+  title: 'Chytré prodejní automaty s AI',
   description:
-    'Prodej, pronájem, instalace a servis chlazených automatů na potraviny a výdejních boxových systémů. V oboru od roku 1992, bezplatné poradenství, celá Česká republika.',
+    'Chytré prodejní automaty s AI rozpoznáváním produktů (HAHA VENDING Pro 542), chlazené automaty na potraviny a výdejní boxové systémy. Prodej, pronájem, instalace a servis, v oboru od roku 1992, celá Česká republika.',
   render(r) {
     const reasons = [
       { icon: 'calendar', title: `V oboru od roku ${site.since}`, text: 'Prodejním a výdejním automatům se věnujeme dlouhodobě.' },
@@ -194,22 +203,35 @@ export default {
       { icon: 'plug', title: 'Instalace na místě', text: 'Automat nainstalujeme a uvedeme do provozu.' },
       { icon: 'tool', title: 'Servis během provozu', text: 'Zajišťujeme servis, údržbu a náhradní díly.' },
     ];
-
+    // Benefits of the HAHA VENDING AI machines (scoped in the note below).
+    const benefits = [
+      { icon: 'shelves', title: 'Výběr přímo z polic', text: 'Zákazník si může vzít více produktů během jednoho nákupu.' },
+      { icon: 'receipt', title: 'Automatické vyúčtování', text: 'AI rozpozná odebrané zboží a systém dokončí nákup.' },
+      { icon: 'chart', title: 'Správa na dálku', text: 'Přehled o prodeji, zásobách a provozu prostřednictvím aplikace.' },
+    ];
+    const pro = publishedProducts.find((p) => p.ai);
+    const proUrl = pro ? r(productUrl(pro)) : r('automaty.html');
+    const proInquiry = inquiryHref(r, pro ? 'poptat-' + pro.slug : 'poptavka');
 
     return `
 ${heroStage(r, `
-      <h1 id="hero-h" class="display hero__title"><span class="hero__line">Prodej a pronájem</span> <span class="hero__line">výdejních <span class="stencil">automatů</span></span></h1>
-      <p class="hero__lead">Dodáváme chlazené automaty na potraviny a výdejní boxové systémy. V oboru jsme od roku ${site.since}. Pomůžeme vybrat vhodné zařízení, nainstalujeme ho a postaráme se o servis.</p>
+      <p class="eyebrow hero__eyebrow">Nová generace prodejních automatů</p>
+      <h1 id="hero-h" class="display hero__title"><span class="hero__line">Chytrý prodej</span> <span class="hero__line">začíná s AI.</span></h1>
+      <p class="hero__lead">Zákazník si vybere zboží přímo z polic. AI rozpozná odebrané produkty a systém nákup automaticky vyúčtuje. Vy máte přehled o prodeji a zásobách na dálku.</p>
       <div class="hero__actions">
-        ${button(inquiryHref(r), 'Nezávazně poptat', 'primary')}
-        <a class="btn btn--secondary" href="${r('automaty.html')}">Prohlédnout automaty <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>
+        <a class="btn btn--primary" href="${proUrl}">Prohlédnout AI automat <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>
+        ${button(proInquiry, 'Nezávazně poptat', 'secondary')}
       </div>
-      <p class="hero__call">${icons.phone(16)} ${phoneLink()} <span>(${esc(site.contact.person)})</span></p>`)}
+      <p class="hero__call">${icons.phone(16)} ${phoneLink()} <span>(${esc(site.contact.person)})</span></p>`, 'heroPro542')}
 <!--break-->
-<section class="reasons" aria-label="Proč se na nás obrátit">
-  <ul class="wrap reasons__list">
-    ${join(reasons, (x) => `<li>${icons[x.icon](24)}<div><h2 class="reasons__h">${esc(x.title)}</h2><p>${esc(x.text)}</p></div></li>`)}
-  </ul>
+<section class="benefits" aria-labelledby="vyhody-h">
+  <div class="wrap">
+    <h2 id="vyhody-h" class="visually-hidden">Výhody automatů s AI rozpoznáváním</h2>
+    <ul class="benefits__list">
+      ${join(benefits, (x) => `<li>${icons[x.icon](26)}<div><h3 class="benefits__h">${esc(x.title)}</h3><p>${esc(x.text)}</p></div></li>`)}
+    </ul>
+    <p class="benefits__note">Platí pro automaty HAHA VENDING s AI rozpoznáváním produktů. Správu na dálku zajišťuje cloudová platforma AI VENDING.</p>
+  </div>
 </section>
 
 <!--break-->
@@ -217,9 +239,9 @@ ${heroStage(r, `
   ${guideLines}
   <div class="featured__inner">
     <div class="featured__head">
-      <p class="eyebrow">Vybrané automaty</p>
-      <h2 id="featured-h" class="featured__title">Chlazené automaty a boxové systémy</h2>
-      <p>Přepínejte mezi typy zařízení. Konkrétní model a výbavu doporučíme podle vašeho provozu.</p>
+      <p class="eyebrow">Naše nabídka</p>
+      <h2 id="featured-h" class="featured__title">Chytrý automat v čele nabídky</h2>
+      <p>Hlavní novinkou je HAHA VENDING Pro 542 s rozpoznáváním produktů. Dál dodáváme chlazené automaty s dotykovým displejem a výdejní boxové systémy.</p>
       <p><a class="link-arrow" href="${r('automaty.html')}">Všechny automaty a parametry <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a></p>
     </div>
     ${showcase(r)}
@@ -229,6 +251,12 @@ ${heroStage(r, `
 ${aiSection(r)}
 <!--break-->
 ${gallery(r)}
+<!--break-->
+<section class="reasons" aria-label="Proč se na nás obrátit">
+  <ul class="wrap reasons__list">
+    ${join(reasons, (x) => `<li>${icons[x.icon](24)}<div><h2 class="reasons__h">${esc(x.title)}</h2><p>${esc(x.text)}</p></div></li>`)}
+  </ul>
+</section>
 <!--break-->
 <section class="section section--alt" aria-labelledby="sluzby-h">
   <div class="wrap">
@@ -266,7 +294,7 @@ ${gallery(r)}
   </div>
 </section>
 
-${contactBand(r)}
+${contactBand(r, { heading: 'Chcete chytrý automat do svého provozu?', anchor: pro ? 'poptat-' + pro.slug : 'poptavka', link: pro ? { href: proUrl, label: 'Prohlédnout AI automat' } : null })}
 `;
   },
 };

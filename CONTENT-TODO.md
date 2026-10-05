@@ -49,6 +49,9 @@ form until confirmed.
       kept, opening spec board with figures that contradict the brochure,
       partly malformed English captions. Replace with an authorised clean
       export if available.
+- [ ] **Homepage hero video**: enhanced 928 × 928 version
+      (`haha-pro-542-orbit-neural-v2.mp4`) and its poster were mentioned but not
+      attached; the 464 × 464 web version is used. Supply the files to swap.
 - [ ] **HAHA VENDING Pro 542 – self-closing door**: shown in the manufacturer
       detail image but not in the brochure; not claimed in the text.
 - [ ] **HAHA VENDING Pro 542 – certification**: CE/RoHS not mentioned on the

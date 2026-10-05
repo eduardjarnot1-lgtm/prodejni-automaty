@@ -150,14 +150,16 @@ ${hasOptional ? '<p class="note">Položky označené „Volitelné“ nejsou sou
 }
 
 // Contact strip shown at the bottom of most pages.
-export function contactBand(r, { heading = 'Poradíme vám s výběrem automatu' } = {}) {
+// `anchor` preselects an item in the inquiry form; `link` adds a quieter
+// second action ({ href, label }).
+export function contactBand(r, { heading = 'Poradíme vám s výběrem automatu', anchor = 'poptavka', link = null } = {}) {
   return `<!--break-->
 <section class="band-dark" aria-labelledby="kontakt-band-h">
   <div class="wrap band-dark__grid">
     <div>
       <h2 id="kontakt-band-h">${esc(heading)}</h2>
       <p>Konzultace je zdarma a nezávazná. Zavolejte nebo napište, ozveme se vám zpět.</p>
-      <div class="actions">${button(inquiryHref(r), 'Nezávazně poptat', 'primary')}</div>
+      <div class="actions">${button(inquiryHref(r, anchor), 'Nezávazně poptat', 'primary')}${link ? `<a class="btn btn--ghost-light" href="${link.href}">${esc(link.label)}</a>` : ''}</div>
     </div>
     ${contactList({ dark: true })}
   </div>

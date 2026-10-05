@@ -195,9 +195,15 @@
     var io = null;
     var state = 'idle'; // idle | playing | done
     var mode = null;
+    // data-once: play once when visible on every screen size (no scrubbing).
+    var once = section.hasAttribute('data-once');
+    var rate = Number(section.getAttribute('data-rate')) || 0.55;
+    var poster = section.querySelector('.stage__poster');
+    var posterEnd = poster.getAttribute('src');
+    var posterStart = section.getAttribute('data-poster-start');
 
     clip.onFrame = function () { section.classList.add('has-frame'); };
-    clip.onFail = function () { teardown(); section.classList.add('is-failed'); btn.hidden = true; refresh(); };
+    clip.onFail = function () { teardown(); section.classList.add('is-failed'); btn.hidden = true; if (once) poster.setAttribute('src', posterEnd); refresh(); };
 
     function refresh() { if (ST()) ST().refresh(); }
 
@@ -209,6 +215,7 @@
     }
 
     function updateManualButton() {
+      if (clip.failed) { btn.hidden = true; return; }
       if (clip.playing()) setButton(btn, 'pause', 'Pozastavit video');
       else if (state === 'done') setButton(btn, 'replay', 'Přehrát video znovu');
       else setButton(btn, 'play', 'Přehrát video');
@@ -216,7 +223,7 @@
 
     function playOnce() {
       state = 'playing';
-      var p = clip.playRange(range[0], range[1], 0.55);
+      var p = clip.playRange(range[0], range[1], rate);
       updateManualButton();
       p.then(function () { state = 'done'; updateManualButton(); },
         function () { if (state === 'playing') state = 'idle'; updateManualButton(); });
@@ -225,8 +232,11 @@
     function setup() {
       teardown();
       if (clip.failed) return;
-      var scroll = mqDesktop.matches && motionAllowed() && !!ST();
+      var scroll = !once && mqDesktop.matches && motionAllowed() && !!ST();
       mode = scroll ? 'scroll' : 'manual';
+      // Autoplay starts from the first frame, so the poster shows it; static
+      // presentations (reduced motion, motion off) keep the final frame.
+      if (once && state === 'idle') poster.setAttribute('src', motionAllowed() && posterStart ? posterStart : posterEnd);
 
       if (scroll) {
         // Desktop: the section gets extra height; the sticky stage holds
@@ -247,8 +257,9 @@
         });
       } else {
         updateManualButton();
-        if (mqDesktop.matches || !motionAllowed()) return;
-        // Mobile with motion: play once when the stage is mostly visible.
+        if ((mqDesktop.matches && !once) || !motionAllowed()) return;
+        // With motion (mobile, or any size for `once`): play once when the
+        // stage is mostly visible.
         io = new IntersectionObserver(function (entries) {
           var vis = entries[entries.length - 1].isIntersecting;
           if (vis && state === 'idle') pageLoaded().then(function () { if (mode === 'manual' && state === 'idle') playOnce(); });
@@ -266,7 +277,7 @@
     btn.addEventListener('click', function () {
       if (mode === 'scroll') { setPrefOff(true); return; }
       if (clip.playing()) { clip.stop(); state = 'idle'; updateManualButton(); return; }
-      if (!mqReduce.matches && prefOff() && mqDesktop.matches) { setPrefOff(false); return; }
+      if (!once && !mqReduce.matches && prefOff() && mqDesktop.matches) { setPrefOff(false); return; }
       playOnce();
     });
 
