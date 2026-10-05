@@ -11,13 +11,20 @@
 //     name and details are confirmed.
 //   - `photos` may only contain photos confirmed for this model. Category
 //     example photos are shown separately (see photos.js).
+//   - `noExamplePhotos: true` means the product never borrows category
+//     example photos: until its own photos arrive, neutral placeholders are
+//     shown (slots listed in `photoSlots`).
+//   - Optional per-product texts: `descriptor` (lead under the title),
+//     `badge` (small label on the product card), `cta` (inquiry button
+//     label), `contactHeading`, `useCasesNote`, `ai` (how the AI purchase
+//     works) and `remote` (remote management). See HAHA VENDING Pro 542.
 
 export const categories = [
   {
     key: 'chlazene-automaty',
     name: 'Chlazené automaty na potraviny',
     short:
-      'Samoobslužný prodej balených jídel, svačin a nápojů. Zákazník vybírá na dotykovém displeji.',
+      'Samoobslužný prodej balených jídel, svačin a nápojů. Výběr na dotykovém displeji, nebo přímo z polic u automatu s AI rozpoznáváním produktů.',
   },
   {
     key: 'boxove-systemy',
@@ -65,6 +72,102 @@ export const products = [
     ],
     price: { type: 'from', amount: 170000, confirmed: false },
     photos: [],
+  },
+  {
+    // Source: manufacturer brochure (spec page) and app screenshots supplied
+    // by the client. Marketing image values that differ from the brochure
+    // (5.96 kWh/24 h, 324+ bottles) are NOT used; see CONTENT-TODO.md.
+    slug: 'haha-vending-pro-542',
+    status: 'published',
+    category: 'chlazene-automaty',
+    name: 'HAHA VENDING Pro 542',
+    descriptor: 'Chlazený prodejní automat s AI rozpoznáváním produktů',
+    summary:
+      'Chlazený prodejní automat s kamerovým rozpoznáváním produktů. Zákazník otevře dveře kartou nebo mobilem, vybere si zboží přímo z polic a nákup se automaticky vyúčtuje.',
+    badge: 'AI rozpoznávání',
+    cta: 'Nezávazně poptat Pro 542',
+    contactHeading: 'Zajímá vás HAHA VENDING Pro 542?',
+    useCases: [
+      'Kanceláře a pracoviště',
+      'Posilovny a sportovní zařízení',
+      'Studentské koleje',
+      'Společné prostory obytných a administrativních budov',
+    ],
+    useCasesNote:
+      'Vhodný sortiment: nápoje, svačiny a vhodně balené chlazené produkty. Konkrétní zboží je třeba posoudit z hlediska rozpoznávání a skladování.',
+    highlights: ['Výběr přímo z polic', '6 polic', '0–10 °C'],
+    benefits: [
+      'Kamerové rozpoznávání s umělou inteligencí určí, které produkty zákazník odebral.',
+      'Během jednoho nákupu si zákazník může vzít více položek.',
+      'Přímý přístup ke zboží: zákazník si vybírá přímo z polic.',
+      'Police lze přizpůsobit různým tvarům a velikostem balení.',
+      'Produkty, zásoby i samotný automat lze spravovat na dálku.',
+    ],
+    ai: {
+      title: 'Vezměte si, na co máte chuť. AI rozpozná váš nákup.',
+      text:
+        'HAHA VENDING Pro 542 využívá kamerové rozpoznávání produktů. Zákazník přiloží kartu nebo mobil, otevře dveře a vybere si zboží přímo z polic. Systém rozpozná odebrané produkty a nákup automaticky vyúčtuje.',
+      steps: [
+        { title: 'Přiložte kartu nebo mobil', text: 'Podporovanou platební kartou nebo mobilem otevřete dveře automatu. Před otevřením dveří může být vyžadována předběžná autorizace platby.' },
+        { title: 'Vyberte si zboží', text: 'Zboží si vyberete přímo z polic. Během jednoho nákupu si můžete vzít i více položek.' },
+        { title: 'AI rozpozná a vyúčtuje nákup', text: 'Po zavření dveří systém rozpozná odebrané produkty a nákup vyúčtuje. Podle výrobce trvá rozpoznání přibližně 60 sekund, nejde tedy o okamžité vyúčtování.' },
+      ],
+      accuracy: 'Až 99% přesnost rozpoznávání podle výrobce.',
+      accuracyNote: 'Jde o údaj výrobce. Výsledek v konkrétním provozu může záviset na sortimentu, balení a uložení zboží.',
+    },
+    remote: {
+      title: 'Přehled o prodeji. Kontrola nad provozem.',
+      intro:
+        'Automat se spravuje v cloudové platformě AI VENDING. Provozovatel v ní sleduje prodej a stav automatu a řadu nastavení mění na dálku. Tyto funkce slouží ke správě provozu, nejsou součástí rozpoznávání zboží.',
+      features: [
+        { title: 'Statistiky prodeje', text: 'Přehled prodejů podle produktů, zařízení a období.' },
+        { title: 'Sortiment, ceny a zásoby', text: 'Správa katalogu produktů, cen a stavu zásob.' },
+        { title: 'Upozornění', text: 'Upozornění na docházející zásoby a na stav zařízení.' },
+        { title: 'Teplota na dálku', text: 'Kontrola a nastavení teploty v automatu z aplikace.' },
+        { title: 'Dveře a restart na dálku', text: 'Vzdálené otevření dveří a restart automatu.' },
+        { title: 'Objednávky a platby', text: 'Záznamy o objednávkách a platbách.' },
+        { title: 'Uživatelské role', text: 'Přístupy pro členy týmu i pro obsluhu, která automat doplňuje.' },
+      ],
+      newProduct: {
+        title: 'Přidání nového produktu',
+        text:
+          'Produkt vyberete z knihovny produktů v cloudu, nebo podáte žádost o nový produkt: vyplníte údaje o produktu a přiložíte čtyři fotografie. U standardizovaného zboží se uvádí kód GTIN, u nestandardizovaného zboží není potřeba. Podle výrobce je nový produkt k dispozici do 6 hodin.',
+      },
+      restock: {
+        title: 'Způsoby doplňování',
+        items: [
+          { name: 'Quick Restock', text: 'Rychlé doplnění bez zadávání množství jednotlivých produktů.' },
+          { name: 'One-Click Restock', text: 'Doplnění jedním krokem s vypočteným množstvím. Hodí se pro stálý sortiment.' },
+          { name: 'Restock Order Refill', text: 'Doplnění podle objednávek na doplnění, s přesnou evidencí zásob.' },
+        ],
+      },
+      note: 'Popis funkcí vychází z podkladů výrobce. Rozsah funkcí a podmínky používání platformy upřesníme v nabídce.',
+    },
+    options: [],
+    specs: [
+      { label: 'Model', value: 'Pro 542' },
+      { label: 'Rozpoznávání zboží', value: 'Kamerové, s umělou inteligencí (AI vision)' },
+      { label: 'Vnitřní objem', value: '558 l' },
+      { label: 'Rozměry (š × h × v)', value: '750 × 650 × 2020 mm' },
+      { label: 'Hmotnost', value: '122,5 kg' },
+      { label: 'Teplotní rozsah', value: '0–10 °C' },
+      { label: 'Chladivo', value: 'R290' },
+      { label: 'Spotřeba energie', value: '2,65 kWh / 24 h (uvedená hodnota; skutečná spotřeba závisí na podmínkách provozu)' },
+      { label: 'Počet polic', value: '6' },
+      { label: 'Kapacita (příklad)', value: 'přibližně 378 ks: 5 polic lahví 0,5 l a 1 police plechovek 0,33 l. Skutečná kapacita závisí na balení a uspořádání zboží.' },
+      { label: 'Dveře', value: 'Rám z hliníkové slitiny, vyhřívané sklo proti zamlžení' },
+      { label: 'Nastavení teploty', value: 'Na dálku v aplikaci' },
+      { label: 'Platby', value: 'Platební a debetní karty, podporované mobilní peněženky (Apple Pay, Google Pay)' },
+      { label: 'Přesnost rozpoznávání', value: 'až 99 % (podle výrobce)' },
+      { label: 'Doba rozpoznání nákupu', value: 'přibližně 60 s po zavření dveří (podle výrobce)' },
+      { label: 'Přidání nového produktu', value: 'do 6 hodin (podle výrobce)' },
+    ],
+    specsNote: 'Parametry podle podkladů výrobce. Automat je chlazený, není určen pro mražené zboží.',
+    price: { type: 'inquiry' },
+    photos: [],
+    noExamplePhotos: true,
+    // Image slots awaiting the client's photos (see README → Pro 542 images).
+    photoSlots: ['hlavní fotografie', 'další pohledy', 'detaily', 'snímky aplikace (volitelné)'],
   },
   {
     slug: 'automaticky-boxovy-system',
@@ -155,6 +258,8 @@ export function priceText(price) {
       return { label: 'Orientační cena', value: `${fmt.format(price.amount)} Kč` };
     case 'configuration':
       return { label: 'Cena', value: 'Podle konfigurace' };
+    case 'inquiry':
+      return { label: 'Cena', value: 'na poptávku' };
     default:
       return { label: 'Cena', value: 'Individuální nacenění' };
   }

@@ -43,4 +43,23 @@ export const tours = {
       { title: 'Konfigurace před nabídkou', text: 'Konfiguraci s vámi projdeme ještě před vypracováním nabídky.' },
     ],
   },
+  'haha-vending-pro-542': {
+    // Photo-based tour. Until the client's photos of the Pro 542 arrive, each
+    // chapter shows a neutral placeholder; replace `{ slot }` with photo ids
+    // from photos.js. No footage or photos of other machines are used.
+    photos: [
+      { slot: 'pohled na police' },
+      { slot: 'detail dveří a polic' },
+      { slot: 'snímek aplikace AI VENDING' },
+    ],
+    label: null,
+    note: 'Fotografie modelu Pro 542 doplníme. Budou ukazovat provedení automatu; funkci rozpoznávání nedokládají.',
+    title: 'Pro 542 zblízka',
+    intro: 'Tři části, které tvoří nákup i provoz automatu. Fotografie modelu doplníme, popis níže vychází z podkladů výrobce.',
+    chapters: [
+      { title: 'Výběr přímo z polic', text: 'Šest polic za dveřmi s vyhřívaným sklem proti zamlžení. Po otevření dveří si zákazník vybírá zboží přímo z polic, i více položek najednou.' },
+      { title: 'AI rozpoznávání produktů', text: 'Po zavření dveří kamerový systém rozpozná odebrané produkty a nákup vyúčtuje. Podle výrobce trvá rozpoznání přibližně 60 sekund.' },
+      { title: 'Správa na dálku', text: 'Prodej, zásoby, teplotu i stav automatu sleduje provozovatel v cloudové platformě AI VENDING.' },
+    ],
+  },
 };

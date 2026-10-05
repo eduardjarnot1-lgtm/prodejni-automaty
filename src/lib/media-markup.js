@@ -9,7 +9,7 @@ import { esc, join } from './html.js';
 import { icons } from './icons.js';
 import { media, mediaSources, MEDIA_NOTE } from '../data/media.js';
 import { tours } from '../data/tours.js';
-import { photo } from './components.js';
+import { photo, photoPlaceholder } from './components.js';
 
 const video = (r, m, cls) => `<video class="${cls}" muted playsinline preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1" width="${m.width}" height="${m.height}">
       ${join(mediaSources(m), (s) => `<source src="${r(s.src)}" type='${s.type}'>`)}
@@ -54,7 +54,13 @@ export function heroStage(r, text) {
 // matching footage, `photos` (one photo per chapter, labelled as examples).
 // Chapter titles are buttons, so chapters can be chosen by keyboard too.
 // ---------------------------------------------------------------------------
-export function chapterSequence(r, key, { id, eyebrow, title, intro, chapters, tone = 'light', after = '', photos = null }) {
+// A `photos` entry may also be { slot: 'label' }: a neutral placeholder for
+// a photo that has not been supplied yet.
+const photoLayer = (r, item, i) => `<div class="seq__layer seq__layer--photo${i === 0 ? ' is-on' : ''}" data-layer="${i}">${typeof item === 'string'
+  ? photo(r, item, { sizes: '(min-width: 1000px) 460px, 90vw' })
+  : photoPlaceholder('machine', `Fotografie bude doplněna: ${item.slot}`)}</div>`;
+
+export function chapterSequence(r, key, { id, eyebrow, title, intro, chapters, tone = 'light', after = '', photos = null, note = null, label = 'Ukázka provedení' }) {
   const m = key ? media[key] : null;
   const square = m && m.width === m.height;
   const data = m ? m.chapters.map((c) => (c.range ? c.range : null)) : chapters.map(() => null);
@@ -63,7 +69,7 @@ export function chapterSequence(r, key, { id, eyebrow, title, intro, chapters, t
     ? join(m.chapters, (c, i) => c.photo
       ? `<div class="seq__layer seq__layer--photo${i === 0 ? ' is-on' : ''}" data-layer="${i}">${photo(r, c.photo, { sizes: '(min-width: 1000px) 460px, 90vw' })}</div>`
       : `<img class="seq__layer${i === 0 ? ' is-on' : ''}" data-layer="${i}" src="${r(c.poster)}" alt="" width="${m.width}" height="${m.height}" loading="lazy" decoding="async">`)
-    : join(photos, (pid, i) => `<div class="seq__layer seq__layer--photo${i === 0 ? ' is-on' : ''}" data-layer="${i}">${photo(r, pid, { sizes: '(min-width: 1000px) 460px, 90vw' })}</div>`);
+    : join(photos, (item, i) => photoLayer(r, item, i));
   return `<section class="seq seq--${tone}${square ? ' seq--square' : ''}${m ? '' : ' seq--photos'}" id="${id}" aria-labelledby="${id}-h"
   data-seq data-chapters='${JSON.stringify(data)}'${m && m.continuous ? ` data-continuous="${m.duration}"` : ''}>
   <div class="seq__head">
@@ -76,9 +82,9 @@ export function chapterSequence(r, key, { id, eyebrow, title, intro, chapters, t
       <figure class="seq__frame" style="--ar: ${ar}">
         ${m ? video(r, m, 'seq__video') : ''}
         ${layers}
-        ${m ? '' : '<span class="media-label">Ukázka provedení</span>'}
+        ${m || !label ? '' : `<span class="media-label">${esc(label)}</span>`}
       </figure>
-      <p class="seq__note">${esc(m ? MEDIA_NOTE : 'Ukázky provedení. Konkrétní sestavu navrhneme podle vašich požadavků.')}</p>
+      <p class="seq__note">${esc(note || (m ? MEDIA_NOTE : 'Ukázky provedení. Konkrétní sestavu navrhneme podle vašich požadavků.'))}</p>
       ${m ? toggle('seq__toggle') : ''}
     </div>
     <ol class="seq__chapters">
@@ -106,7 +112,9 @@ export function productTour(r, p, inquiryHref) {
     intro: t.intro,
     chapters: t.chapters,
     photos: t.photos || null,
-    after: `<p class="seq__cta"><a class="btn btn--primary" href="${inquiryHref(r, 'poptat-' + p.slug)}">Nezávazně poptat tento automat</a></p>`,
+    note: t.note || null,
+    label: t.label === undefined ? 'Ukázka provedení' : t.label,
+    after: `<p class="seq__cta"><a class="btn btn--primary" href="${inquiryHref(r, 'poptat-' + p.slug)}">${esc(p.cta || 'Nezávazně poptat tento automat')}</a></p>`,
   })}</div>`;
 }
 

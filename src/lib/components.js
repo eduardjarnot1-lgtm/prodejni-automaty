@@ -31,6 +31,7 @@ export function photoPlaceholder(kind = 'machine', label = 'Fotografie bude dopl
 // examples of its category (labelled "Ukázka provedení" on the page).
 export function productPhotos(p) {
   if (p.photos.length) return { ids: p.photos, example: false };
+  if (p.noExamplePhotos) return { ids: [], example: false };
   return { ids: photosByCategory(p.category).filter((x) => !x.config).map((x) => x.id), example: true };
 }
 
@@ -60,6 +61,7 @@ export function productGallery(r, p) {
 // a neutral placeholder.
 export function productMedia(r, p, opts = {}) {
   if (p.photos.length) return photo(r, p.photos[0], opts);
+  if (p.noExamplePhotos) return photoPlaceholder('machine');
   const example = photosByCategory(p.category).filter((x) => !x.config)[0];
   if (example) return `${photo(r, example.id, opts)}<span class="media-label">Ukázka provedení</span>`;
   return photoPlaceholder(p.category === 'boxove-systemy' ? 'box' : 'machine');
@@ -106,7 +108,7 @@ export function productCard(r, p, { headingLevel = 3 } = {}) {
   const h = `h${headingLevel}`;
   const url = r(productUrl(p));
   return `<article class="pcard">
-  <div class="pcard__media">${productMedia(r, p, { sizes: '(min-width: 1000px) 360px, (min-width: 640px) 45vw, 92vw' })}</div>
+  <div class="pcard__media">${productMedia(r, p, { sizes: '(min-width: 1000px) 360px, (min-width: 640px) 45vw, 92vw' })}${p.badge ? `<span class="pcard__badge">${esc(p.badge)}</span>` : ''}</div>
   <div class="pcard__body">
     <p class="tag">${esc(categories.find((k) => k.key === p.category)?.name)}</p>
     <${h} class="pcard__title"><a href="${url}">${esc(p.name)}</a></${h}>
@@ -136,6 +138,7 @@ export function specTable(p) {
   if (!p.specs.length) {
     return `<p class="note">${esc(p.specsNote || 'Technické parametry uvedeme v nabídce.')}</p>`;
   }
+  const note = p.specsNote ? `<p class="note">${esc(p.specsNote)}</p>` : '';
   const hasOptional = p.specs.some((s) => s.optional);
   return `<div class="table-scroll"><table class="specs">
   <caption class="visually-hidden">Technické parametry – ${esc(p.name)}</caption>
@@ -143,7 +146,7 @@ export function specTable(p) {
     ${join(p.specs, (s) => `<tr><th scope="row">${esc(s.label)}</th><td>${esc(s.value)}${s.optional ? ' <span class="badge-opt">Volitelné</span>' : ''}</td></tr>`)}
   </tbody>
 </table></div>
-${hasOptional ? '<p class="note">Položky označené „Volitelné“ nejsou součástí základního provedení.</p>' : ''}`;
+${hasOptional ? '<p class="note">Položky označené „Volitelné“ nejsou součástí základního provedení.</p>' : ''}${note}`;
 }
 
 // Contact strip shown at the bottom of most pages.

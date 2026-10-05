@@ -36,6 +36,22 @@ form until confirmed.
 - [ ] **Modular locker system**: any typical configurations or parameters.
 - [ ] **Old item “???? upravit” (200 000 Kč).** Kept in `products.js` with
       `status: 'pending'`; not published. Need name, type and specs.
+- [ ] **HAHA VENDING Pro 542 – conflicting figures.** The brochure spec page
+      says 2,65 kWh/24 h and ~378 units (5 shelves of 500 ml bottles + 1 shelf
+      of 330 ml cans); the English marketing image says 5.96 kWh/24 h and
+      324+ bottles. The website uses the **brochure** values. Confirm with
+      the manufacturer.
+- [ ] **HAHA VENDING Pro 542 – images**: main photo, additional views,
+      detail images, optional app screenshots (placeholders shown now; see
+      README → “HAHA VENDING Pro 542 – images”).
+- [ ] **HAHA VENDING Pro 542 – certification**: CE/RoHS not mentioned on the
+      site. Add only if the manufacturer documents it (attributed to the
+      manufacturer).
+- [ ] **HAHA VENDING Pro 542 – commercial terms**: price (“Cena na
+      poptávku” now), AI VENDING platform terms/fees, rental availability,
+      delivery, warranty and service – none stated on the site.
+- [ ] **HAHA VENDING Pro 542 – payment pre-authorisation**: the site says only
+      that it “may be required”; no amount is stated.
 - [ ] **Rental** – which machines can be rented and on what basic terms.
 - [ ] **Spare parts** – for which brands/machines.
 

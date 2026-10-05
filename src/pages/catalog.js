@@ -11,12 +11,15 @@ export function categoryGallery(r, key, headingLevel = 3) {
   const items = photosByCategory(key).filter((p) => !p.config);
   if (!items.length) return '';
   const h = `h${headingLevel}`;
+  // Products that never borrow example photos are named, so the examples are
+  // not mistaken for them.
+  const other = publishedProducts.filter((p) => p.category === key && p.noExamplePhotos).map((p) => p.name);
   return `<div class="examples">
   <${h} class="examples__h">Ukázky provedení</${h}>
   <ul class="examples__list">
     ${join(items, (p) => `<li><figure><div class="plinth plinth--sm">${photo(r, p.id, { sizes: '(min-width: 1000px) 320px, 45vw' })}</div><figcaption>${esc(p.alt)}</figcaption></figure></li>`)}
   </ul>
-  <p class="note">Konkrétní provedení, počet a velikost schránek upřesníme podle vašich požadavků.</p>
+  <p class="note">${key === 'boxove-systemy' ? 'Konkrétní provedení, počet a velikost schránek upřesníme podle vašich požadavků.' : 'Konkrétní provedení a výbavu upřesníme podle vašich požadavků.'}${other.length ? ` Fotografie nezobrazují model ${esc(other.join(', '))}.` : ''}</p>
 </div>`;
 }
 
@@ -27,7 +30,7 @@ function doubleAssembly(r) {
     id: 'ukazka-sestavy',
     eyebrow: 'Ukázka sestavy',
     title: 'Sestava dvou prodejních automatů',
-    intro: 'Automaty lze sestavit i do větších celků. Parametry a cenu sestavy připravíme individuálně; neplatí pro ni údaje uvedené u chlazeného automatu výše.',
+    intro: 'Automaty lze sestavit i do větších celků. Parametry a cenu sestavy připravíme individuálně; neplatí pro ni údaje uvedené u automatů výše.',
     chapters: [
       { title: 'Sestava dvou skříní', text: 'Dvě prosklené prodejní skříně se společným ovládacím panelem uprostřed.' },
       { title: 'Police se zbožím', text: 'Detail polic se zbožím za prosklenými dveřmi.' },

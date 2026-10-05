@@ -53,6 +53,37 @@ detail page, catalogue card, footer link and inquiry-form option are
 generated automatically. Use `optional: true` for optional specs and never
 copy specs from another model.
 
+Optional per-product fields (used by HAHA VENDING Pro 542): `descriptor`
+(lead under the title), `badge` (card label), `cta` (inquiry button text),
+`contactHeading`, `useCasesNote`, `ai` (purchase steps + manufacturer
+accuracy figure), `remote` (remote-management section), `price.type:
+'inquiry'` (“Cena na poptávku”) and `noExamplePhotos: true` (never borrow
+category example photos; neutral placeholders until own photos arrive).
+
+### HAHA VENDING Pro 542 – images
+
+`automaty/haha-vending-pro-542.html` currently shows neutral placeholders
+(“Fotografie bude doplněna”). No photo or video of another machine is used.
+Slots waiting for the client's images:
+
+| Slot | Where it appears | How to fill it |
+| --- | --- | --- |
+| Main photo | catalogue card, product gallery (first image) | `photos: ['<id>', …]` in `products.js` |
+| Additional views | product gallery thumbnails | further ids in `photos` |
+| Detail images (shelves, door) | “Pro 542 zblízka” chapters 01–02 | replace `{ slot }` in `tours.js` with photo ids |
+| App screenshots (optional) | “Pro 542 zblízka” chapter 03 | replace `{ slot }` in `tours.js` |
+
+Steps: put originals into `media/originals/`, run `npm run images`, add
+entries with Czech `alt` to `src/data/photos.js` (`product:
+'haha-vending-pro-542'`), then reference the ids as above. Images keep
+their aspect ratio (object-fit: contain) and the manifest supplies width
+and height, so the layout does not shift. Photos illustrate the machine;
+captions must not present them as proof of the recognition accuracy.
+
+The homepage section “Jak fungují automaty s AI” (`index.html#automaty-s-ai`,
+`src/pages/home.js → aiSection`) is shown while a published product has
+`ai` data and links to it.
+
 ## Inquiry form
 
 There is no submission backend yet. The form validates input and opens the
