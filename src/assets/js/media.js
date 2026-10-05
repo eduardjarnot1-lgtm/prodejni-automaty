@@ -87,7 +87,12 @@
         // The clips are small, so the chosen file is fetched completely and
         // played from memory: seeking then works on every host, also where
         // the server does not support HTTP range requests.
-        var source = Array.prototype.filter.call(sources, function (sEl) { return video.canPlayType(sEl.type) !== ''; })[0];
+        // Delivery size is chosen before loading (`media` on <source>): only
+        // one file is ever downloaded.
+        var source = Array.prototype.filter.call(sources, function (sEl) {
+          var mq = sEl.getAttribute('media');
+          return video.canPlayType(sEl.type) !== '' && (!mq || window.matchMedia(mq).matches);
+        })[0];
         var fallback = function () { video.preload = 'auto'; video.load(); };
         if (!source || !window.fetch || !window.URL || !URL.createObjectURL) { fallback(); return; }
         fetch(source.src).then(function (res) {
@@ -524,6 +529,15 @@
     var raf = 0;
     var proxy = { t: 0 };
     var tween = null;
+    // data-start-on-request: outside scroll mode the final-frame poster is
+    // shown and the clip plays only when the visitor asks for it.
+    var onRequest = section.hasAttribute('data-start-on-request');
+    var last = ranges.length - 1;
+    var L = {
+      play: section.getAttribute('data-l-play') || 'Přehrát celé video',
+      pause: section.getAttribute('data-l-pause') || 'Pozastavit video',
+      replay: section.getAttribute('data-l-replay') || 'Přehrát video znovu',
+    };
 
     function showLayer(i) { layers.forEach(function (l, k) { l.classList.toggle('is-on', k === i); }); }
     function hideLayers() { layers.forEach(function (l) { l.classList.remove('is-on'); }); }
@@ -541,16 +555,22 @@
     }
 
     clip.onFrame = function () { if (mode === 'scroll') hideLayers(); };
-    clip.onFail = function () { if (btn) btn.hidden = true; showLayer(current < 0 ? 0 : current); section.classList.remove('is-scrub'); refresh(); };
+    clip.onFail = function () {
+      if (btn) btn.hidden = true;
+      // On-request tours fall back to the poster of the complete machine.
+      if (onRequest) { teardown(); mode = 'manual'; mark(last); showLayer(last); } else showLayer(current < 0 ? 0 : current);
+      section.classList.remove('is-scrub');
+      refresh();
+    };
     function refresh() { if (ST()) ST().refresh(); }
 
     function setButton2() {
       if (!btn) return;
       if (clip.failed) { btn.hidden = true; return; }
       if (mode === 'scroll') { setButton(btn, 'pause', 'Vypnout pohyb videa'); return; }
-      if (state === 'playing') setButton(btn, 'pause', 'Pozastavit video');
-      else if (state === 'done') setButton(btn, 'replay', 'Přehrát video znovu');
-      else setButton(btn, 'play', 'Přehrát celé video');
+      if (state === 'playing') setButton(btn, 'pause', L.pause);
+      else if (state === 'done') setButton(btn, 'replay', L.replay);
+      else setButton(btn, 'play', L.play);
     }
 
     // Scroll → time, piecewise per chapter.
@@ -640,7 +660,10 @@
         });
         vis.observe(visual);
         observers.push(vis);
-        if (auto && !mqDesktop.matches) {
+        if (onRequest) {
+          // Poster of the complete machine until playback is requested.
+          if (state !== 'playing') { mark(last); showLayer(last); }
+        } else if (auto && !mqDesktop.matches) {
           var once = new IntersectionObserver(function (entries) {
             if (entries[entries.length - 1].isIntersecting && state === 'idle') { once.disconnect(); playFull(0); }
           }, { threshold: 0.6 });
@@ -665,7 +688,10 @@
       if (mode === 'scroll') { setPrefOff(true); return; }
       if (state === 'playing') { clip.stop(); state = 'idle'; setButton2(); return; }
       if (mqDesktop.matches && !mqReduce.matches && prefOff()) { setPrefOff(false); return; }
-      playFull(0); // the button always plays the complete clip
+      // Paused part-way (on-request tours): continue from the held frame.
+      var t = video.currentTime || 0;
+      if (onRequest && state === 'idle' && t > 0.05 && t < duration - 0.1) { playFull(t); return; }
+      playFull(0); // otherwise the button plays the complete clip
     });
 
     section.addEventListener('click', function (e) {

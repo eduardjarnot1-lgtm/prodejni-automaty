@@ -68,9 +68,11 @@ the web versions are in `media/originals/` (`haha-pro-542-*`):
 | Photo | Use |
 | --- | --- |
 | `haha-pro-542-celkovy-pohled` (three-quarter view) | catalogue card, first gallery image |
-| `haha-pro-542-pohled-zepredu` (front view) | gallery, tour chapter 01 |
-| `haha-pro-542-detaily` (manufacturer detail image, headline cropped, English labels) | gallery, tour chapter 02 |
-| *placeholder* – AI VENDING app screenshot (optional) | tour chapter 03 (`{ slot }` in `tours.js`) |
+| `haha-pro-542-pohled-zepredu` (front view) | gallery |
+| `haha-pro-542-detaily` (manufacturer detail image, headline cropped, English labels) | gallery |
+
+The visual tour (“Pro 542 zblízka”) uses the edited video (see “Product
+videos”); the photographs stay in the gallery as the factual source.
 
 Not used: the English marketing image (`marketing-pro-542-en.png`), because
 its figures contradict the brochure. Photos assigned to a product
@@ -168,7 +170,7 @@ loading or animating fails, the browser does a normal page load.
 
 ## Product videos
 
-Three AI-generated (PixVerse) clips, watermarks kept in this draft. All
+AI-generated (PixVerse) clips, watermarks kept in this draft. All
 settings (original filename, alias, product, posters, time ranges, playback
 mode, reduced-motion fallback) are in `src/data/media.js`. Markup:
 `src/lib/media-markup.js`. Behaviour: `src/assets/js/media.js`.
@@ -178,6 +180,23 @@ mode, reduced-motion fallback) are in `src/data/media.js`. Markup:
 | PixVerse_V6_Image_Text_540P_Create_a_premium_c.mp4 | hero-single-machine-orbit | Úvod, hero | 0.25–1.40 s | Desktop: scroll scrub on a held stage (~205svh); mobile: plays once, holds |
 | PixVerse_V6_Image_Text_540P_Create_a_premium_p.mp4 | locker-cabinet-showcase | automaticky-boxovy-system.html#prohlidka; poster in automaty.html#boxove-systemy | 0.25–1.0 / 1.25–2.45 / 2.75–4.0 s | Chapter playback, each chapter once, holds last frame |
 | PixVerse_V6_Image_Text_540P_create_me_a_vide_w.mp4 | chilled-machine-tour (complete, all-intra) | chlazeny-automat-na-potraviny.html#prohlidka | entire clip 0–7.04 s; 5 chapters follow the footage | Desktop: scroll mapped to the full duration; mobile: plays once in full, holds, replay |
+| PixVerse_V6_Image_Text_540P_Create_a_6second_p.mp4 | haha-pro-542-web (1024², all-intra) / haha-pro-542-mobile (720², keyframe every 6) + `.webm` fallbacks; poster `haha-pro-542-poster.webp` (final frame) | haha-vending-pro-542.html#prohlidka; static poster in index.html#automaty-s-ai | frames 32–120 (1.333–5.042 s) = edited 0–3.708 s; chapters 0–1.5 s “Detail polic”, 1.5–3.708 s “Celkové provedení” | Desktop: scroll mapped to the whole edit; mobile/reduced motion: final-frame poster, “Přehrát prohlídku”, plays once, pause/resume, “Přehrát znovu” |
+
+The Pro 542 edit removes the English specification board and the opening
+morph (its figures contradict the brochure and are never used) and the audio.
+The two sizes are the same edit; `<source media>` plus the selection in
+`media.js` (`Clip.load`) download only one of them. The edited derivatives
+were produced from the original upload with:
+
+```sh
+VF="trim=start_frame=32:end_frame=121,setpts=PTS-STARTPTS"
+ffmpeg -i <orig> -an -vf "$VF" -c:v libx264 -preset slow -crf 21 -g 1 -pix_fmt yuv420p -movflags +faststart haha-pro-542-web.mp4
+ffmpeg -i <orig> -an -vf "$VF,scale=720:720:flags=lanczos" -c:v libx264 -preset slow -crf 22 -g 6 -keyint_min 6 -sc_threshold 0 -pix_fmt yuv420p -movflags +faststart haha-pro-542-mobile.mp4
+```
+
+If you have the separately edited files (`haha-pro-542-web.mp4`,
+`haha-pro-542-mobile.mp4`, `haha-pro-542-poster.webp`), replace the files in
+`src/assets/video/` with the same names (and re-encode the `.webm` fallbacks).
 | PixVerse_V6_Image_Text_360P_Create_a_premium_p.mp4 | double-machine-details | automaty.html#ukazka-sestavy (in #chlazene-automaty); poster on chlazeny-automat-na-potraviny.html | 0–1.38 / 1.75–2.45 / 2.8–3.7 s + still photo | Chapter playback, then the original photo |
 
 Derivatives in `src/assets/video/`: `<alias>.mp4` (H.264), `<alias>.webm`

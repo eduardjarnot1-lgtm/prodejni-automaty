@@ -44,22 +44,16 @@ export const tours = {
     ],
   },
   'haha-vending-pro-542': {
-    // Photo-based tour with the client's Pro 542 photos. Chapter 03 waits for
-    // an app screenshot (`{ slot }` = neutral placeholder). No footage or
-    // photos of other machines are used.
-    photos: [
-      'haha-pro-542-pohled-zepredu',
-      'haha-pro-542-detaily',
-      { slot: 'snímek aplikace AI VENDING' },
-    ],
-    label: null,
-    note: 'Fotografie a materiály výrobce. Ukazují provedení automatu; funkci rozpoznávání nedokládají.',
+    // Video E (edited clip, no specification board). Chapters describe only
+    // what the footage shows: shelves, then the complete cabinet. No payment,
+    // door opening, recognition or app is shown, so none is claimed here.
+    // The product photographs stay in the gallery above.
+    media: 'haha542Tour',
     title: 'Pro 542 zblízka',
-    intro: 'Tři části, které tvoří nákup i provoz automatu. Popis vychází z podkladů výrobce.',
+    intro: 'Prohlédněte si ilustrační vizualizaci automatu od detailu polic po celkové provedení.',
     chapters: [
-      { title: 'Výběr přímo z polic', text: 'Šest polic za dveřmi s vyhřívaným sklem proti zamlžení. Po otevření dveří si zákazník vybírá zboží přímo z polic, i více položek najednou.' },
-      { title: 'AI rozpoznávání produktů', text: 'Po zavření dveří kamerový systém rozpozná odebrané produkty a nákup vyúčtuje. Podle výrobce trvá rozpoznání přibližně 60 sekund.' },
-      { title: 'Správa na dálku', text: 'Prodej, zásoby, teplotu i stav automatu sleduje provozovatel v cloudové platformě AI VENDING.' },
+      { title: 'Detail polic', text: 'Záběr začíná u polic se zbožím za prosklenými dveřmi. Automat má šest polic, které lze přizpůsobit různým tvarům a velikostem balení.' },
+      { title: 'Celkové provedení', text: 'Kamera se vzdálí až k celému automatu. Rozměry 750 × 650 × 2020 mm (š × h × v) a další údaje najdete v technických parametrech níže.' },
     ],
   },
 };

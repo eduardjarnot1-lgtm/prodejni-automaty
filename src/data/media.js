@@ -86,6 +86,48 @@ export const media = {
     reducedMotion: 'chapter posters; optional manual playback of the full clip',
   },
 
+  // VIDEO E: HAHA VENDING Pro 542. One continuous camera move from the
+  // stocked shelves back to the complete cabinet (no hard cut). Edited
+  // derivative = source frames 32–120 (1.333–5.042 s): the English
+  // specification board and the opening morph are removed (its figures
+  // differ from the brochure and are never used), audio removed, frame rate,
+  // speed and square framing kept. Two delivery sizes of the SAME edit; the
+  // player picks one before loading (`files[].media`), never both.
+  haha542Tour: {
+    alias: 'haha-pro-542',
+    original: 'PixVerse_V6_Image_Text_540P_Create_a_6second_p.mp4',
+    association: 'automaty/haha-vending-pro-542.html#prohlidka (+ static poster in index.html#automaty-s-ai)',
+    product: 'haha-vending-pro-542',
+    width: 1024,
+    height: 1024,
+    sourceRange: [1.333333, 5.041667],
+    sourceFrames: [32, 120],
+    continuous: true,
+    duration: 3.708,
+    keyframes: 'web: every frame (scroll scrubbing); mobile: every 6 frames',
+    files: [
+      { src: 'assets/video/haha-pro-542-web.mp4', type: 'video/mp4; codecs="avc1.640020"', media: '(min-width: 900px)' },
+      { src: 'assets/video/haha-pro-542-web.webm', type: 'video/webm; codecs="vp9"', media: '(min-width: 900px)' },
+      { src: 'assets/video/haha-pro-542-mobile.mp4', type: 'video/mp4; codecs="avc1.64001F"' },
+      { src: 'assets/video/haha-pro-542-mobile.webm', type: 'video/webm; codecs="vp9"' },
+    ],
+    poster: 'assets/video/haha-pro-542-poster.webp', // final frame, complete machine
+    posterSmall: 'assets/video/haha-pro-542-poster-480.webp',
+    // Boundary at 1.5 s: the cabinet top enters at ~1.3 s and the whole upper
+    // cabinet is in view by ~1.6 s (continuous move, no cut).
+    chapters: [
+      { id: 'police', range: [0, 1.5], poster: 'assets/video/haha-pro-542-ch1.webp' },
+      { id: 'celek', range: [1.5, 3.708], poster: 'assets/video/haha-pro-542-poster.webp' },
+    ],
+    // Mobile / reduced motion: final-frame poster, playback only on request.
+    startOnRequest: true,
+    labels: { play: 'Přehrát prohlídku', pause: 'Pozastavit prohlídku', replay: 'Přehrát znovu' },
+    scrollPerSecond: '26vh',
+    mode: 'continuous scroll scrub over the full edit (desktop); poster + "Přehrát prohlídku", full playback once, hold, replay (mobile)',
+    reducedMotion: 'final-frame poster; optional manual playback',
+    note: 'Ilustrační vizualizace vytvořená pomocí AI. Skutečné provedení a výbavu upřesníme v nabídce.',
+  },
+
   // VIDEO C: two glass-front cabinets with a central control area.
   doubleDetails: {
     alias: 'double-machine-details',
@@ -109,7 +151,7 @@ export const media = {
   },
 };
 
-export const mediaSources = (m) => [
+export const mediaSources = (m) => m.files || [
   { src: `assets/video/${m.alias}.mp4`, type: `video/mp4; codecs="${m.codec || 'avc1.64001F'}"` },
   { src: `assets/video/${m.alias}.webm`, type: 'video/webm; codecs="vp9"' },
 ];

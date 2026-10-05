@@ -5,7 +5,8 @@ import { categories, publishedProducts, productUrl, priceText } from '../data/pr
 import { photosByCategory, photoById } from '../data/photos.js';
 import { services, process } from '../data/services.js';
 import { photo, photoPlaceholder, button, inquiryHref, contactBand, phoneLink } from '../lib/components.js';
-import { heroStage } from '../lib/media-markup.js';
+import { heroStage, mediaTeaser } from '../lib/media-markup.js';
+import { media } from '../data/media.js';
 
 // Featured machines in the hero, one tab per category. A category shows a
 // photo confirmed for one of its products; otherwise the first category
@@ -156,6 +157,14 @@ function aiSection(r) {
         ${join(ops, (o) => `<li><strong>${esc(o.title)}</strong><span>${esc(o.text)}</span></li>`)}
       </ul>
     </div>
+    ${mediaTeaser(r, {
+      poster: media.haha542Tour.posterSmall, width: 480, height: 480,
+      eyebrow: 'Vizuální prohlídka',
+      title: `${pro.name} zblízka`,
+      text: 'Ilustrační vizualizace vytvořená pomocí AI, od detailu polic po celkové provedení. Rozpoznávání zboží ve videu neuvidíte.',
+      href: r(productUrl(pro) + '#prohlidka'),
+      cta: 'Zobrazit prohlídku',
+    })}
     <div class="ai-scope">
       <p>Kamerové rozpoznávání nabízejí pouze automaty HAHA VENDING s AI. V naší nabídce je to model <a href="${r(productUrl(pro))}">${esc(pro.name)}</a>. Ostatní automaty v katalogu tuto funkci nemají.</p>
       <a class="btn btn--primary" href="${r(productUrl(pro))}">Detail ${esc(pro.name)}</a>

@@ -479,7 +479,7 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
 /* Continuous tour (full clip scrubbed by scroll, desktop): each chapter
    gets scroll length proportional to its duration in the video. */
 @media (min-width: 900px) {
-  .seq.is-scrub .seq__chapter { min-height: calc(var(--dur, 1) * 14vh + 4rem); }
+  .seq.is-scrub .seq__chapter { min-height: calc(var(--dur, 1) * var(--s-per, 14vh) + 4rem); }
   .seq.is-scrub .seq__chapters { gap: 0; padding-block: 22vh 26vh; }
 }
 /* Text follows the footage: the active chapter settles in, others recede. */
@@ -1091,3 +1091,10 @@ html.zt-loading, html.zt-loading * { cursor: progress; }
 .section-head.section-head--stack { grid-template-columns: minmax(0, 1fr); max-width: 48em; }
 .section-head--stack .eyebrow { margin: 0; }
 .section-head--stack h2 { margin-bottom: 0.35rem; }
+
+/* Square tour clip (Pro 542): softer edge mask, so the full composition and
+   the watermark stay visible while the frame blends into the dark stage. */
+.seq--soft .seq__frame {
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 76%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 76%, transparent 100%);
+}

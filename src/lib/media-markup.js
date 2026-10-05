@@ -12,7 +12,7 @@ import { tours } from '../data/tours.js';
 import { photo, photoPlaceholder } from './components.js';
 
 const video = (r, m, cls) => `<video class="${cls}" muted playsinline preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1" width="${m.width}" height="${m.height}">
-      ${join(mediaSources(m), (s) => `<source src="${r(s.src)}" type='${s.type}'>`)}
+      ${join(mediaSources(m), (s) => `<source src="${r(s.src)}" type='${s.type}'${s.media ? ` media="${s.media}"` : ''}>`)}
     </video>`;
 
 // One control for all video areas. Its label and icon are set by media.js
@@ -68,10 +68,14 @@ export function chapterSequence(r, key, { id, eyebrow, title, intro, chapters, t
   const layers = m
     ? join(m.chapters, (c, i) => c.photo
       ? `<div class="seq__layer seq__layer--photo${i === 0 ? ' is-on' : ''}" data-layer="${i}">${photo(r, c.photo, { sizes: '(min-width: 1000px) 460px, 90vw' })}</div>`
-      : `<img class="seq__layer${i === 0 ? ' is-on' : ''}" data-layer="${i}" src="${r(c.poster)}" alt="" width="${m.width}" height="${m.height}" loading="lazy" decoding="async">`)
+      : `<img class="seq__layer${i === (m.startOnRequest ? m.chapters.length - 1 : 0) ? ' is-on' : ''}" data-layer="${i}" src="${r(c.poster)}" alt="" width="${m.width}" height="${m.height}" loading="lazy" decoding="async">`)
     : join(photos, (item, i) => photoLayer(r, item, i));
-  return `<section class="seq seq--${tone}${square ? ' seq--square' : ''}${m ? '' : ' seq--photos'}" id="${id}" aria-labelledby="${id}-h"
-  data-seq data-chapters='${JSON.stringify(data)}'${m && m.continuous ? ` data-continuous="${m.duration}"` : ''}>
+  const opts = m && m.startOnRequest
+    ? ` data-start-on-request data-l-play="${esc(m.labels.play)}" data-l-pause="${esc(m.labels.pause)}" data-l-replay="${esc(m.labels.replay)}"`
+    : '';
+  const style = m && m.scrollPerSecond ? ` style="--s-per: ${m.scrollPerSecond}"` : '';
+  return `<section class="seq seq--${tone}${square ? ' seq--square' : ''}${m ? '' : ' seq--photos'}${m && m.files ? ' seq--soft' : ''}" id="${id}" aria-labelledby="${id}-h"
+  data-seq data-chapters='${JSON.stringify(data)}'${m && m.continuous ? ` data-continuous="${m.duration}"` : ''}${opts}${style}>
   <div class="seq__head">
     ${eyebrow ? `<p class="eyebrow">${esc(eyebrow)}</p>` : ''}
     <h2 id="${id}-h">${esc(title)}</h2>
@@ -84,7 +88,7 @@ export function chapterSequence(r, key, { id, eyebrow, title, intro, chapters, t
         ${layers}
         ${m || !label ? '' : `<span class="media-label">${esc(label)}</span>`}
       </figure>
-      <p class="seq__note">${esc(note || (m ? MEDIA_NOTE : 'Ukázky provedení. Konkrétní sestavu navrhneme podle vašich požadavků.'))}</p>
+      <p class="seq__note">${esc(note || (m ? m.note || MEDIA_NOTE : 'Ukázky provedení. Konkrétní sestavu navrhneme podle vašich požadavků.'))}</p>
       ${m ? toggle('seq__toggle') : ''}
     </div>
     <ol class="seq__chapters">
