@@ -1,4 +1,134 @@
 {
+  "ai-automat-cloud-aplikace": {
+    "width": 1397,
+    "height": 942,
+    "variants": [
+      {
+        "w": 480,
+        "file": "ai-automat-cloud-aplikace-480.webp"
+      },
+      {
+        "w": 800,
+        "file": "ai-automat-cloud-aplikace-800.webp"
+      },
+      {
+        "w": 1200,
+        "file": "ai-automat-cloud-aplikace-1200.webp"
+      },
+      {
+        "w": 1397,
+        "file": "ai-automat-cloud-aplikace-1397.webp"
+      }
+    ]
+  },
+  "ai-nakup-1-platba": {
+    "width": 686,
+    "height": 686,
+    "variants": [
+      {
+        "w": 480,
+        "file": "ai-nakup-1-platba-480.webp"
+      },
+      {
+        "w": 686,
+        "file": "ai-nakup-1-platba-686.webp"
+      }
+    ]
+  },
+  "ai-nakup-2-vyber": {
+    "width": 697,
+    "height": 697,
+    "variants": [
+      {
+        "w": 480,
+        "file": "ai-nakup-2-vyber-480.webp"
+      },
+      {
+        "w": 697,
+        "file": "ai-nakup-2-vyber-697.webp"
+      }
+    ]
+  },
+  "ai-nakup-3-dokonceni": {
+    "width": 504,
+    "height": 504,
+    "variants": [
+      {
+        "w": 480,
+        "file": "ai-nakup-3-dokonceni-480.webp"
+      },
+      {
+        "w": 504,
+        "file": "ai-nakup-3-dokonceni-504.webp"
+      }
+    ]
+  },
+  "ai-prehled-sortimentu": {
+    "width": 1555,
+    "height": 933,
+    "variants": [
+      {
+        "w": 480,
+        "file": "ai-prehled-sortimentu-480.webp"
+      },
+      {
+        "w": 800,
+        "file": "ai-prehled-sortimentu-800.webp"
+      },
+      {
+        "w": 1200,
+        "file": "ai-prehled-sortimentu-1200.webp"
+      },
+      {
+        "w": 1555,
+        "file": "ai-prehled-sortimentu-1555.webp"
+      }
+    ]
+  },
+  "ai-rozpoznavani-police": {
+    "width": 1596,
+    "height": 880,
+    "variants": [
+      {
+        "w": 480,
+        "file": "ai-rozpoznavani-police-480.webp"
+      },
+      {
+        "w": 800,
+        "file": "ai-rozpoznavani-police-800.webp"
+      },
+      {
+        "w": 1200,
+        "file": "ai-rozpoznavani-police-1200.webp"
+      },
+      {
+        "w": 1596,
+        "file": "ai-rozpoznavani-police-1596.webp"
+      }
+    ]
+  },
+  "ai-upozorneni-zasoby": {
+    "width": 1508,
+    "height": 1036,
+    "variants": [
+      {
+        "w": 480,
+        "file": "ai-upozorneni-zasoby-480.webp"
+      },
+      {
+        "w": 800,
+        "file": "ai-upozorneni-zasoby-800.webp"
+      },
+      {
+        "w": 1200,
+        "file": "ai-upozorneni-zasoby-1200.webp"
+      },
+      {
+        "w": 1508,
+        "file": "ai-upozorneni-zasoby-1508.webp"
+      }
+    ]
+  },
   "boxovy-system-12-schranek": {
     "width": 398,
     "height": 583,

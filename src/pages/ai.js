@@ -9,9 +9,8 @@
 import { esc, join } from '../lib/html.js';
 import { icons } from '../lib/icons.js';
 import { publishedProducts, productUrl } from '../data/products.js';
-import { media } from '../data/media.js';
-import { pageHead, inquiryHref, contactBand } from '../lib/components.js';
-import { mediaTeaser } from '../lib/media-markup.js';
+import { pageHead, inquiryHref, contactBand, photo } from '../lib/components.js';
+import { formIll, photosIll, reviewIll, shelfIll, restockIll } from '../lib/ai-visuals.js';
 
 export const AI_PAGE = 'ai-automaty.html';
 
@@ -24,58 +23,61 @@ const sections = [
   { id: 'caste-otazky', label: 'Časté otázky' },
 ];
 
+// Customer journey (brochure: Swipe / Tap → Grab Items → Auto Checkout).
 const journey = [
-  { title: 'Přiložení karty nebo mobilu', text: 'Zákazník zahájí nákup podporovanou platební kartou nebo mobilem. Na kartě může být dočasně rezervována částka (předautorizace platby).' },
-  { title: 'Otevření dveří a výběr', text: 'Dveře se odemknou a zákazník si vybírá zboží přímo z polic. Během jednoho nákupu si může vzít i více produktů.' },
-  { title: 'Zavření dveří', text: 'Když má zákazník vybráno, zavře dveře automatu. Tím je výběr ukončen.' },
-  { title: 'Rozpoznání a vyúčtování', text: 'Kamerový systém s AI rozpozná odebrané produkty a nákup se automaticky vyúčtuje.' },
+  { img: 'ai-nakup-1-platba', title: 'Přiložte kartu nebo telefon', text: 'Podporovanou kartou nebo telefonem zahájíte nákup a odemknete dveře.' },
+  { img: 'ai-nakup-2-vyber', title: 'Vyberte si zboží', text: 'Vezměte si z polic, co chcete, klidně více kusů najednou.' },
+  { img: 'ai-nakup-3-dokonceni', title: 'Dokončete nákup', text: 'Zavřete dveře; systém rozpozná odebrané zboží a nákup vyúčtuje.' },
 ];
 
-const customer = [
-  { title: 'Zboží na očích', text: 'Produkty jsou vidět za prosklenými dveřmi a zákazník si je bere přímo z polic.' },
-  { title: 'Více produktů v jednom nákupu', text: 'Nápoj i svačinu si zákazník vezme najednou, bez opakování platby pro každou položku.' },
-  { title: 'Platba kartou nebo mobilem', text: 'Platební a debetní karty a podporované mobilní peněženky, například Apple Pay a Google Pay. Konkrétní platební metody ověříme podle dodané konfigurace.' },
-  { title: 'Známá samoobsluha', text: 'Přiložit, vybrat, zavřít dveře. Postup připomíná běžný nákup v obchodě s chladicí vitrínou.' },
+const perks = [
+  { icon: 'shelves', title: 'Zboží na očích', text: 'Všechno je vidět za prosklenými dveřmi.' },
+  { icon: 'receipt', title: 'Více produktů, jedna platba', text: 'Nápoj i svačina v jednom nákupu.' },
+  { icon: 'mobile', title: 'Známé platby', text: 'Karty a mobilní peněženky, např. Apple Pay a Google Pay.' },
 ];
 
-const assortment = [
+const assortmentActions = [
+  { icon: 'shelves', title: 'Správa sortimentu', text: 'Sestavíte nabídku pro jednotlivé automaty a police.' },
+  { icon: 'tag', title: 'Nastavení cen', text: 'Ceny nastavujete a měníte sami; platforma je sama nemění.' },
+  { icon: 'chart', title: 'Přehled prodejů', text: 'Uvidíte, co se prodává, a podle toho nabídku upravíte.' },
+];
+const assortmentMore = [
   'Správa knihovny produktů.',
   'Import podporovaných produktů z cloudové knihovny.',
-  'Nastavení a úpravy cen produktů.',
-  'Sestavení sortimentu pro jednotlivé automaty a police.',
-  'Úpravy sortimentu podle dosažených prodejů.',
-  'Registrace nového produktu, který v knihovně chybí.',
+  'Sortiment zvlášť pro každý automat i polici.',
+  'Úpravy nabídky podle dosažených prodejů.',
+  'Registrace nového produktu, který v knihovně chybí (viz níže).',
 ];
 
 const newProduct = [
-  { title: 'Údaje o produktu', text: 'Vyplníte název a další údaje. U standardizovaného zboží zadáte kód GTIN, u nestandardizovaného zboží podle výrobce není potřeba.' },
-  { title: 'Čtyři fotografie', text: 'Přiložíte čtyři fotografie produktu z různých stran.' },
-  { title: 'Odeslání ke kontrole', text: 'Žádost se odešle ke schválení. Podle výrobce je vyřízena do 6 hodin.' },
-  { title: 'Zařazení do sortimentu', text: 'Schválený produkt přidáte do sortimentu konkrétního automatu.' },
-];
-
-const sales = [
-  'Tržby a počty objednávek za zvolené období.',
-  'Výsledky podle produktů a podle automatů.',
-  'Přehled objednávek.',
-  'Stav zásob a upozornění na docházející zboží.',
-  'Historie doplňování a záznamy o změnách zásob.',
+  { ill: formIll, title: 'Údaje o produktu', text: 'Vyplníte údaje o produktu. Standardizované zboží má kód GTIN.' },
+  { ill: photosIll, title: 'Fotografie produktu', text: 'Přiložíte čtyři fotografie: zepředu, zezadu, z boku a shora.', caption: 'Ilustrační příklad' },
+  { ill: reviewIll, title: 'Odeslání ke kontrole', text: 'Žádost odešlete ke schválení.' },
+  { ill: shelfIll, title: 'Zařazení do nabídky', text: 'Po schválení produkt zařadíte do sortimentu automatu.' },
 ];
 
 const restock = [
-  { title: 'Rychlé doplnění', text: 'Pro jednodušší provoz, kde rozhoduje rychlost. Množství doplněného zboží se po jednotlivých produktech nezadává.' },
-  { title: 'Doplnění jedním kliknutím', text: 'Pracuje s vypočteným množstvím k doplnění. Hodí se pro poměrně stálý sortiment.' },
-  { title: 'Doplnění podle objednávky', text: 'Podporuje objednávky na doplnění a uspořádanější práci se skladem.' },
+  { key: 'fast', title: 'Rychlé doplnění', text: 'Zboží doplníte bez zadávání množství u jednotlivých produktů.', when: 'Když rozhoduje rychlost a nevedete evidenci po kusech.' },
+  { key: 'oneclick', title: 'Doplnění jedním kliknutím', text: 'Pracuje s vypočteným množstvím, které je potřeba doplnit.', when: 'Pro poměrně stálý sortiment, který se doplňuje podobně.' },
+  { key: 'order', title: 'Doplnění podle objednávky', text: 'Doplňování probíhá podle připravených objednávek na doplnění.', when: 'Když doplňování plánujete předem a chcete uspořádanou práci se skladem.' },
 ];
 
-const remote = [
-  { title: 'Teplota na dálku', text: 'Kontrola a nastavení teploty v automatu.' },
-  { title: 'Upozornění na stav zařízení', text: 'Zpráva, když automat hlásí problém.' },
-  { title: 'Otevření dveří a restart', text: 'Vzdálené otevření dveří a restart automatu.' },
-  { title: 'Nastavení zařízení a produktů', text: 'Konfigurace automatu a jeho sortimentu.' },
-  { title: 'Objednávky a platby', text: 'Přehled objednávek a záznamů o platbách.' },
-  { title: 'Role a přístupy', text: 'Oprávnění pro kolegy i pro obsluhu, která automat doplňuje.' },
+// Management functions (AI VENDING platform), shown on the schematic phone.
+const functions = [
+  { key: 'produkty', icon: 'tag', title: 'Produkty a ceny', text: 'Katalog produktů, ceny a sortiment jednotlivých automatů.' },
+  { key: 'prodeje', icon: 'chart', title: 'Prodeje a platby', text: 'Přehled objednávek, tržeb a záznamů o platbách za zvolené období.' },
+  { key: 'zasoby', icon: 'box', title: 'Zásoby a doplňování', text: 'Stav zásob, upozornění na docházející zboží a historie doplňování.' },
+  { key: 'stav', icon: 'bell', title: 'Stav zařízení', text: 'Upozornění, když automat hlásí problém, a kontrola teploty.' },
+  { key: 'nastaveni', icon: 'gear', title: 'Nastavení automatu', text: 'Nastavení teploty, vzdálené otevření dveří a restart automatu.' },
+  { key: 'uzivatele', icon: 'users', title: 'Uživatelé a oprávnění', text: 'Role a přístupy pro kolegy i pro obsluhu, která automat doplňuje.' },
 ];
+
+// Accessible tabs (behaviour: main.js → initTabs). Without JavaScript all
+// panels stay visible, one below the other.
+const tabs = (id, label, items, panel) => `<div class="tabs__list" role="tablist" aria-label="${esc(label)}">
+      ${join(items, (x, i) => `<button class="tabs__tab" type="button" role="tab" id="${id}-tab-${x.key}" aria-controls="${id}-panel-${x.key}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-key="${x.key}">${x.icon ? icons[x.icon](18) : ''}<span>${esc(x.title)}</span></button>`)}
+    </div>
+    ${join(items, (x, i) => `<div class="tabs__panel" role="tabpanel" id="${id}-panel-${x.key}" aria-labelledby="${id}-tab-${x.key}" tabindex="0" data-key="${x.key}"${i === 0 ? ' data-first' : ''}>${panel(x)}</div>`)}`;
 
 function faq(r, pro) {
   return [
@@ -90,10 +92,6 @@ function faq(r, pro) {
   ];
 }
 
-const steps = (list) => `<ol class="steps steps--${list.length}">
-      ${join(list, (s) => `<li class="step"><span class="step__bar" aria-hidden="true"></span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></li>`)}
-    </ol>`;
-
 export default {
   path: AI_PAGE,
   navKey: 'ai',
@@ -104,6 +102,7 @@ export default {
     const pro = publishedProducts.find((p) => p.ai);
     const proUrl = r(productUrl(pro));
     const proInquiry = inquiryHref(r, 'poptat-' + pro.slug);
+    const img = (id, sizes) => photo(r, id, { sizes });
     return `
 ${pageHead({
   r,
@@ -120,97 +119,146 @@ ${pageHead({
   <p class="ai-scope-note">Popsané funkce nabízejí automaty HAHA VENDING s AI rozpoznáváním, v naší nabídce model <a href="${proUrl}">${esc(pro.name)}</a>. Ostatní automaty a výdejní boxové systémy v katalogu fungují jinak.</p>
 </div>
 
-<section class="section" id="jak-probiha-nakup" aria-labelledby="nakup-h">
-  <div class="wrap">
-    <div class="ai-stage">
-      <div class="section-head section-head--stack">
-        <p class="eyebrow">Jak probíhá nákup</p>
-        <h2 id="nakup-h">Čtyři kroky od výběru k vyúčtování</h2>
-        <p>Zákazník si vybírá stejně jako u chladicí vitríny v obchodě. Rozdíl je v tom, že pokladnu nahrazuje rozpoznávání zboží.</p>
-      </div>
-      ${steps(journey)}
-      <p class="ai-stage__note">Rozpoznání a vyúčtování probíhá až po zavření dveří; podle výrobce trvá přibližně 60 sekund. Samotný výběr zboží tím zdržen není.</p>
-    </div>
-    ${mediaTeaser(r, {
-      poster: media.haha542Tour.posterSmall, width: 480, height: 480,
-      eyebrow: 'Vizuální prohlídka',
-      title: 'Pro 542: chytrý nákup krok za krokem',
-      text: 'Ilustrační AI vizualizace principu nákupu. Nejde o záznam skutečného nákupu ani rozpoznávání; skutečné provedení a funkce se mohou lišit podle konfigurace.',
-      href: `${proUrl}#prohlidka`,
-      cta: 'Zobrazit prohlídku',
-    })}
-  </div>
-</section>
-
-<!--break-->
-<section class="section" id="vyhody-pro-zakazniky" aria-labelledby="zakaznici-h">
+<section class="section ai-sec" id="jak-probiha-nakup" aria-labelledby="nakup-h">
   <div class="wrap">
     <div class="section-head section-head--stack">
-      <p class="eyebrow">Výhody pro zákazníky</p>
-      <h2 id="zakaznici-h">Nákup, který zákazník zná</h2>
+      <p class="eyebrow">Jak probíhá nákup</p>
+      <h2 id="nakup-h">Nákup, který zákazník zná</h2>
     </div>
-    <ul class="ai-topics">
-      ${join(customer, (t) => `<li><h3>${esc(t.title)}</h3><p>${esc(t.text)}</p></li>`)}
-    </ul>
-  </div>
-</section>
-
-<!--break-->
-<section class="section section--alt" id="ceny-a-sortiment" aria-labelledby="sortiment-h">
-  <div class="wrap">
-    <div class="section-head section-head--stack">
-      <p class="eyebrow">Správa cen a sortimentu</p>
-      <h2 id="sortiment-h">Ceny a nabídku určujete vy</h2>
-      <p>Zákazník zboží vybírá a kupuje. Ceny a sortiment spravuje provozovatel v cloudové platformě AI VENDING; platforma je sama nemění.</p>
-    </div>
-    <div class="ai-cols">
-      <div>
-        <ul class="checks">${join(assortment, (x) => `<li>${icons.check(20)}<span>${esc(x)}</span></li>`)}</ul>
-      </div>
-      <figure class="ai-example">
-        <blockquote><p>V přehledu zjistíte, které produkty se prodávají nejlépe. Podle výsledků můžete upravit jejich cenu, rozšířit nabídku nebo změnit plán doplňování.</p></blockquote>
-        <figcaption>Příklad z praxe. Rozhodnutí je vždy na provozovateli.</figcaption>
-      </figure>
-    </div>
-    <h3 class="ai-sub">Nový produkt v sortimentu</h3>
-    ${steps(newProduct)}
-  </div>
-</section>
-
-<!--break-->
-<section class="section" id="prodeje-a-zasoby" aria-labelledby="zasoby-h">
-  <div class="wrap">
-    <div class="section-head section-head--stack">
-      <p class="eyebrow">Prodeje a zásoby</p>
-      <h2 id="zasoby-h">Přehled o prodeji a doplňování</h2>
-      <p>Údaje z platformy pomáhají najít oblíbené produkty a naplánovat doplňování. Přehled ukazuje tržby a objednávky, ne čistý zisk.</p>
-    </div>
-    <ul class="checks ai-list">${join(sales, (x) => `<li>${icons.check(20)}<span>${esc(x)}</span></li>`)}</ul>
-    <h3 class="ai-sub">Tři způsoby doplňování</h3>
-    <ul class="remote__list remote__list--3">
-      ${join(restock, (f) => `<li><h3>${esc(f.title)}</h3><p>${esc(f.text)}</p></li>`)}
-    </ul>
-    <p class="note">Přesnost evidence zásob závisí na zvoleném způsobu doplňování a na správném zadávání změn. Ne každý způsob odpovídá přesnému fyzickému stavu v automatu.</p>
-  </div>
-</section>
-
-<!--break-->
-<section class="section section--alt" id="vzdalena-sprava" aria-labelledby="dalka-h">
-  <div class="wrap">
-    <div class="section-head section-head--stack">
-      <p class="eyebrow">Vzdálená správa</p>
-      <h2 id="dalka-h">Provoz pod kontrolou i na dálku</h2>
-      <p>Vzdálená správa je funkcí cloudové platformy AI VENDING. Umělá inteligence v automatu slouží k rozpoznávání zboží; přehledy, nastavení a oprávnění zajišťuje platforma.</p>
-    </div>
-    <ol class="ai-flow" aria-label="Kdo co zajišťuje">
-      <li><span class="ai-flow__k">Automat</span><strong>AI rozpoznávání zboží</strong><span>Kamery a AI určí odebrané produkty.</span></li>
-      <li><span class="ai-flow__k">Cloudová platforma</span><strong>AI VENDING</strong><span>Objednávky, platby, zásoby a nastavení.</span></li>
-      <li><span class="ai-flow__k">Aplikace</span><strong>Provozovatel a obsluha</strong><span>Přehledy, upozornění a úkony na dálku.</span></li>
+    <ol class="journey">
+      ${join(journey, (j, i) => `<li class="journey__step">
+        <div class="journey__img">${img(j.img, '(min-width: 900px) 300px, 80vw')}</div>
+        <h3><span class="journey__n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span> ${esc(j.title)}</h3>
+        <p>${esc(j.text)}</p>
+      </li>`)}
     </ol>
-    <ul class="remote__list">
-      ${join(remote, (f) => `<li><h3>${esc(f.title)}</h3><p>${esc(f.text)}</p></li>`)}
+    <p class="ai-label">Ilustrační náhled</p>
+    <ul class="perks" id="vyhody-pro-zakazniky" aria-label="Výhody pro zákazníky">
+      ${join(perks, (x) => `<li>${icons[x.icon](24)}<div><strong>${esc(x.title)}</strong><span>${esc(x.text)}</span></div></li>`)}
     </ul>
-    <p class="note">Popis funkcí vychází z podkladů výrobce. Rozsah funkcí a podmínky používání platformy upřesníme v nabídce.</p>
+
+    <div class="ai-split ai-split--recog">
+      <figure class="ai-figure">${img('ai-rozpoznavani-police', '(min-width: 900px) 560px, 92vw')}<figcaption class="ai-label">Ilustrační náhled</figcaption></figure>
+      <div>
+        <h3 class="ai-sub">Jak AI pozná vybrané zboží</h3>
+        <p>Kamery v automatu sledují police. Po zavření dveří systém s pomocí AI určí, které produkty zákazník odebral, a nákup vyúčtuje.</p>
+        <details class="disclosure disclosure--inline">
+          <summary><span>Podrobnosti o nákupu</span>${icons.plus(20)}</summary>
+          <div class="disclosure__body">
+            <p>Při zahájení nákupu může být na kartě dočasně rezervována částka (předautorizace platby).</p>
+            <p>Rozpoznání a vyúčtování proběhne po zavření dveří; výrobce uvádí přibližně 60 sekund. Samotný výběr zboží tím zdržen není.</p>
+            <p>Výrobce uvádí přesnost rozpoznávání až 99 %. Jde o údaj výrobce, ne o záruku.</p>
+            <p>Konkrétní platební metody ověříme podle dodané konfigurace.</p>
+          </div>
+        </details>
+        <p><a class="link-arrow" href="${proUrl}#prohlidka">Vizuální prohlídka Pro 542 <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--break-->
+<section class="section section--alt ai-sec" id="ceny-a-sortiment" aria-labelledby="sortiment-h">
+  <div class="wrap">
+    <div class="ai-split">
+      <figure class="ai-figure ai-figure--white">${img('ai-prehled-sortimentu', '(min-width: 900px) 560px, 92vw')}<figcaption class="ai-label">Ilustrační náhled, nejde o skutečnou aplikaci</figcaption></figure>
+      <div>
+        <p class="eyebrow">Správa cen a sortimentu</p>
+        <h2 id="sortiment-h">Ceny a nabídku určujete vy</h2>
+        <p class="ai-lead">Zákazník zboží vybírá a kupuje. Ceny a sortiment spravuje provozovatel v cloudové platformě AI VENDING.</p>
+        <ul class="ai-actions">
+          ${join(assortmentActions, (x) => `<li>${icons[x.icon](22)}<div><strong>${esc(x.title)}</strong><span>${esc(x.text)}</span></div></li>`)}
+        </ul>
+        <details class="disclosure disclosure--inline">
+          <summary><span>Další možnosti správy</span>${icons.plus(20)}</summary>
+          <div class="disclosure__body"><ul class="checks">${join(assortmentMore, (x) => `<li>${icons.check(20)}<span>${esc(x)}</span></li>`)}</ul></div>
+        </details>
+      </div>
+    </div>
+
+    <div class="ai-block">
+      <h3 class="ai-sub" id="novy-h">Nový produkt v sortimentu</h3>
+      <ol class="flow">
+        ${join(newProduct, (x, i) => `<li class="flow__step">
+          <div class="flow__ill">${x.ill()}${x.caption ? `<span class="ai-label ai-label--in">${esc(x.caption)}</span>` : ''}</div>
+          <h4><span class="journey__n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span> ${esc(x.title)}</h4>
+          <p>${esc(x.text)}</p>
+        </li>`)}
+      </ol>
+      <details class="disclosure disclosure--inline">
+        <summary><span>Podrobnosti přidání produktu</span>${icons.plus(20)}</summary>
+        <div class="disclosure__body">
+          <p>Nejdřív se vyplatí podívat do cloudové knihovny: podporované produkty z ní můžete rovnou importovat.</p>
+          <p>Pokud produkt v knihovně chybí, podáte žádost o nový produkt. U standardizovaného zboží zadáte kód GTIN, u nestandardizovaného zboží podle výrobce není potřeba. Přiložíte čtyři fotografie produktu.</p>
+          <p>Žádost se po odeslání kontroluje; výrobce uvádí vyřízení do 6 hodin. Schválený produkt pak zařadíte do sortimentu a rozmístíte na police.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!--break-->
+<section class="section ai-sec" id="prodeje-a-zasoby" aria-labelledby="zasoby-h">
+  <div class="wrap">
+    <div class="ai-split ai-split--rev">
+      <figure class="ai-figure">${img('ai-upozorneni-zasoby', '(min-width: 900px) 560px, 92vw')}<figcaption class="ai-label">Ilustrační náhled</figcaption></figure>
+      <div>
+        <p class="eyebrow">Prodeje a zásoby</p>
+        <h2 id="zasoby-h">Víte, co se prodává a co doplnit</h2>
+        <p class="ai-lead">Přehled tržeb a objednávek podle období, produktů a automatů. Platforma upozorní na docházející zboží a eviduje doplňování i změny zásob.</p>
+        <p>Přehled ukazuje tržby a objednávky, ne čistý zisk.</p>
+      </div>
+    </div>
+
+    <div class="ai-block" data-tabs>
+      <h3 class="ai-sub">Tři způsoby doplňování</h3>
+      <div class="restock-ui">
+        ${tabs('doplneni', 'Způsoby doplňování', restock, (x) => `<div class="restock-ui__panel">
+          <div class="restock-ui__ill">${restockIll(x.key)}</div>
+          <div>
+            <h4>${esc(x.title)}</h4>
+            <p>${esc(x.text)}</p>
+            <p class="restock-ui__when"><strong>Kdy se hodí:</strong> ${esc(x.when)}</p>
+          </div>
+        </div>`)}
+      </div>
+      <p class="ai-qual">Přesnost evidence zásob závisí na způsobu doplňování a správném zadávání změn.</p>
+    </div>
+  </div>
+</section>
+
+<!--break-->
+<section class="section section--alt ai-sec" id="vzdalena-sprava" aria-labelledby="dalka-h">
+  <div class="wrap">
+    <div class="remote-ui" data-tabs>
+      <div class="remote-ui__head">
+        <p class="eyebrow">Vzdálená správa</p>
+        <h2 id="dalka-h">Provoz pod kontrolou i na dálku</h2>
+        <p class="ai-lead">AI v automatu rozpoznává zboží. Aplikace a cloudová platforma slouží ke správě provozu.</p>
+      </div>
+      <figure class="appmock" aria-label="Schéma aplikace pro správu automatu">
+        <div class="appmock__phone">
+          <div class="appmock__bar" aria-hidden="true"><span></span></div>
+          <ul class="appmock__grid" aria-hidden="true">
+            ${join(functions, (f) => `<li data-tab-mark="${f.key}">${icons[f.icon](26)}<span>${esc(f.title)}</span></li>`)}
+          </ul>
+        </div>
+        <figcaption class="ai-label">Schematický náhled, nejde o snímek skutečné aplikace</figcaption>
+      </figure>
+      <div class="remote-ui__tabs">
+        ${tabs('sprava', 'Funkce aplikace', functions, (f) => `<p class="remote-ui__text"><strong>${esc(f.title)}.</strong> ${esc(f.text)}</p>`)}
+      </div>
+    </div>
+
+    <div class="ai-diagram">
+      <figure class="ai-figure ai-figure--white">${img('ai-automat-cloud-aplikace', '(min-width: 900px) 640px, 92vw')}</figure>
+      <ol class="ai-diagram__steps" aria-label="Jak spolu části souvisejí">
+        <li>${icons.machine(24)}<strong>Automat</strong><span>AI rozpozná odebrané zboží.</span></li>
+        <li>${icons.cloud(24)}<strong>Cloudová platforma</strong><span>Objednávky, platby, zásoby a nastavení.</span></li>
+        <li>${icons.mobile(24)}<strong>Aplikace</strong><span>Přehledy, upozornění a úkony na dálku.</span></li>
+      </ol>
+    </div>
+    <p class="ai-qual">Popis funkcí vychází z podkladů výrobce. Dostupnost funkcí závisí na dodané konfiguraci a podmínkách platformy; upřesníme je v nabídce.</p>
   </div>
 </section>
 

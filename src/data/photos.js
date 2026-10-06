@@ -109,6 +109,59 @@ export const photos = [
     product: 'haha-vending-pro-542',
     note: 'Client upload "Clear · Long-Lasting · Secure", headline cropped off (y 105–701). English labels kept. Self-closing door is not in the brochure, so it is not claimed in the text.',
   },
+  // Illustrations for the "AI automaty" page, supplied by the client
+  // (originals: media/source/ai-ilustrace/). Schematic, not photographs of
+  // the real machine or app; the page labels them as illustrations. Not
+  // assigned to a category, so they never appear in catalogue galleries.
+  {
+    id: 'ai-nakup-1-platba',
+    title: 'Přiložení karty',
+    alt: 'Ruka přikládá platební kartu k bezkontaktní čtečce',
+    category: null, product: null,
+    note: 'Crop 1/3 of the supplied purchase-journey illustration.',
+  },
+  {
+    id: 'ai-nakup-2-vyber',
+    title: 'Výběr zboží',
+    alt: 'Otevřená chladicí vitrína, ruka bere lahev s džusem z police',
+    category: null, product: null,
+    note: 'Crop 2/3 of the supplied purchase-journey illustration.',
+  },
+  {
+    id: 'ai-nakup-3-dokonceni',
+    title: 'Dokončený nákup',
+    alt: 'Telefon se zeleným potvrzením a účtenka',
+    category: null, product: null,
+    note: 'Crop 3/3 of the supplied purchase-journey illustration. Receipt shown only as an illustration.',
+  },
+  {
+    id: 'ai-rozpoznavani-police',
+    title: 'Rozpoznávání zboží',
+    alt: 'Kamera nad policí se zbožím; vyznačené rámečky kolem lahve a salátu, které ruka odebírá',
+    category: null, product: null,
+    note: 'Supplied illustration of camera recognition.',
+  },
+  {
+    id: 'ai-prehled-sortimentu',
+    title: 'Přehled sortimentu a prodejů',
+    alt: 'Tablet se sloupcovým grafem a kartami produktů, vedle lahev, jogurt a účtenka',
+    category: null, product: null,
+    note: 'Supplied illustration; abstract interface without real data.',
+  },
+  {
+    id: 'ai-upozorneni-zasoby',
+    title: 'Upozornění z automatu',
+    alt: 'Telefon s ikonami teploty, zásob a servisu, spojený se zvonečkem upozornění a chladicím automatem',
+    category: null, product: null,
+    note: 'Supplied illustration of alerts.',
+  },
+  {
+    id: 'ai-automat-cloud-aplikace',
+    title: 'Automat, cloud a aplikace',
+    alt: 'Chladicí automat propojený přes cloud s telefonem, na kterém je seznam produktů',
+    category: null, product: null,
+    note: 'Supplied illustration of the machine – cloud – app connection.',
+  },
 ];
 
 export const photoById = (id) => photos.find((p) => p.id === id);

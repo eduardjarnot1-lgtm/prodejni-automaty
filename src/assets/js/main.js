@@ -345,6 +345,46 @@
     });
   }
 
+  // ---- Tabs (AI page: management functions, restocking methods) ----
+  // Without JavaScript every panel is visible. Arrow keys, Home and End move
+  // between tabs; elements with data-tab-mark="<key>" inside the same
+  // [data-tabs] container are highlighted with the active tab.
+  function initTabs(scope) {
+    each(scope.querySelectorAll('[data-tabs]'), function (box) {
+      var tabs = Array.prototype.slice.call(box.querySelectorAll('[role="tab"]'));
+      var panels = Array.prototype.slice.call(box.querySelectorAll('[role="tabpanel"]'));
+      var marks = Array.prototype.slice.call(box.querySelectorAll('[data-tab-mark]'));
+      if (!tabs.length) return;
+      box.classList.add('is-tabs');
+      function select(i, focus) {
+        var key = tabs[i].getAttribute('data-key');
+        tabs.forEach(function (t, k) {
+          t.setAttribute('aria-selected', String(k === i));
+          t.tabIndex = k === i ? 0 : -1;
+        });
+        var shown = null;
+        panels.forEach(function (p) {
+          var on = p.getAttribute('data-key') === key;
+          if (on && p.hidden) shown = p;
+          p.hidden = !on;
+        });
+        marks.forEach(function (m) { m.classList.toggle('is-active', m.getAttribute('data-tab-mark') === key); });
+        if (focus) tabs[i].focus();
+        if (shown && window.Motion) window.Motion.crossfade(null, shown);
+      }
+      tabs.forEach(function (t, i) {
+        t.addEventListener('click', function () { select(i, false); });
+        t.addEventListener('keydown', function (e) {
+          var n = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+          if (n === undefined) return;
+          e.preventDefault();
+          select((n + tabs.length) % tabs.length, true);
+        });
+      });
+      select(0, false);
+    });
+  }
+
   function initPage(main, opts) {
     if (window.MediaStage) window.MediaStage.init(main);
     initMap(main);
@@ -352,6 +392,7 @@
     initGalleryPanel(main);
     initProductGallery(main);
     initAccordions(main);
+    initTabs(main);
     initForm(main);
     if (window.Motion) window.Motion.initPage(main, opts);
   }

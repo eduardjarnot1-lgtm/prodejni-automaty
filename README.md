@@ -84,6 +84,13 @@ must not present photos as proof of the recognition accuracy.
 The page “AI automaty” (`ai-automaty.html`, `src/pages/ai.js`, nav item
 between Úvod and Automaty) explains purchasing with AI recognition, price and
 assortment management, sales/stock, restocking, remote management and a FAQ.
+Its sections use the client's illustrations (`media/source/ai-ilustrace/`,
+registered in `photos.js` as `ai-*`, labelled “Ilustrační náhled” on the page),
+schematic SVGs from `src/lib/ai-visuals.js` (adding a product, restocking) and
+a schematic phone for the management functions. No real app screenshots are
+used: the only ones supplied (brochure pages) are too small and show another
+operator's data. Functions and restocking methods are accessible tabs
+(`main.js → initTabs`; without JavaScript all panels are shown).
 It replaced the former homepage section `#automaty-s-ai`; the homepage keeps
 three benefits and links to it (“Jak fungují AI automaty”). It uses the
 published product with `ai` data (Pro 542) for its links.
