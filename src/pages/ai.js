@@ -105,7 +105,7 @@ function faq(r, pro) {
   return [
     { q: 'Jak AI pozná vybrané zboží?', a: 'Automat má kamerový systém, který po zavření dveří s pomocí umělé inteligence rozpozná, které produkty zákazník odebral. Výrobce uvádí přesnost rozpoznávání až 99 %. Jde o údaj výrobce, ne o záruku; výsledek může záviset na sortimentu a balení zboží.' },
     { q: 'Lze koupit více produktů najednou?', a: 'Ano. Během jednoho nákupu si zákazník může vzít více produktů a nákup se vyúčtuje dohromady.' },
-    { q: 'Jaké platební metody automat podporuje?', a: 'Podle výrobce platební a debetní karty a podporované mobilní peněženky, například Apple Pay a Google Pay. Konkrétní platební metody ověříme podle dodané konfigurace.' },
+    { q: 'Jaké platební metody automat podporuje?', a: 'Podle výrobce kreditní a debetní karty a podporované mobilní peněženky, například Apple Pay a Google Pay. Konkrétní platební metody ověříme podle dodané konfigurace.' },
     { q: 'Mohu měnit ceny a sortiment?', a: 'Ano. Ceny i sortiment nastavuje provozovatel v platformě AI VENDING, a to pro jednotlivé automaty i police. Platforma ceny sama nemění.' },
     { q: 'Jak přidám nový produkt?', a: 'Buď ho importujete z cloudové knihovny produktů, nebo podáte žádost o registraci: vyplníte údaje, přiložíte čtyři fotografie a po schválení produkt zařadíte do sortimentu. Podle výrobce je žádost vyřízena do 6 hodin.' },
     { q: 'Jak zjistím, co je potřeba doplnit?', a: 'Platforma ukazuje stav zásob a upozorní na docházející zboží. Přesnost evidence závisí na zvoleném způsobu doplňování a na správném zadávání změn.' },

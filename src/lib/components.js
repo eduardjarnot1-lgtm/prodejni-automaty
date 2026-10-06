@@ -101,7 +101,7 @@ export function breadcrumbs(r, crumbs) {
 
 export function priceBlock(p) {
   const t = priceText(p.price);
-  return `<p class="price"><span class="price__label">${esc(t.label)}</span> <span class="price__value">${esc(t.value)}</span></p>`;
+  return `<p class="price">${t.label ? `<span class="price__label">${esc(t.label)}</span> ` : ''}<span class="price__value">${esc(t.value)}</span></p>`;
 }
 
 export function productCard(r, p, { headingLevel = 3 } = {}) {

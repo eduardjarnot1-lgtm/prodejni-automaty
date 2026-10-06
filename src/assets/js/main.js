@@ -26,7 +26,7 @@
       var isOpen = toggle.getAttribute('aria-expanded') === 'true';
       if (open === isOpen) return;
       toggle.setAttribute('aria-expanded', String(open));
-      var compact = !window.matchMedia('(min-width: 1301px)').matches;
+      var compact = !window.matchMedia('(min-width: 1241px)').matches;
       if (open) {
         nav.classList.add('is-open');
         if (window.Motion && compact) window.Motion.navPanel(nav, true);
@@ -47,7 +47,7 @@
         toggle.focus();
       }
     });
-    window.matchMedia('(min-width: 1301px)').addEventListener('change', function (mq) {
+    window.matchMedia('(min-width: 1241px)').addEventListener('change', function (mq) {
       if (mq.matches) setNavOpen(false);
     });
   }

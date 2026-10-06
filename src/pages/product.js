@@ -79,6 +79,8 @@ export function productPage(p) {
   return {
     path: productUrl(p),
     navKey: 'automaty',
+    // Every inquiry action on this page (incl. the mobile bar) preselects it.
+    inquiryAnchor: 'poptat-' + p.slug,
     title: p.name,
     description: p.summary,
     render(r) {
@@ -107,15 +109,13 @@ ${pageHead({
     <p class="product__lead">${esc(p.summary)}</p>
     ${priceBlock(p)}
     <p class="note">${p.price.type === 'from' || p.price.type === 'fixed'
-      ? 'Cena je orientační. Konečnou cenu podle výbavy a podmínky dodání uvedeme v nabídce.'
-      : p.price.type === 'inquiry'
-        ? 'Cenu a podmínky dodání uvedeme v nezávazné nabídce.'
-        : 'Cenu připravíme na míru podle požadované konfigurace.'}</p>
+      ? 'Cena je orientační.'
+      : p.price.type === 'inquiry' ? '' : 'Cenu připravíme podle požadované konfigurace.'}
+      Automaty nabízíme ke koupi i k pronájmu. ${p.price.type === 'from' || p.price.type === 'fixed' ? 'Konečnou cenu podle výbavy, podmínky' : 'Cenu, podmínky'} dodání i možnost pronájmu, instalace a servisu tohoto typu upřesníme v nezávazné nabídce.</p>
     <div class="actions actions--stack">
       ${button(inquiryHref(r, 'poptat-' + p.slug), p.cta || 'Nezávazně poptat tento automat', 'primary')}
       <p class="product__call">${icons.phone(18)} ${phoneLink()}</p>
     </div>
-    <p class="product__also">Automaty nabízíme ke koupi i k pronájmu. Možnost pronájmu, instalaci a servis tohoto typu upřesníme v nabídce.</p>
   </aside>
 </div>
 
@@ -138,7 +138,7 @@ ${related.length ? `<section class="section section--alt" aria-labelledby="dalsi
   </div>
 </section>` : ''}
 
-${contactBand(r, { heading: p.contactHeading || `Zajímá vás ${p.name.toLowerCase()}?` })}
+${contactBand(r, { heading: p.contactHeading || `Zajímá vás ${p.name.toLowerCase()}?`, anchor: 'poptat-' + p.slug })}
 `;
     },
   };

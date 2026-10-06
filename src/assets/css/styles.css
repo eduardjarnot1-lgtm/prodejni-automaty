@@ -194,8 +194,8 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
 .site-nav__list a[aria-current="page"]::before { background: var(--green-bright); height: 2px; }
 .site-nav__list { position: relative; }
 .nav-ind { position: absolute; left: 0; bottom: 2px; width: 0; height: 2px; background: var(--ink); pointer-events: none; opacity: 0; visibility: hidden; list-style: none; }
-@media (min-width: 1301px) { .has-nav-ind .site-nav__list a::before { display: none; } }
-@media (max-width: 1300px) { .nav-ind { display: none; } }
+@media (min-width: 1241px) { .has-nav-ind .site-nav__list a::before { display: none; } }
+@media (max-width: 1240px) { .nav-ind { display: none; } }
 .site-nav__end { display: flex; align-items: center; gap: clamp(14px, 2.2vw, 30px); }
 .site-nav__actions { display: flex; align-items: center; gap: 6px; }
 .icon-btn {
@@ -217,7 +217,7 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
 .nav-toggle[aria-expanded="false"] .nav-toggle__close,
 .nav-toggle[aria-expanded="true"] .nav-toggle__open { display: none; }
 
-@media (min-width: 1301px) {
+@media (min-width: 1241px) {
   .site-nav { flex: 1; display: flex; justify-content: space-between; align-items: center; }
   /* Centre notch: a tab of the frame colour cut into the top of the first panel. */
   .site-header .brand {
@@ -242,7 +242,7 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
   .site-header.is-stuck .brand::before { display: none; }
   .site-header.is-stuck .brand__name { font-size: 1.0625rem; }
 }
-@media (max-width: 1300px) {
+@media (max-width: 1240px) {
   .js .nav-toggle { display: inline-flex; }
   .site-header.is-stuck { position: fixed; top: 8px; }
   .site-header.is-stuck .site-header__bar { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(12px); border-radius: 999px; box-shadow: 0 10px 24px -16px rgba(28, 32, 39, 0.45); min-height: 58px; }
@@ -387,7 +387,7 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
 }
 
 /* Header over the dark stage (until it turns into the floating pill). */
-@media (min-width: 1301px) {
+@media (min-width: 1241px) {
   .has-stage .site-header:not(.is-stuck) .site-nav__list a { color: var(--stage-ink); }
   .has-stage .site-header:not(.is-stuck) .btn--dark { background: var(--white); color: var(--ink); }
   .has-stage .site-header:not(.is-stuck) .icon-btn { background: transparent; color: var(--white); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5); }
@@ -395,7 +395,7 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
   .has-stage .site-header:not(.is-stuck) .brand::before { background: var(--frame); }
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 1240px) {
   .has-stage .site-header:not(.is-stuck) .site-header__bar {
     margin-top: 8px; margin-inline: 8px; min-height: 56px; border-radius: 999px;
     background: rgba(255, 255, 255, 0.94); padding-inline: 14px 8px;
@@ -1419,3 +1419,47 @@ html.zt-loading, html.zt-loading * { cursor: progress; }
 .pov__note { margin: 1rem 0 0; color: var(--ink-2); }
 .pov__options { margin-top: clamp(2rem, 4vw, 2.75rem); }
 .pov__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: clamp(2rem, 4vw, 2.75rem); padding-top: 1.5rem; border-top: 1px solid var(--line); }
+
+/* ---------- Model identifiers ("Pro 542") ----------
+   Georgia's default old-style figures make "542" look uneven in headings.
+   Lining figures are requested; Georgia itself has no lining set, so the
+   digits of model names only fall back to a lining serif (Times New Roman
+   / Liberation Serif / Tinos), via unicode-range. Nothing else changes. */
+@font-face {
+  font-family: 'Model Digits';
+  src: local('Times New Roman'), local('TimesNewRomanPSMT'), local('Liberation Serif'), local('Tinos'), local('Times');
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: 'Model Digits';
+  src: local('Times New Roman Bold'), local('TimesNewRomanPS-BoldMT'), local('Liberation Serif Bold'), local('Tinos Bold'), local('Times Bold');
+  font-weight: 700;
+  unicode-range: U+0030-0039;
+}
+.model { font-family: 'Model Digits', var(--font-sans); font-variant-numeric: lining-nums; white-space: nowrap; }
+
+/* Hero with the Pro 542 clip: caption on its own line under the video,
+   control centred below it, both in the video's column. */
+.stage__visual { display: grid; justify-items: center; gap: 14px; }
+.hero--once .stage__meta { position: static; display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: min(100%, 440px); margin: 0; }
+.hero--once .stage__note { text-align: center; max-width: none; font-size: 0.8125rem; color: rgba(244, 245, 246, 0.74); text-wrap: balance; }
+
+/* Compact page headers (shared): less padding and tighter gaps between
+   breadcrumbs, label, title and subtitle. */
+.page-head { padding-block: calc(var(--header-space) + clamp(0.25rem, 1.2vw, 1.25rem)) clamp(1.75rem, 1.25rem + 2vw, 3rem); }
+.page-head .crumbs ol { margin-bottom: 0.75rem; }
+.page-head .eyebrow { margin-bottom: 0.5rem; }
+.page-head h1 { margin-bottom: 0.25em; }
+.crumbs ol { row-gap: 2px; }
+.crumbs li { overflow-wrap: anywhere; }
+/* Narrower desktops: slightly tighter navigation so all six items fit
+   beside the centred logo (from 1241 px). */
+@media (min-width: 1241px) and (max-width: 1439px) {
+  .site-nav__list { gap: 16px; }
+  .site-nav__end { gap: 16px; }
+  .site-nav__list a { letter-spacing: 0.05em; }
+  .site-header .brand { padding-inline: 60px; }
+}
+/* Inside flex/grid controls (buttons, links with icons) the model name is
+   part of the label text, not a separate item with its own gap. */
+.btn .model, .link-arrow .model, .mobile-bar .model, .teaser__cta .model, .showcase__more .model { display: contents; }

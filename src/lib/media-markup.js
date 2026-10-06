@@ -28,6 +28,13 @@ const toggle = (cls = '') => `<button class="media-toggle ${cls}" type="button" 
 // Homepage hero: dark stage, Video A scrubbed by scrolling (desktop).
 // `text` is the hero copy (headline, lead, buttons, phone).
 // ---------------------------------------------------------------------------
+// Caption + control. In `once` heroes it sits under the video, in the same
+// column; in the scroll hero it stays in the stage corner.
+const meta = (m) => `<div class="stage__meta">
+      <p class="stage__note">${esc(m.note || MEDIA_NOTE)}</p>
+      ${toggle('stage__toggle')}
+    </div>`;
+
 export function heroStage(r, text, key = 'heroOrbit') {
   const m = media[key];
   // `once` clips play once when visible; the others are scrubbed by scroll.
@@ -36,15 +43,12 @@ export function heroStage(r, text, key = 'heroOrbit') {
   <div class="stage__sticky">
     <div class="stage__inner">
       <div class="stage__text">${text}</div>
-      <figure class="stage__media" style="--ar: ${m.width} / ${m.height}">
+      ${m.once ? '<div class="stage__visual">' : ''}<figure class="stage__media" style="--ar: ${m.width} / ${m.height}">
         ${video(r, m, 'stage__video')}
         <img class="stage__poster" src="${r(m.poster)}" alt="${esc(m.alt)}" width="${m.width}" height="${m.height}" fetchpriority="high" decoding="async">
-      </figure>
+      </figure>${m.once ? meta(m) + '</div>' : ''}
     </div>
-    <div class="stage__meta">
-      <p class="stage__note">${esc(m.note || MEDIA_NOTE)}</p>
-      ${toggle('stage__toggle')}
-    </div>
+    ${m.once ? '' : meta(m)}
   </div>
 </section>`;
 }

@@ -92,7 +92,7 @@ export const products = [
       { label: 'Kapacita (příklad)', value: 'přibližně 378 ks: 5 polic lahví 0,5 l a 1 police plechovek 0,33 l. Skutečná kapacita závisí na balení a uspořádání zboží.' },
       { label: 'Dveře', value: 'Rám z hliníkové slitiny, vyhřívané sklo proti zamlžení' },
       { label: 'Nastavení teploty', value: 'Na dálku v aplikaci' },
-      { label: 'Platby', value: 'Platební a debetní karty, podporované mobilní peněženky (Apple Pay, Google Pay)' },
+      { label: 'Platby', value: 'Kreditní a debetní karty, podporované mobilní peněženky (Apple Pay, Google Pay)' },
       { label: 'Přesnost rozpoznávání', value: 'až 99 % (podle výrobce)' },
       { label: 'Doba rozpoznání nákupu', value: 'přibližně 60 s po zavření dveří (podle výrobce)' },
       { label: 'Přidání nového produktu', value: 'do 6 hodin (podle výrobce)' },
@@ -250,7 +250,8 @@ export function priceText(price) {
     case 'configuration':
       return { label: 'Cena', value: 'Podle konfigurace' };
     case 'inquiry':
-      return { label: 'Cena', value: 'na poptávku' };
+      // One fixed phrase everywhere (no separate label).
+      return { label: '', value: 'Cena na poptávku' };
     default:
       return { label: 'Cena', value: 'Individuální nacenění' };
   }

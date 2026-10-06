@@ -12,7 +12,7 @@ const c = site.contact;
 // inquiry button and phone (the right side is the busier one).
 const NAV_SPLIT = site.nav.length - 2;
 
-export function layout({ r, path, navKey, title, description, body, preview = false }) {
+export function layout({ r, path, navKey, title, description, body, preview = false, inquiryAnchor }) {
   const fullTitle = `${title} | ${site.brandName}`;
   const canonical = site.baseUrl ? `${site.baseUrl.replace(/\/$/, '')}/${path}` : '';
 
@@ -60,7 +60,7 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
           ${join(site.nav.slice(NAV_SPLIT), (n) => `<li><a href="${r(n.href)}"${n.key === navKey ? ' aria-current="page"' : ''}>${esc(n.label)}</a></li>`)}
         </ul>
         <div class="site-nav__actions">
-          <a class="btn btn--dark" href="${inquiryHref(r)}" data-size="sm">Nezávazně poptat</a>
+          <a class="btn btn--dark" href="${inquiryHref(r, inquiryAnchor)}" data-size="sm">Nezávazně poptat</a>
           <a class="icon-btn" href="${c.phoneHref}" aria-label="Zavolat ${esc(c.phone)}" title="${esc(c.phone)}">${icons.phone(18)}</a>
           <a class="header-phone" href="${c.phoneHref}">${icons.phone(18)}<span>${esc(c.phone)}</span></a>
         </div>
@@ -105,7 +105,7 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 </footer>
 <div class="mobile-bar" aria-label="Rychlý kontakt" role="region">
   <a class="mobile-bar__call" href="${c.phoneHref}">${icons.phone(18)} Zavolat</a>
-  <a class="mobile-bar__inquiry" href="${inquiryHref(r)}">Nezávazně poptat</a>
+  <a class="mobile-bar__inquiry" href="${inquiryHref(r, inquiryAnchor)}">Nezávazně poptat</a>
 </div>`;
 
   const content = `${header}

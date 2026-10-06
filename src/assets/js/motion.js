@@ -214,7 +214,7 @@
   // Animated navigation indicator (desktop): a bar that follows the
   // hovered/focused link and rests under the current page.
   function initNavIndicator() {
-    var desktop = window.matchMedia('(min-width: 1301px)');
+    var desktop = window.matchMedia('(min-width: 1241px)');
     var lists = toArray(document.querySelectorAll('.site-nav__list'));
     if (!lists.length) return;
     root.classList.add('has-nav-ind');

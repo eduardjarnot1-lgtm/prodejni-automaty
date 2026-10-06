@@ -61,7 +61,7 @@ function showcase(r) {
         <h3 class="showcase__name">${esc(f.name)}</h3>
         ${f.single
           ? `<ul class="chips chips--dark" aria-label="Hlavní parametry">${join(f.single.highlights, (x) => `<li>${esc(x)}</li>`)}</ul>
-             <p class="showcase__price">${esc(priceText(f.single.price).label)}: <strong>${esc(priceText(f.single.price).value)}</strong></p>
+             <p class="showcase__price">${priceText(f.single.price).label ? `${esc(priceText(f.single.price).label)}: ` : ''}<strong>${esc(priceText(f.single.price).value)}</strong></p>
              <p class="showcase__links"><a class="showcase__more" href="${r(productUrl(f.single))}">Detail automatu ${icons.arrow(16)}</a>${f.inquiry ? `<a class="showcase__more" href="${inquiryHref(r, 'poptat-' + f.single.slug)}">Nezávazně poptat ${icons.arrow(16)}</a>` : ''}</p>`
           : `<p class="showcase__text">${esc(f.text)}</p>
              <ul class="showcase__models">${join(f.items, (p) => `<li><a href="${r(productUrl(p))}">${esc(p.name)} ${icons.arrow(16)}</a></li>`)}</ul>`}

@@ -62,7 +62,7 @@ export const tours = {
       },
       {
         title: 'Přiložení, výběr a automatické vyúčtování',
-        text: 'Video představuje postup Swipe / Tap → Grab Items → Auto Checkout: zahájení nákupu kartou nebo telefonem, odebrání zboží a automatické vyúčtování.',
+        text: 'Video ukazuje postup nákupu: přiložení karty nebo telefonu → výběr zboží → automatické vyúčtování. Anglické popisky ve videu jsou součástí vizualizace.',
         qual: 'Konkrétní průběh a podporované platební metody ověříme podle dodané konfigurace.',
       },
       {
