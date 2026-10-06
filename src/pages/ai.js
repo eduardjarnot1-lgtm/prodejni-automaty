@@ -56,10 +56,32 @@ const newProduct = [
   { ill: shelfIll, title: 'Zařazení do nabídky', text: 'Po schválení produkt zařadíte do sortimentu automatu.' },
 ];
 
+// Recording a restock in the app (brochure: "Scan the code to open the door
+// and restock items. Choose from three restocking modes"; mode definitions
+// from the manufacturer). How the one-click quantity is calculated is not
+// documented, so it is not described.
 const restock = [
-  { key: 'fast', title: 'Rychlé doplnění', text: 'Zboží doplníte bez zadávání množství u jednotlivých produktů.', when: 'Když rozhoduje rychlost a nevedete evidenci po kusech.' },
-  { key: 'oneclick', title: 'Doplnění jedním kliknutím', text: 'Pracuje s vypočteným množstvím, které je potřeba doplnit.', when: 'Pro poměrně stálý sortiment, který se doplňuje podobně.' },
-  { key: 'order', title: 'Doplnění podle objednávky', text: 'Doplňování probíhá podle připravených objednávek na doplnění.', when: 'Když doplňování plánujete předem a chcete uspořádanou práci se skladem.' },
+  {
+    key: 'fast', title: 'Rychlé doplnění',
+    does: 'Doplníte zboží a zaznamenáte to bez zadávání počtu doplněných kusů u každého produktu.',
+    records: 'Při tomto kroku nezadáváte přesná množství jednotlivých produktů.',
+    when: 'Když chcete omezit ruční zadávání údajů.',
+    tags: ['Krabice', 'Automat', 'Bez počtu kusů'],
+  },
+  {
+    key: 'oneclick', title: 'Doplnění jedním kliknutím',
+    does: 'Doplníte zboží a doplnění zaznamenáte v aplikaci jedním kliknutím.',
+    records: 'Režim pracuje s vypočteným množstvím k doplnění. Jedno kliknutí se týká záznamu v aplikaci, nikoli fyzického doplnění zboží.',
+    when: 'Pro provoz s poměrně stálým sortimentem.',
+    tags: ['Automat', 'Vypočtené množství', 'Potvrzení'],
+  },
+  {
+    key: 'order', title: 'Doplnění podle objednávky',
+    does: 'Doplnění organizujete podle objednávky na doplnění zásob, ne podle nákupu zákazníka.',
+    records: 'Podle výrobce tento režim podporuje přesnější evidenci zásob.',
+    when: 'Pro plánované doplňování a přehlednější práci se skladem.',
+    tags: ['Objednávka na doplnění', 'Krabice', 'Automat'],
+  },
 ];
 
 // Management functions (AI VENDING platform), shown on the schematic phone.
@@ -210,20 +232,33 @@ ${pageHead({
       </div>
     </div>
 
-    <div class="ai-block" data-tabs>
-      <h3 class="ai-sub">Tři způsoby doplňování</h3>
-      <div class="restock-ui">
-        ${tabs('doplneni', 'Způsoby doplňování', restock, (x) => `<div class="restock-ui__panel">
-          <div class="restock-ui__ill">${restockIll(x.key)}</div>
-          <div>
-            <h4>${esc(x.title)}</h4>
-            <p>${esc(x.text)}</p>
-            <p class="restock-ui__when"><strong>Kdy se hodí:</strong> ${esc(x.when)}</p>
-          </div>
-        </div>`)}
-      </div>
-      <p class="ai-qual">Přesnost evidence zásob závisí na způsobu doplňování a správném zadávání změn.</p>
-    </div>
+    <section class="ai-block restock" aria-labelledby="doplneni-h">
+      <h3 class="ai-sub" id="doplneni-h">Jak zaznamenáte doplnění zboží</h3>
+      <p class="restock__intro">Zboží do automatu vždy doplňuje obsluha. Tyto tři režimy určují, jak doplnění zaznamenáte v aplikaci a jak následně pracujete s evidencí zásob.</p>
+      <ul class="restock__cards">
+        ${join(restock, (x) => `<li class="restock__card">
+          <figure class="restock__ill">${restockIll(x.key)}
+            <figcaption class="restock__tags">${join(x.tags, (t) => `<span>${esc(t)}</span>`)}</figcaption>
+          </figure>
+          <h4>${esc(x.title)}</h4>
+          <dl>
+            <div><dt>Co uděláte</dt><dd>${esc(x.does)}</dd></div>
+            <div><dt>Záznam v aplikaci</dt><dd>${esc(x.records)}</dd></div>
+            <div><dt>Kdy se hodí</dt><dd>${esc(x.when)}</dd></div>
+          </dl>
+        </li>`)}
+      </ul>
+      <p class="restock__caption">${icons.user(18)} Fyzické doplnění provádí obsluha. Schémata vysvětlují princip, nejde o snímky aplikace.</p>
+      <p class="ai-qual ai-qual--strong">Přesnost evidence zásob závisí na zvoleném režimu a správnosti zadaných údajů. Evidence v aplikaci nemusí vždy odpovídat skutečnému počtu kusů v automatu.</p>
+      <details class="disclosure disclosure--inline">
+        <summary><span>Podrobnější postup v aplikaci</span>${icons.plus(20)}</summary>
+        <div class="disclosure__body">
+          <p>Při doplňování obsluha otevře dveře automatu naskenováním kódu v aplikaci a doplní zboží do polic.</p>
+          <p>Pro záznam doplnění si podle potřeb provozu vyberete jeden ze tří režimů. Rozpoznávání zboží pomocí AI slouží k vyúčtování nákupů zákazníků; přesnost evidence zásob nezaručuje.</p>
+          <p>Podrobný postup v aplikaci upřesníme podle dodané konfigurace.</p>
+        </div>
+      </details>
+    </section>
   </div>
 </section>
 

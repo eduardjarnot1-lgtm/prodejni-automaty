@@ -1231,15 +1231,23 @@ html.zt-loading, html.zt-loading * { cursor: progress; }
 .tabs__tab:focus-visible, .tabs__panel:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 :not(.is-tabs) > * > .tabs__panel + .tabs__panel { margin-top: 1rem; }
 
-/* Restocking: one method at a time. */
-.restock-ui .tabs__list { margin-bottom: 1.25rem; }
-.restock-ui__panel { display: grid; gap: 20px 40px; align-items: center; padding: clamp(18px, 3vw, 28px); border-radius: 22px; background: var(--surface); }
-@media (min-width: 700px) { .restock-ui__panel { grid-template-columns: minmax(0, 260px) minmax(0, 1fr); } }
-.restock-ui__ill { border-radius: 16px; background: var(--white); padding: 12px; }
-.restock-ui__ill .ai-ill { display: block; width: 100%; height: auto; }
-.restock-ui__panel h4 { font-size: var(--fs-lg); margin: 0 0 0.4rem; }
-.restock-ui__panel p { margin: 0 0 0.5rem; color: var(--ink-2); }
-.restock-ui__when { color: var(--ink) !important; }
+/* Recording a restock: three comparison cards (stacked on mobile). */
+.restock__intro { max-width: 46em; font-size: var(--fs-md); line-height: 1.55; color: var(--ink-2); margin: 0 0 1.5rem; }
+.restock__cards { list-style: none; display: grid; gap: 20px; }
+@media (min-width: 900px) { .restock__cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.restock__card { display: flex; flex-direction: column; padding: 20px 22px 22px; border-radius: 22px; background: var(--surface); }
+.restock__ill { margin: 0 0 1rem; padding: 14px 12px 12px; border-radius: 16px; background: var(--white); }
+.restock__ill .ai-ill { display: block; width: 100%; height: auto; max-height: 150px; }
+.restock__tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 8px; }
+.restock__tags span { padding: 2px 9px; border-radius: 999px; background: var(--surface); font-size: 0.8125rem; color: var(--ink-2); }
+.restock__card h4 { font-size: var(--fs-lg); margin: 0 0 0.75rem; }
+.restock__card dl { margin: 0; display: grid; gap: 10px; }
+.restock__card dt { font-family: var(--font-mono); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--green); }
+.restock__card dd { margin: 2px 0 0; color: var(--ink); line-height: 1.5; }
+.restock__card div:last-child { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--line); }
+.restock__caption { display: flex; align-items: center; gap: 8px; margin: 1rem 0 0; font-size: var(--fs-sm); color: var(--ink-2); }
+.restock__caption .icon { color: var(--green); flex: none; }
+.ai-qual--strong { color: var(--ink); padding: 14px 18px; border-left: 3px solid var(--green-bright); background: var(--surface); border-radius: 0 12px 12px 0; }
 
 /* Remote management: schematic phone + function tabs. */
 .remote-ui { display: grid; gap: 24px 56px; grid-template-areas: "head" "tabs" "phone"; }
