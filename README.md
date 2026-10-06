@@ -95,7 +95,7 @@ It replaced the former homepage section `#automaty-s-ai`; the homepage keeps
 three benefits and links to it (“Jak fungují AI automaty”). It uses the
 published product with `ai` data (Pro 542) for its links.
 
-The header shows the full navigation from 1241 px; narrower screens use the
+The header shows the full navigation from 1301 px; narrower screens use the
 “Menu” button (six items no longer fit beside the centred logo below that).
 
 ## Background artwork

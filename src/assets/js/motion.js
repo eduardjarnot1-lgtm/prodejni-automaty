@@ -132,7 +132,7 @@
     // Contact band: list items one by one.
     batch('.band-dark__grid > div:first-child, .contact-list--dark > li', { opacity: 0, y: d * 0.5 }, { stagger: 0.07, duration: 0.6 });
     // Everything else: a short, quiet rise.
-    batch('.benefits__list > li, .journey__step, .flow__step, .restock__card, .perks > li, .ai-split > *, .ai-diagram > *, .svc-item, .ai-topics > li, .remote__list > li, .remote__panel, .claim, .ai-ops, .ai-scope, .examples__list > li, .product-info > section, .about__text, .facts > div, .disclosure, .narrow > h2, .contact > *, .pgallery__thumbs, .seq__head > *, .seq__chapter, .teaser',
+    batch('.benefits__list > li, .journey__step, .flow__step, .restock__card, .perks > li, .ai-split > *, .ai-diagram > *, .svc-item, .ai-topics > li, .remote__list > li, .remote__panel, .claim, .ai-ops, .ai-scope, .examples__list > li, .product-info > section, .pov__facts > div, .pov__cols > section, .about__text, .facts > div, .disclosure, .narrow > h2, .contact > *, .pgallery__thumbs, .seq__head > *, .seq__chapter, .teaser',
       { opacity: 0, y: d * 0.6 }, { duration: 0.65 });
 
     // Gallery panel: the guide lines open out from the centre, then the photos arrive with depth.
@@ -214,7 +214,7 @@
   // Animated navigation indicator (desktop): a bar that follows the
   // hovered/focused link and rests under the current page.
   function initNavIndicator() {
-    var desktop = window.matchMedia('(min-width: 1241px)');
+    var desktop = window.matchMedia('(min-width: 1301px)');
     var lists = toArray(document.querySelectorAll('.site-nav__list'));
     if (!lists.length) return;
     root.classList.add('has-nav-ind');

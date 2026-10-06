@@ -16,8 +16,11 @@
 //     shown (slots listed in `photoSlots`).
 //   - Optional per-product texts: `descriptor` (lead under the title),
 //     `badge` (small label on the product card), `cta` (inquiry button
-//     label), `contactHeading`, `useCasesNote`, `ai` (how the AI purchase
-//     works) and `remote` (remote management). See HAHA VENDING Pro 542.
+//     label), `contactHeading`, `useCasesNote`, `ai: true` (AI machine:
+//     the page links to ai-automaty.html). See HAHA VENDING Pro 542.
+//   - Product page overview: `shortName`, `intro` (max. two sentences),
+//     `keyFacts` (3–4 verified facts with an icon), `benefits` (max. four
+//     { icon, title, text }), `useCases` ({ icon, label }).
 
 export const categories = [
   {
@@ -49,39 +52,32 @@ export const products = [
     badge: 'AI rozpoznávání',
     cta: 'Nezávazně poptat Pro 542',
     contactHeading: 'Zajímá vás HAHA VENDING Pro 542?',
+    shortName: 'Pro 542',
+    intro:
+      'Chlazený automat s prosklenými dveřmi, ve kterém zákazník vidí celou nabídku a bere si zboží přímo z polic. Nákup se vyúčtuje pomocí kamerového rozpoznávání produktů.',
+    keyFacts: [
+      { icon: 'ruler', label: 'Rozměry (š × h × v)', value: '750 × 650 × 2020 mm' },
+      { icon: 'shelves', label: 'Objem a police', value: '558 l, 6 polic' },
+      { icon: 'thermo', label: 'Teplota', value: '0–10 °C' },
+      { icon: 'mobile', label: 'Platby', value: 'Karty, Apple Pay, Google Pay' },
+    ],
     useCases: [
-      'Kanceláře a pracoviště',
-      'Posilovny a sportovní zařízení',
-      'Studentské koleje',
-      'Společné prostory obytných a administrativních budov',
+      { icon: 'office', label: 'Kanceláře a pracoviště' },
+      { icon: 'dumbbell', label: 'Fitness a sportoviště' },
+      { icon: 'cap', label: 'Studentské koleje' },
+      { icon: 'building', label: 'Společné prostory budov' },
     ],
     useCasesNote:
-      'Vhodný sortiment: nápoje, svačiny a vhodně balené chlazené produkty. Konkrétní zboží je třeba posoudit z hlediska rozpoznávání a skladování.',
+      'Hodí se pro nápoje, svačiny a vhodně balené chlazené produkty. Konkrétní zboží je třeba posoudit z hlediska rozpoznávání a skladování.',
     highlights: ['Výběr přímo z polic', '6 polic', '0–10 °C'],
     benefits: [
-      'Kamerové rozpoznávání s umělou inteligencí určí, které produkty zákazník odebral.',
-      'Během jednoho nákupu si zákazník může vzít více položek.',
-      'Přímý přístup ke zboží: zákazník si vybírá přímo z polic.',
-      'Police lze přizpůsobit různým tvarům a velikostem balení.',
-      'Produkty, zásoby i samotný automat lze spravovat na dálku.',
+      { icon: 'shelves', title: 'Výběr přímo z polic', text: 'Zákazník vidí zboží a během jednoho nákupu si může vzít více položek.' },
+      { icon: 'box', title: 'Police podle balení', text: 'Police lze přizpůsobit různým tvarům a velikostem balení.' },
+      { icon: 'thermo', title: 'Sklo proti zamlžení', text: 'Dveře s rámem z hliníkové slitiny a vyhřívaným sklem proti zamlžení.' },
+      { icon: 'chart', title: 'Správa na dálku', text: 'Teplotu, sortiment i zásoby spravujete v aplikaci AI VENDING; rozsah funkcí upřesníme v nabídce.' },
     ],
-    ai: {
-      title: 'Vezměte si, na co máte chuť. AI rozpozná váš nákup.',
-      text:
-        'HAHA VENDING Pro 542 využívá kamerové rozpoznávání produktů. Zákazník přiloží kartu nebo mobil, otevře dveře a vybere si zboží přímo z polic. Systém rozpozná odebrané produkty a nákup automaticky vyúčtuje.',
-      steps: [
-        { title: 'Přiložte kartu nebo mobil', text: 'Podporovanou platební kartou nebo mobilem otevřete dveře automatu. Před otevřením dveří může být vyžadována předběžná autorizace platby.' },
-        { title: 'Vyberte si zboží', text: 'Zboží si vyberete přímo z polic. Během jednoho nákupu si můžete vzít i více položek.' },
-        { title: 'AI rozpozná a vyúčtuje nákup', text: 'Po zavření dveří systém rozpozná odebrané produkty a nákup vyúčtuje. Podle výrobce trvá rozpoznání přibližně 60 sekund, nejde tedy o okamžité vyúčtování.' },
-      ],
-      accuracy: 'Až 99% přesnost rozpoznávání podle výrobce.',
-      accuracyNote: 'Jde o údaj výrobce. Výsledek v konkrétním provozu může záviset na sortimentu, balení a uložení zboží.',
-    },
-    // Platform functions are explained on ai-automaty.html; only the note
-    // about their scope is shown on the product page.
-    remote: {
-      note: 'Popis funkcí platformy AI VENDING vychází z podkladů výrobce. Rozsah funkcí a podmínky používání platformy upřesníme v nabídce.',
-    },
+    // AI machine: links to ai-automaty.html instead of repeating it.
+    ai: true,
     options: [],
     specs: [
       { label: 'Model', value: 'Pro 542' },
@@ -114,17 +110,25 @@ export const products = [
     name: 'Chlazený automat na potraviny',
     summary:
       'Prodejní automat s dotykovým displejem a výtahem pro výdej zboží. Až 54 prodejních pozic, volitelně s chlazením 4–8 °C.',
+    shortName: 'Chlazený automat',
+    intro:
+      'Klasický prodejní automat, ve kterém zákazník vybírá zboží na dotykovém displeji a automat mu ho vydá výtahem do výdejního otvoru.',
+    keyFacts: [
+      { icon: 'shelves', label: 'Prodejní pozice', value: 'max. 54 (6 polic × 9 kanálů)' },
+      { icon: 'thermo', label: 'Chlazení', value: '4–8 °C (volitelné)' },
+      { icon: 'ruler', label: 'Rozměry', value: '1330 × 815 × 1915 mm' },
+      { icon: 'plug', label: 'Max. příkon', value: '500 W' },
+    ],
     useCases: [
-      'Firmy, výrobní provozy a sklady',
-      'Kanceláře a administrativní budovy',
-      'Školy, nemocnice a veřejné budovy',
+      { icon: 'factory', label: 'Firmy, výrobní provozy a sklady' },
+      { icon: 'office', label: 'Kanceláře a administrativní budovy' },
+      { icon: 'building', label: 'Školy, nemocnice a veřejné budovy' },
     ],
     highlights: ['Displej 21,5″', 'Až 54 pozic', 'Výdej výtahem'],
     benefits: [
-      'Velký dotykový displej 21,5″ pro přehledný výběr zboží.',
-      'Zboží se k výdejnímu otvoru přepravuje výtahem.',
-      'Až 6 polic a 9 kanálů na polici, celkem až 54 prodejních pozic.',
-      'Řídicí systém na platformě Android.',
+      { icon: 'mobile', title: 'Dotykový displej 21,5″', text: 'Přehledný výběr zboží na velkém displeji.' },
+      { icon: 'box', title: 'Výdej výtahem', text: 'Zboží se k výdejnímu otvoru přepravuje výtahem.' },
+      { icon: 'gear', title: 'Systém Android', text: 'Řídicí systém automatu běží na platformě Android.' },
     ],
     options: [
       { label: 'Chlazení', value: 'Udržuje teplotu 4–8 °C' },
@@ -152,16 +156,23 @@ export const products = [
     name: 'Automatický výdejní boxový systém',
     summary:
       'Chlazený systém uzamykatelných schránek pro výdej připraveného zboží. Teplota 2–8 °C, dveře schránek ocelové nebo průhledné.',
+    shortName: 'Boxový systém',
+    intro:
+      'Uzamykatelné chlazené schránky pro výdej předem připraveného zboží a objednávek.',
+    keyFacts: [
+      { icon: 'thermo', label: 'Teplota', value: '2–8 °C' },
+      { icon: 'gear', label: 'Chlazení', value: 'Vzduchové, chladivo R290' },
+      { icon: 'plug', label: 'Jmenovitý příkon', value: '450 W' },
+    ],
     useCases: [
-      'Výdej předem objednaných jídel a nákupů',
-      'Provozy s výdejem mimo otevírací dobu',
-      'Firemní a areálové stravování',
+      { icon: 'box', label: 'Výdej objednaných jídel a nákupů' },
+      { icon: 'calendar', label: 'Výdej mimo otevírací dobu' },
+      { icon: 'building', label: 'Firemní a areálové stravování' },
     ],
     highlights: ['2–8 °C', 'Chladivo R290', '450 W'],
     benefits: [
-      'Chlazení schránek v rozsahu 2–8 °C.',
-      'Vzduchové chlazení s chladivem R290.',
-      'Provedení dveří schránek podle typu zboží: ocelové nebo průhledné.',
+      { icon: 'box', title: 'Dveře podle zboží', text: 'Ocelové, nebo průhledné dveře schránek.' },
+      { icon: 'shelves', title: 'Sestava na míru', text: 'Počet a uspořádání schránek podle vašich požadavků.' },
     ],
     options: [
       { label: 'Dveře schránek', value: 'Ocelové, nebo průhledné' },
@@ -184,16 +195,20 @@ export const products = [
     name: 'Modulární výdejní boxový systém',
     summary:
       'Sestava výdejních schránek skládaná z modulů podle místa instalace, počtu schránek a druhu zboží. Nacenění individuálně.',
+    shortName: 'Modulární systém',
+    intro:
+      'Výdejní schránky skládané z modulů podle prostoru, počtu schránek a druhu zboží.',
+    keyFacts: [],
     useCases: [
-      'Provozy s konkrétními prostorovými požadavky',
-      'Výdej různě velkého zboží',
-      'Projekty, které se mohou později rozšiřovat',
+      { icon: 'ruler', label: 'Provozy s konkrétními prostorovými požadavky' },
+      { icon: 'box', label: 'Výdej různě velkého zboží' },
+      { icon: 'building', label: 'Projekty s pozdějším rozšířením' },
     ],
     highlights: ['Sestava na míru', 'Individuální nacenění'],
     benefits: [
-      'Sestavu navrhneme podle prostoru, ve kterém bude systém stát.',
-      'Počet a velikost schránek odpovídá vašemu zboží.',
-      'Konfiguraci s vámi projdeme ještě před vypracováním nabídky.',
+      { icon: 'ruler', title: 'Podle prostoru', text: 'Sestavu navrhneme podle místa, kde bude systém stát.' },
+      { icon: 'box', title: 'Schránky podle zboží', text: 'Počet a velikost schránek odpovídá vašemu zboží.' },
+      { icon: 'chat', title: 'Konfigurace předem', text: 'Konfiguraci s vámi projdeme ještě před vypracováním nabídky.' },
     ],
     options: [],
     specs: [],

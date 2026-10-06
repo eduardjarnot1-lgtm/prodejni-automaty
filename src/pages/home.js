@@ -112,7 +112,7 @@ function gallery(r) {
   <p class="gallery__text gallery__text--a">Chlazené automaty na potraviny a výdejní boxové systémy pro samoobslužný prodej a výdej zboží. Vyberte fotografii pro větší náhled.</p>
   <div class="gallery__text gallery__text--b">
     <p>Konkrétní model, výbavu a počet schránek navrhneme podle vašeho provozu a místa instalace.</p>
-    <a class="link-arrow" href="${r('automaty.html')}">Prohlédnout automaty <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>
+    <a class="link-arrow" href="${r('automaty.html')}">Prohlédnout nabídku <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>
   </div>
 </section>`;
 }
@@ -186,7 +186,7 @@ ${heroStage(r, `
       <p class="eyebrow">Naše nabídka</p>
       <h2 id="featured-h" class="featured__title">Chytrý automat v čele nabídky</h2>
       <p>Hlavní novinkou je HAHA VENDING Pro 542 s rozpoznáváním produktů. Dál dodáváme chlazené automaty s dotykovým displejem a výdejní boxové systémy.</p>
-      <p><a class="link-arrow" href="${r('automaty.html')}">Všechny automaty a parametry <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a></p>
+      <p><a class="link-arrow" href="${r('automaty.html')}">Zobrazit celou nabídku <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a></p>
     </div>
     ${showcase(r)}
   </div>

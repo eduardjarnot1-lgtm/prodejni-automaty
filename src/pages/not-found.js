@@ -13,7 +13,7 @@ export default {
     <p class="lead">Tuto stránku jsme nenašli. Mohla být přesunuta, nebo je chyba v adrese.</p>
     <div class="actions">
       ${button(r('index.html'), 'Zpět na úvod', 'primary')}
-      ${button(r('automaty.html'), 'Prohlédnout automaty', 'secondary')}
+      ${button(r('automaty.html'), 'Prohlédnout nabídku', 'secondary')}
       ${button(inquiryHref(r), 'Kontakt', 'ghost')}
     </div>
   </div>

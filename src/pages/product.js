@@ -11,47 +11,52 @@ import { pageHead, priceBlock, specTable, button, inquiryHref, phoneLink, contac
 
 // Section order on every product page:
 //   1 title + introduction, 2 photos/summary/price/inquiry, 3 dark visual
-//   tour (src/data/tours.js), 4 benefits + suitable use, 5 optional equipment
-//   + technical parameters, 6 related products + contact.
-// Products with `ai` / `remote` data (HAHA VENDING Pro 542) add "how the
-// purchase works" to section 4 and a short link to the AI automaty page
-// before the technical parameters; they have no optional-equipment block.
+//   tour (src/data/tours.js), 4 overview (intro, key facts, main benefits,
+//   where it suits, optional equipment, inquiry), 5 technical parameters,
+//   6 related products + contact.
+// AI machines (`ai: true`) link to ai-automaty.html instead of explaining
+// AI shopping again; they have no optional-equipment block.
 
-// How a purchase with AI recognition works (product data `ai`).
-function aiBlock(r, p) {
-  const a = p.ai;
-  return `<section class="section ai-buy" aria-labelledby="nakup-h">
+// Product overview: short intro, key facts, main benefits, suitable
+// places and the inquiry. AI machines link to ai-automaty.html instead of
+// repeating how AI shopping and the platform work.
+function overview(r, p) {
+  const has = p.intro || p.keyFacts?.length || p.benefits.length || p.useCases.length;
+  if (!has) return '';
+  return `<section class="section pov" aria-labelledby="prehled-h">
   <div class="wrap">
-    <div class="section-head section-head--stack">
-      <p class="eyebrow">Jak nákup probíhá</p>
-      <h2 id="nakup-h">${esc(a.title)}</h2>
-      <p>${esc(a.text)}</p>
+    <div class="pov__head">
+      <h2 id="prehled-h">${esc(p.shortName || p.name)} pro váš provoz</h2>
+      ${p.intro ? `<p>${esc(p.intro)}</p>` : ''}
     </div>
-    <ol class="steps steps--3">
-      ${join(a.steps, (s) => `<li class="step"><span class="step__bar" aria-hidden="true"></span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></li>`)}
-    </ol>
-    <div class="claim">
-      <p class="claim__value">${esc(a.accuracy)}</p>
-      <p class="claim__note">${esc(a.accuracyNote)}</p>
+    ${p.keyFacts?.length ? `<dl class="pov__facts">
+      ${join(p.keyFacts, (f) => `<div>${icons[f.icon](24)}<dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`)}
+    </dl>` : ''}
+    <div class="pov__cols">
+      ${p.benefits.length ? `<section aria-labelledby="prednosti-h">
+        <h3 id="prednosti-h">Hlavní přednosti</h3>
+        <ul class="pov__benefits">${join(p.benefits, (b) => `<li><span class="pov__ic">${icons[b.icon](20)}</span><div><strong>${esc(b.title)}</strong><span>${esc(b.text)}</span></div></li>`)}</ul>
+      </section>` : ''}
+      ${p.useCases.length ? `<section aria-labelledby="vyuziti-h">
+        <h3 id="vyuziti-h">Kam se hodí</h3>
+        <ul class="pov__uses">${join(p.useCases, (u) => `<li>${icons[u.icon](20)}<span>${esc(u.label)}</span></li>`)}</ul>
+        ${p.useCasesNote ? `<p class="pov__note">${esc(p.useCasesNote)}</p>` : ''}
+      </section>` : ''}
     </div>
-    <p><a class="link-arrow" href="${r('ai-automaty.html')}">Jak fungují AI automaty <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a></p>
+    ${p.ai ? '' : `<div class="pov__options">
+      <h3>Volitelná výbava a provedení</h3>
+      ${p.options.length
+        ? `<dl class="options">${join(p.options, (o) => `<div><dt>${esc(o.label)} <span class="badge-opt">Volitelné</span></dt><dd>${esc(o.value)}</dd></div>`)}</dl>`
+        : '<p class="note">Výbavu sestavíme podle vašich požadavků a uvedeme ji v nabídce.</p>'}
+    </div>`}
+    <div class="pov__actions">
+      ${button(inquiryHref(r, 'poptat-' + p.slug), p.cta || 'Nezávazně poptat tento automat', 'primary')}
+      ${p.ai ? `<a class="link-arrow" href="${r(AI_PAGE + '#jak-probiha-nakup')}">Jak funguje nákup s AI <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>` : ''}
+    </div>
   </div>
 </section>`;
 }
 
-// Short pointer to the "AI automaty" page (products with `remote` data).
-// The platform is explained there; the product page keeps only this link
-// and the model-specific note about the platform's scope.
-function aiMoreBlock(r, p) {
-  return `<section class="product-info__wide ai-more" aria-labelledby="ai-more-h">
-    <div>
-      <h2 id="ai-more-h">Více o fungování AI automatů</h2>
-      <p>Jak probíhá nákup, správa sortimentu a doplňování zásob? Podrobnosti najdete v sekci AI automaty.</p>
-      ${p.remote.note ? `<p class="note">${esc(p.remote.note)}</p>` : ''}
-    </div>
-    <a class="link-arrow" href="${r(AI_PAGE)}">Prozkoumat AI automaty <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>
-  </section>`;
-}
 function extraAfter(r, p) {
   if (p.slug !== 'chlazeny-automat-na-potraviny') return '';
   return `<section class="section section--tight" aria-labelledby="sestava-h">
@@ -88,7 +93,7 @@ ${pageHead({
   lead: p.descriptor ? esc(p.descriptor) : '',
   crumbs: [
     { label: 'Úvod', href: 'index.html' },
-    { label: 'Automaty', href: 'automaty.html' },
+    { label: 'Naše nabídka', href: 'automaty.html' },
     { label: p.name },
   ],
 })}
@@ -115,26 +120,8 @@ ${pageHead({
 </div>
 
 ${productTour(r, p, inquiryHref)}
-${p.ai ? aiBlock(r, p) : ''}
+${overview(r, p)}
 <div class="wrap product-info">
-  ${p.benefits.length ? `<section aria-labelledby="prednosti-h">
-    <h2 id="prednosti-h">Přednosti</h2>
-    <ul class="checks">${join(p.benefits, (b) => `<li>${icons.check(20)}<span>${esc(b)}</span></li>`)}</ul>
-  </section>` : ''}
-
-  ${p.useCases.length ? `<section aria-labelledby="vyuziti-h">
-    <h2 id="vyuziti-h">Vhodné využití</h2>
-    <ul class="dots">${join(p.useCases, (u) => `<li>${esc(u)}</li>`)}</ul>
-    ${p.useCasesNote ? `<p class="note">${esc(p.useCasesNote)}</p>` : ''}
-  </section>` : ''}
-${p.remote ? aiMoreBlock(r, p) : `
-  <section aria-labelledby="vybava-h">
-    <h2 id="vybava-h">Volitelná výbava a provedení</h2>
-    ${p.options.length
-      ? `<dl class="options">${join(p.options, (o) => `<div><dt>${esc(o.label)} <span class="badge-opt">Volitelné</span></dt><dd>${esc(o.value)}</dd></div>`)}</dl>`
-      : '<p class="note">Výbavu sestavíme podle vašich požadavků a uvedeme ji v nabídce.</p>'}
-  </section>`}
-
   <section class="product-info__wide" aria-labelledby="parametry-h">
     <h2 id="parametry-h">Technické parametry</h2>
     ${specTable(p)}

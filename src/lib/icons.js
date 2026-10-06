@@ -43,6 +43,12 @@ export const icons = {
   svcService: (s) => svg('<path d="M14.5 3.5a4 4 0 0 0-3.9 5L4 15.1a1.9 1.9 0 0 0 2.7 2.7l6.6-6.6a4 4 0 0 0 5-3.9l-2.3 2.3-2.4-.6-.6-2.4z"/><g class="icon-accent"><circle cx="18" cy="17.5" r="2"/><path d="M18 13.8v1.2M18 20v1.2M21.7 17.5h-1.2M15.5 17.5h-1.2"/></g>', s),
   svcPart: (s) => svg('<path d="M12 2.5 20 7v10l-8 4.5L4 17V7z"/><circle cx="12" cy="12" r="3.2" class="icon-accent"/>', s),
   svcBuyback: (s) => svg('<rect x="8" y="3" width="8" height="14" rx="1.2"/><path d="M10 5.5h4v5.5h-4zM10.5 14.5h3"/><g class="icon-accent"><path d="M3 9.5a6 6 0 0 1 3.5-4.8M5.5 3.4l1.2 1.4-1.4 1.2"/><path d="M21 14.5a6 6 0 0 1-3.5 4.8M18.5 20.6l-1.2-1.4 1.4-1.2"/></g>', s),
+  ruler: (s) => svg('<rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6.5 8v3M10.5 8v4M14.5 8v3M18.5 8v4"/>', s),
+  office: (s) => svg('<rect x="4" y="3" width="11" height="18" rx="1"/><path d="M15 9h5v12h-5M7.5 7h4M7.5 11h4M7.5 15h4M17.5 13h0M17.5 17h0"/>', s),
+  dumbbell: (s) => svg('<path d="M8 12h8"/><rect x="4" y="8" width="4" height="8" rx="1"/><rect x="16" y="8" width="4" height="8" rx="1"/><path d="M2.5 10.5v3M21.5 10.5v3"/>', s),
+  cap: (s) => svg('<path d="m2.5 9 9.5-4.5L21.5 9 12 13.5z"/><path d="M6.5 11v4.5c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3V11M21.5 9v5"/>', s),
+  building: (s) => svg('<path d="M3 21h18M5 21V9l7-5 7 5v12"/><path d="M9.5 21v-5h5v5M9 11h.01M15 11h.01"/>', s),
+  factory: (s) => svg('<path d="M3 21V11l5 3V11l5 3V7h3l1-4h2l1 4v14z"/><path d="M7 18h2M12 18h2"/>', s),
   box: (s) => svg('<rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M3 9h18M3 15h18M12 3v18"/>', s),
 };
 

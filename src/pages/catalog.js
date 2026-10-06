@@ -43,16 +43,16 @@ function doubleAssembly(r) {
 export default {
   path: 'automaty.html',
   navKey: 'automaty',
-  title: 'Automaty',
+  title: 'Naše nabídka',
   description:
     'Chytrý prodejní automat s AI rozpoznáváním, chlazené automaty na potraviny a výdejní boxové systémy k prodeji i pronájmu. Přehled typů, technické parametry a ceny.',
   render(r) {
     return `
 ${pageHead({
   r,
-  title: 'Automaty',
+  title: 'Naše nabídka',
   lead: 'Chytrý automat HAHA VENDING Pro 542 s AI rozpoznáváním, chlazené automaty na potraviny a výdejní boxové systémy k prodeji i pronájmu. Nevíte si rady s výběrem? Poradíme zdarma.',
-  crumbs: [{ label: 'Úvod', href: 'index.html' }, { label: 'Automaty' }],
+  crumbs: [{ label: 'Úvod', href: 'index.html' }, { label: 'Naše nabídka' }],
 })}
 
 <nav class="wrap jump" aria-label="Typy automatů">

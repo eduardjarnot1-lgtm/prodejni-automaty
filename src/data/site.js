@@ -55,7 +55,7 @@ export const site = {
   nav: [
     { label: 'Úvod', href: 'index.html', key: 'home' },
     { label: 'AI automaty', href: 'ai-automaty.html', key: 'ai' },
-    { label: 'Automaty', href: 'automaty.html', key: 'automaty' },
+    { label: 'Naše nabídka', href: 'automaty.html', key: 'automaty' },
     { label: 'Služby', href: 'sluzby.html', key: 'sluzby' },
     { label: 'O nás', href: 'o-nas.html', key: 'o-nas' },
     { label: 'Kontakt', href: 'kontakt.html', key: 'kontakt' },
