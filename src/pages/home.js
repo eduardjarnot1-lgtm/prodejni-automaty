@@ -218,7 +218,7 @@ ${gallery(r)}
       <span class="svc-strip__body"><strong>${esc(v.title)}</strong> <span>${esc(v.short)}</span></span>
       <span class="svc-strip__link">Nabídnout automat <span class="svc-card__arrow" aria-hidden="true">${icons.arrow(18)}</span></span>
     </a>` : ''; })()}
-    <div class="svc-cta">
+    <div class="svc-cta art-bg art-bg--cta">
       <div>
         <h3 class="svc-cta__title">Nevíte, kde začít?</h3>
         <p>Popište nám svůj provoz a pomůžeme vám vybrat vhodné řešení.</p>

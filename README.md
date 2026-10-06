@@ -98,6 +98,15 @@ published product with `ai` data (Pro 542) for its links.
 The header shows the full navigation from 1241 px; narrower screens use the
 “Menu” button (six items no longer fit beside the centred logo below that).
 
+## Background artwork
+
+`src/assets/img/bg/ai-pozadi-*` (original: `media/source/pozadi/`) is the
+recurring sage background. One file per size (WebP 2000/1000 px, JPEG
+fallback), used only through the shared classes `.art-bg` + `--hero`,
+`--edge` or `--cta` (a decorative `::before` layer; opacity and masks apply
+to that layer, never to the content). Current uses: AI automaty hero,
+AI automaty “Vzdálená správa”, homepage “Nevíte, kde začít?”.
+
 ## Inquiry form
 
 There is no submission backend yet. The form validates input and opens the

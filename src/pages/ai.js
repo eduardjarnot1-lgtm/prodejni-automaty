@@ -132,6 +132,7 @@ ${pageHead({
   title: 'AI automaty: chytrý nákup, přehledná správa',
   lead: 'Zjistěte, jak funguje nákup s AI rozpoznáváním produktů a jak můžete spravovat sortiment, ceny, zásoby i prodeje na dálku.',
   crumbs: [{ label: 'Úvod', href: 'index.html' }, { label: 'AI automaty' }],
+  cls: 'art-bg art-bg--hero',
 })}
 
 <nav class="wrap jump" aria-label="Obsah stránky">
@@ -262,7 +263,7 @@ ${pageHead({
 </section>
 
 <!--break-->
-<section class="section section--alt ai-sec" id="vzdalena-sprava" aria-labelledby="dalka-h">
+<section class="section section--alt ai-sec art-bg art-bg--edge" id="vzdalena-sprava" aria-labelledby="dalka-h">
   <div class="wrap">
     <div class="remote-ui" data-tabs>
       <div class="remote-ui__head">

@@ -78,8 +78,8 @@ export function button(href, label, variant = 'primary', extra = '') {
   return `<a class="btn btn--${variant}" href="${href}"${extra}>${esc(label)}</a>`;
 }
 
-export function pageHead({ eyebrow, title, lead, crumbs, r }) {
-  return `<header class="page-head">
+export function pageHead({ eyebrow, title, lead, crumbs, r, cls = '' }) {
+  return `<header class="page-head${cls ? ' ' + cls : ''}">
   <div class="wrap page-head__inner">
     ${crumbs ? breadcrumbs(r, crumbs) : ''}
     ${eyebrow ? `<p class="eyebrow">${esc(eyebrow)}</p>` : ''}
