@@ -104,7 +104,7 @@ The header shows the full navigation from 1241 px; narrower screens use the
 recurring sage background. One file per size (WebP 2000/1000 px, JPEG
 fallback), used only through the shared classes `.art-bg` + `--hero`,
 `--edge` or `--cta` (a decorative `::before` layer; opacity and masks apply
-to that layer, never to the content). Current uses: AI automaty hero,
+to that layer, never to the content). Current uses: AI automaty hero, Naše nabídka hero,
 AI automaty “Vzdálená správa”, homepage “Nevíte, kde začít?”.
 
 ## Inquiry form

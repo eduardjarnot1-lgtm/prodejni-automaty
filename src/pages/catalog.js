@@ -53,6 +53,7 @@ ${pageHead({
   title: 'Naše nabídka',
   lead: 'Chytrý automat HAHA VENDING Pro 542 s AI rozpoznáváním, chlazené automaty na potraviny a výdejní boxové systémy k prodeji i pronájmu. Nevíte si rady s výběrem? Poradíme zdarma.',
   crumbs: [{ label: 'Úvod', href: 'index.html' }, { label: 'Naše nabídka' }],
+  cls: 'art-bg art-bg--hero',
 })}
 
 <nav class="wrap jump" aria-label="Typy automatů">
