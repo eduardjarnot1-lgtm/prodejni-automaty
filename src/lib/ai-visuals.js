@@ -115,5 +115,9 @@ export const restockIll = (mode) => {
     oneclick: 'Schéma: automat, seznam s vypočteným množstvím k doplnění a potvrzení',
     order: 'Schéma: objednávka na doplnění, krabice se zbožím, automat',
   }[mode];
-  return svg(body, label, '0 0 230 140');
+  // Tight bounds per diagram (artwork + strokes + equal 6-unit margin), all
+  // 225 × 112 units (narrower art padded evenly), so all three are centred
+  // and always drawn at the same scale.
+  const vb = { fast: '2.5 12.5 225 112', oneclick: '-14.75 12.5 225 112', order: '-1.5 18.5 225 112' }[mode];
+  return svg(body, label, vb);
 };

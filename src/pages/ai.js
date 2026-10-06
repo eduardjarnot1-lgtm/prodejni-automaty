@@ -237,9 +237,8 @@ ${pageHead({
       <p class="restock__intro">Zboží do automatu vždy doplňuje obsluha. Tyto tři režimy určují, jak doplnění zaznamenáte v aplikaci a jak následně pracujete s evidencí zásob.</p>
       <ul class="restock__cards">
         ${join(restock, (x) => `<li class="restock__card">
-          <figure class="restock__ill">${restockIll(x.key)}
-            <figcaption class="restock__tags">${join(x.tags, (t) => `<span>${esc(t)}</span>`)}</figcaption>
-          </figure>
+          <div class="restock__art">${restockIll(x.key)}</div>
+          <p class="restock__tags">${join(x.tags, (t) => `<span>${esc(t)}</span>`)}</p>
           <h4>${esc(x.title)}</h4>
           <dl>
             <div><dt>Co uděláte</dt><dd>${esc(x.does)}</dd></div>
