@@ -2,6 +2,8 @@
 // inquiry form. Text must not promise terms that are not confirmed
 // (e.g. servicing included in the purchase price, response times).
 
+// Order = order on the homepage and on sluzby.html; the buyback service is
+// last (shown as a separate strip on the homepage).
 export const services = [
   {
     id: 'prodej',
@@ -14,9 +16,17 @@ export const services = [
   {
     id: 'pronajem',
     title: 'Pronájem automatů',
-    short: 'Automat bez jednorázové investice do koupě.',
+    short: 'Možnost provozu bez jednorázové investice do koupě.',
     text: [
       'Automaty nabízíme také k pronájmu. Podmínky pronájmu a dostupné typy zařízení upřesníme v nabídce.',
+    ],
+  },
+  {
+    id: 'poradenstvi',
+    title: 'Poradenství při výběru',
+    short: 'Bezplatně s vámi probereme vhodné zařízení pro váš provoz.',
+    text: [
+      'Poradenství a konzultace k vašemu projektu jsou zdarma. Pomůžeme vybrat zařízení s ohledem na druh zboží, místo instalace a ekonomiku provozu.',
     ],
   },
   {
@@ -30,17 +40,17 @@ export const services = [
   {
     id: 'servis',
     title: 'Servis a údržba',
-    short: 'Pomoc s provozem, opravami a pravidelnou údržbou.',
+    short: 'Pomoc s opravami, údržbou a provozem zařízení.',
     text: [
       'Zajišťujeme servis a údržbu automatů i během jejich provozu. Rozsah a podmínky servisu sjednáváme individuálně.',
     ],
   },
   {
-    id: 'poradenstvi',
-    title: 'Poradenství při výběru',
-    short: 'Bezplatná konzultace k vašemu projektu.',
+    id: 'nahradni-dily',
+    title: 'Náhradní díly',
+    short: 'Pomůžeme se zajištěním dílů k vašemu automatu.',
     text: [
-      'Poradenství a konzultace k vašemu projektu jsou zdarma. Pomůžeme vybrat zařízení s ohledem na druh zboží, místo instalace a ekonomiku provozu.',
+      'Pomůžeme se zajištěním náhradních dílů. Uveďte typ automatu a díl, který potřebujete.',
     ],
   },
   {
@@ -49,14 +59,6 @@ export const services = [
     short: 'Nabídněte nám automat, který už nevyužijete.',
     text: [
       'Vykupujeme použité automaty. Pošlete nám typ zařízení, jeho stáří a stav, ideálně i fotografie.',
-    ],
-  },
-  {
-    id: 'nahradni-dily',
-    title: 'Náhradní díly',
-    short: 'Pomoc se zajištěním dílů k automatům.',
-    text: [
-      'Pomůžeme se zajištěním náhradních dílů. Uveďte typ automatu a díl, který potřebujete.',
     ],
   },
 ];

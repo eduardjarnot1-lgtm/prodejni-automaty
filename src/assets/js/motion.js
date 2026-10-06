@@ -118,7 +118,7 @@
       },
     });
     // Service tiles cascade across the grid.
-    batch('.svc-grid > li', { opacity: 0, y: d * 0.6 }, { stagger: { each: 0.05, grid: 'auto', from: 'start' }, duration: 0.6 });
+    batch('.svc__cards > li, .svc-strip, .svc-cta', { opacity: 0, y: d * 0.6 }, { stagger: { each: 0.05, grid: 'auto', from: 'start' }, duration: 0.6 });
     // Process steps: the top rule draws, then the text follows.
     later(main.querySelectorAll('.steps')).forEach(function (list) {
       var bars = list.querySelectorAll('.step__bar');

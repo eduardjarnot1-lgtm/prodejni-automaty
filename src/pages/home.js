@@ -117,6 +117,12 @@ function gallery(r) {
 </section>`;
 }
 
+// Icon per service (src/lib/icons.js, service set).
+const SERVICE_ICONS = {
+  prodej: 'svcSale', pronajem: 'svcRent', poradenstvi: 'svcChat', instalace: 'svcInstall',
+  servis: 'svcService', 'nahradni-dily': 'svcPart', vykup: 'svcBuyback',
+};
+
 // Converging guide lines behind the featured machine (decorative).
 // Converging guide lines (decorative), used behind the featured machine and
 // behind the large gallery photo. cy = where the lines meet (0–700).
@@ -194,16 +200,31 @@ ${gallery(r)}
   </ul>
 </section>
 <!--break-->
-<section class="section section--alt" aria-labelledby="sluzby-h">
+<section class="section section--alt svc" aria-labelledby="sluzby-h">
   <div class="wrap">
-    <div class="section-head">
+    <div class="svc__head">
       <h2 id="sluzby-h">Služby</h2>
-      <p>Od výběru zařízení přes instalaci až po servis a náhradní díly.</p>
+      <p>Od výběru automatu přes instalaci až po dlouhodobý servis.</p>
     </div>
-    <ul class="svc-grid">
-      ${join(services, (s) => `<li class="svc"><h3><a href="${r('sluzby.html#' + s.id)}">${esc(s.title)}</a></h3><p>${esc(s.short)}</p></li>`)}
-      <li class="svc svc--cta"><p>Nevíte, kterou službu potřebujete?</p><p><a class="link-arrow" href="${inquiryHref(r)}">Napište nám ${icons.arrow(18)}</a></p></li>
+    <ul class="svc__cards">
+      ${join(services.filter((s) => s.id !== 'vykup'), (s) => `<li><a class="svc-card" href="${r('sluzby.html#' + s.id)}">
+        <span class="svc-card__icon">${icons[SERVICE_ICONS[s.id]](26)}</span>
+        <span class="svc-card__body"><h3 class="svc-card__title">${esc(s.title)}</h3><span class="svc-card__text">${esc(s.short)}</span></span>
+        <span class="svc-card__arrow" aria-hidden="true">${icons.arrow(18)}</span>
+      </a></li>`)}
     </ul>
+    ${(() => { const v = services.find((s) => s.id === 'vykup'); return v ? `<a class="svc-strip" href="${inquiryHref(r, 'poptat-vykup')}">
+      <span class="svc-strip__icon">${icons.svcBuyback(24)}</span>
+      <span class="svc-strip__body"><strong>${esc(v.title)}</strong> <span>${esc(v.short)}</span></span>
+      <span class="svc-strip__link">Nabídnout automat <span class="svc-card__arrow" aria-hidden="true">${icons.arrow(18)}</span></span>
+    </a>` : ''; })()}
+    <div class="svc-cta">
+      <div>
+        <h3 class="svc-cta__title">Nevíte, kde začít?</h3>
+        <p>Popište nám svůj provoz a pomůžeme vám vybrat vhodné řešení.</p>
+      </div>
+      <a class="btn btn--dark" href="${inquiryHref(r)}">Nezávazně se poradit</a>
+    </div>
   </div>
 </section>
 

@@ -35,6 +35,14 @@ export const icons = {
   bell: (s) => svg('<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>', s),
   cloud: (s) => svg('<path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4.75 4.75 0 0 1-.5 9.5z"/>', s),
   mobile: (s) => svg('<rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/>', s),
+  // Service icons: one set, same stroke; the green part is .icon-accent.
+  svcSale: (s) => svg('<rect x="6" y="2.5" width="12" height="19" rx="1.5"/><rect x="8.5" y="5" width="7" height="10" rx="1" class="icon-accent"/><path d="M8.5 8.3h7M8.5 11.6h7M9.5 18.5h5"/>', s),
+  svcRent: (s) => svg('<rect x="3" y="2.5" width="10" height="17" rx="1.5"/><path d="M5.5 5.5h5v7h-5zM6 16.5h4"/><g class="icon-accent"><rect x="13" y="12" width="8.5" height="8.5" rx="1.2"/><path d="M13 15h8.5M15.5 10.5v3M19 10.5v3"/></g>', s),
+  svcChat: (s) => svg('<path d="M3 5.5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H8l-3.5 3v-3H5a2 2 0 0 1-2-2z"/><path d="M17.5 8.5H19a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-.5v3l-3.5-3h-4a2 2 0 0 1-2-2v-1" class="icon-accent"/>', s),
+  svcInstall: (s) => svg('<rect x="3" y="2.5" width="10" height="17" rx="1.5"/><path d="M5.5 5.5h5v7h-5zM6 16.5h4"/><path d="M13 10h3.5M16.5 8v4M16.5 10h2.5" /><path d="m15.5 18.5 2 2 3.8-4.2" class="icon-accent"/>', s),
+  svcService: (s) => svg('<path d="M14.5 3.5a4 4 0 0 0-3.9 5L4 15.1a1.9 1.9 0 0 0 2.7 2.7l6.6-6.6a4 4 0 0 0 5-3.9l-2.3 2.3-2.4-.6-.6-2.4z"/><g class="icon-accent"><circle cx="18" cy="17.5" r="2"/><path d="M18 13.8v1.2M18 20v1.2M21.7 17.5h-1.2M15.5 17.5h-1.2"/></g>', s),
+  svcPart: (s) => svg('<path d="M12 2.5 20 7v10l-8 4.5L4 17V7z"/><circle cx="12" cy="12" r="3.2" class="icon-accent"/>', s),
+  svcBuyback: (s) => svg('<rect x="8" y="3" width="8" height="14" rx="1.2"/><path d="M10 5.5h4v5.5h-4zM10.5 14.5h3"/><g class="icon-accent"><path d="M3 9.5a6 6 0 0 1 3.5-4.8M5.5 3.4l1.2 1.4-1.4 1.2"/><path d="M21 14.5a6 6 0 0 1-3.5 4.8M18.5 20.6l-1.2-1.4 1.4-1.2"/></g>', s),
   box: (s) => svg('<rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M3 9h18M3 15h18M12 3v18"/>', s),
 };
 
