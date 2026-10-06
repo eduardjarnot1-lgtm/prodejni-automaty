@@ -77,33 +77,10 @@ export const products = [
       accuracy: 'Až 99% přesnost rozpoznávání podle výrobce.',
       accuracyNote: 'Jde o údaj výrobce. Výsledek v konkrétním provozu může záviset na sortimentu, balení a uložení zboží.',
     },
+    // Platform functions are explained on ai-automaty.html; only the note
+    // about their scope is shown on the product page.
     remote: {
-      title: 'Přehled o prodeji. Kontrola nad provozem.',
-      intro:
-        'Automat se spravuje v cloudové platformě AI VENDING. Provozovatel v ní sleduje prodej a stav automatu a řadu nastavení mění na dálku. Tyto funkce slouží ke správě provozu, nejsou součástí rozpoznávání zboží.',
-      features: [
-        { title: 'Statistiky prodeje', text: 'Přehled prodejů podle produktů, zařízení a období.' },
-        { title: 'Sortiment, ceny a zásoby', text: 'Správa katalogu produktů, cen a stavu zásob.' },
-        { title: 'Upozornění', text: 'Upozornění na docházející zásoby a na stav zařízení.' },
-        { title: 'Teplota na dálku', text: 'Kontrola a nastavení teploty v automatu z aplikace.' },
-        { title: 'Dveře a restart na dálku', text: 'Vzdálené otevření dveří a restart automatu.' },
-        { title: 'Objednávky a platby', text: 'Záznamy o objednávkách a platbách.' },
-        { title: 'Uživatelské role', text: 'Přístupy pro členy týmu i pro obsluhu, která automat doplňuje.' },
-      ],
-      newProduct: {
-        title: 'Přidání nového produktu',
-        text:
-          'Produkt vyberete z knihovny produktů v cloudu, nebo podáte žádost o nový produkt: vyplníte údaje o produktu a přiložíte čtyři fotografie. U standardizovaného zboží se uvádí kód GTIN, u nestandardizovaného zboží není potřeba. Podle výrobce je nový produkt k dispozici do 6 hodin.',
-      },
-      restock: {
-        title: 'Způsoby doplňování',
-        items: [
-          { name: 'Rychlé doplnění', text: 'Bez zadávání množství jednotlivých produktů; pro jednodušší provoz, kde rozhoduje rychlost.' },
-          { name: 'Doplnění jedním kliknutím', text: 'S vypočteným množstvím k doplnění. Hodí se pro poměrně stálý sortiment.' },
-          { name: 'Doplnění podle objednávky', text: 'Podle objednávek na doplnění, pro uspořádanější práci se skladem.' },
-        ],
-      },
-      note: 'Popis funkcí vychází z podkladů výrobce. Rozsah funkcí a podmínky používání platformy upřesníme v nabídce.',
+      note: 'Popis funkcí platformy AI VENDING vychází z podkladů výrobce. Rozsah funkcí a podmínky používání platformy upřesníme v nabídce.',
     },
     options: [],
     specs: [

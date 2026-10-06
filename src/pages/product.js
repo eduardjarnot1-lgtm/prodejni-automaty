@@ -5,6 +5,7 @@ import { icons } from '../lib/icons.js';
 import { site } from '../data/site.js';
 import { categories, publishedProducts, productUrl } from '../data/products.js';
 import { productTour, mediaTeaser } from '../lib/media-markup.js';
+import { AI_PAGE } from './ai.js';
 import { media } from '../data/media.js';
 import { pageHead, priceBlock, specTable, button, inquiryHref, phoneLink, contactBand, productCard, productGallery } from '../lib/components.js';
 
@@ -13,8 +14,8 @@ import { pageHead, priceBlock, specTable, button, inquiryHref, phoneLink, contac
 //   tour (src/data/tours.js), 4 benefits + suitable use, 5 optional equipment
 //   + technical parameters, 6 related products + contact.
 // Products with `ai` / `remote` data (HAHA VENDING Pro 542) add "how the
-// purchase works" to section 4 and a remote-management section before the
-// technical parameters; they have no optional-equipment block.
+// purchase works" to section 4 and a short link to the AI automaty page
+// before the technical parameters; they have no optional-equipment block.
 
 // How a purchase with AI recognition works (product data `ai`).
 function aiBlock(r, p) {
@@ -38,33 +39,18 @@ function aiBlock(r, p) {
 </section>`;
 }
 
-// Remote management (product data `remote`).
-function remoteBlock(p) {
-  const m = p.remote;
-  return `<!--break-->
-<section class="section remote" aria-labelledby="sprava-h">
-  <div class="wrap">
-    <div class="section-head section-head--stack">
-      <p class="eyebrow">Správa na dálku · AI VENDING</p>
-      <h2 id="sprava-h">${esc(m.title)}</h2>
-      <p>${esc(m.intro)}</p>
+// Short pointer to the "AI automaty" page (products with `remote` data).
+// The platform is explained there; the product page keeps only this link
+// and the model-specific note about the platform's scope.
+function aiMoreBlock(r, p) {
+  return `<section class="product-info__wide ai-more" aria-labelledby="ai-more-h">
+    <div>
+      <h2 id="ai-more-h">Více o fungování AI automatů</h2>
+      <p>Jak probíhá nákup, správa sortimentu a doplňování zásob? Podrobnosti najdete v sekci AI automaty.</p>
+      ${p.remote.note ? `<p class="note">${esc(p.remote.note)}</p>` : ''}
     </div>
-    <ul class="remote__list">
-      ${join(m.features, (f) => `<li><h3>${esc(f.title)}</h3><p>${esc(f.text)}</p></li>`)}
-    </ul>
-    <div class="remote__more">
-      <section class="remote__panel" aria-labelledby="novy-produkt-h">
-        <h3 id="novy-produkt-h">${esc(m.newProduct.title)}</h3>
-        <p>${esc(m.newProduct.text)}</p>
-      </section>
-      <section class="remote__panel" aria-labelledby="doplnovani-h">
-        <h3 id="doplnovani-h">${esc(m.restock.title)}</h3>
-        <dl class="restock">${join(m.restock.items, (x) => `<div><dt>${esc(x.name)}</dt><dd>${esc(x.text)}</dd></div>`)}</dl>
-      </section>
-    </div>
-    <p class="note">${esc(m.note)}</p>
-  </div>
-</section>`;
+    <a class="link-arrow" href="${r(AI_PAGE)}">Prozkoumat AI automaty <span class="arrow-swap">${icons.arrow(18)}${icons.arrow(18)}</span></a>
+  </section>`;
 }
 function extraAfter(r, p) {
   if (p.slug !== 'chlazeny-automat-na-potraviny') return '';
@@ -141,10 +127,7 @@ ${p.ai ? aiBlock(r, p) : ''}
     <ul class="dots">${join(p.useCases, (u) => `<li>${esc(u)}</li>`)}</ul>
     ${p.useCasesNote ? `<p class="note">${esc(p.useCasesNote)}</p>` : ''}
   </section>` : ''}
-${p.remote ? `</div>
-${remoteBlock(p)}
-<!--break-->
-<div class="wrap product-info product-info--after">` : `
+${p.remote ? aiMoreBlock(r, p) : `
   <section aria-labelledby="vybava-h">
     <h2 id="vybava-h">Volitelná výbava a provedení</h2>
     ${p.options.length
