@@ -48,8 +48,28 @@ export const site = {
       city: 'Brno',
     },
     // Company ID (IČO) is not known yet. Add it when confirmed; the footer
-    // shows it automatically.
+    // and the legal pages show it automatically. REQUIRED before launch
+    // (§ 435 občanského zákoníku: name, IČO and registration on the website).
     companyId: '',
+  },
+
+  // Operator of the website and controller of personal data (legal pages,
+  // footer). TODO potvrdit: legal form. Filled from the known contact; if the
+  // business is a company (s.r.o.), replace `name` with the company name and
+  // fill `register` (e.g. "zapsaná v obchodním rejstříku vedeném Krajským
+  // soudem v Brně, oddíl C, vložka …"). For a sole trader: "fyzická osoba
+  // podnikající, zapsaná v živnostenském rejstříku".
+  operator: {
+    name: 'Ing. Jan Petr',
+    register: '',
+  },
+
+  // Providers involved in running the website (privacy and cookie pages).
+  // TODO potvrdit: hosting (Netlify per the client) and the mailbox provider
+  // of info@stravovaciautomaty.cz.
+  processors: {
+    hosting: 'Netlify, Inc. (USA)',
+    legalUpdated: '14. 10. 2026',
   },
 
   nav: [
@@ -59,6 +79,13 @@ export const site = {
     { label: 'Služby', href: 'sluzby.html', key: 'sluzby' },
     { label: 'O nás', href: 'o-nas.html', key: 'o-nas' },
     { label: 'Kontakt', href: 'kontakt.html', key: 'kontakt' },
+  ],
+
+  // Legal pages (footer).
+  legalNav: [
+    { label: 'Ochrana osobních údajů', href: 'ochrana-osobnich-udaju.html' },
+    { label: 'Cookies', href: 'cookies.html' },
+    { label: 'Podmínky užívání webu', href: 'podminky-uzivani.html' },
   ],
 };
 

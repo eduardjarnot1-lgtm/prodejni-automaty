@@ -49,6 +49,7 @@ form until confirmed.
       kept, opening spec board with figures that contradict the brochure,
       partly malformed English captions. Replace with an authorised clean
       export if available.
+- [ ] **Legal/compliance**: see LEGAL-REVIEW.md (IČO, legal form, VAT on prices, image rights, retention periods, business terms).
 - [ ] **Homepage hero video**: enhanced 928 × 928 version
       (`haha-pro-542-orbit-neural-v2.mp4`) and its poster were mentioned but not
       attached; the 464 × 464 web version is used. Supply the files to swap.

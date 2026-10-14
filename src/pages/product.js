@@ -66,7 +66,7 @@ function extraAfter(r, p) {
       poster: media.doubleDetails.chapters[0].poster, width: 640, height: 640,
       eyebrow: 'Ukázka sestavy',
       title: 'Sestava dvou prodejních automatů',
-      text: 'Samostatná ukázka sestavy. Uvedená orientační cena a kapacita 54 pozic platí pro jeden automat, ne pro sestavu.',
+      text: 'Samostatná ukázka sestavy (ilustrační vizualizace vytvořená pomocí AI). Uvedená orientační cena a kapacita 54 pozic platí pro jeden automat, ne pro sestavu.',
       href: r('automaty.html#ukazka-sestavy'),
       cta: 'Zobrazit ukázku sestavy',
     })}

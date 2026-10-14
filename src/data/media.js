@@ -40,7 +40,7 @@ export const media = {
     mode: 'play once when visible, hold final frame; pause/replay button',
     reducedMotion: 'final-frame poster; optional manual playback',
     alt: 'Ilustrační vizualizace černého prodejního automatu HAHA VENDING Pro 542 na tmavém pozadí',
-    note: 'Ilustrační vizualizace. Skutečné provedení se může lišit.',
+    note: 'Ilustrační vizualizace vytvořená pomocí AI. Skutečné provedení se může lišit.',
   },
 
   // VIDEO A (no longer on the homepage, kept for reference): single
@@ -191,4 +191,4 @@ export const mediaSources = (m) => m.files || [
   { src: `assets/video/${m.alias}.webm`, type: 'video/webm; codecs="vp9"' },
 ];
 
-export const MEDIA_NOTE = 'Ilustrační vizualizace. Skutečné provedení se liší podle modelu a konfigurace.';
+export const MEDIA_NOTE = 'Ilustrační vizualizace vytvořená pomocí AI. Skutečné provedení se liší podle modelu a konfigurace.';

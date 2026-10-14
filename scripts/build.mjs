@@ -16,6 +16,7 @@ import services from '../src/pages/services.js';
 import about from '../src/pages/about.js';
 import contact from '../src/pages/contact.js';
 import notFound from '../src/pages/not-found.js';
+import { privacy, cookies, terms } from '../src/pages/legal.js';
 
 const preview = process.argv.includes('--preview');
 const OUT = preview ? 'preview' : 'dist';
@@ -38,7 +39,7 @@ function markModels(html) {
   }).join('');
 }
 
-const pages = [home, ai, catalog, ...publishedProducts.map(productPage), services, about, contact, notFound];
+const pages = [home, ai, catalog, ...publishedProducts.map(productPage), services, about, contact, privacy, cookies, terms, notFound];
 
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });

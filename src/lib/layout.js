@@ -84,6 +84,7 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
         ${c.emailAlt ? `<li>${emailLink(c.emailAlt)}</li>` : ''}
         <li>${esc(addressOneLine())}</li>
         ${c.companyId ? `<li>IČO: ${esc(c.companyId)}</li>` : ''}
+        ${site.operator.register ? `<li>${esc(site.operator.register)}</li>` : ''}
       </ul>
     </div>
     <div>
@@ -100,7 +101,8 @@ ${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
     </div>
   </div>
   <div class="wrap site-footer__bottom">
-    <p>© ${new Date().getFullYear()} ${esc(site.brandName)}</p>
+    <p>© ${new Date().getFullYear()} ${esc(site.brandName)} · Provozovatel: ${esc(site.operator.name)}${c.companyId ? `, IČO ${esc(c.companyId)}` : ''}</p>
+    <ul class="site-footer__legal">${join(site.legalNav, (n) => `<li><a href="${r(n.href)}">${esc(n.label)}</a></li>`)}</ul>
   </div>
 </footer>
 <div class="mobile-bar" aria-label="Rychlý kontakt" role="region">

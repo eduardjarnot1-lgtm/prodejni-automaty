@@ -20,7 +20,7 @@
   --accent: #121417;       /* primary: buttons, links, icons, focus */
   --accent-hover: #2d3137;
   --accent-50: #f2f3f4;
-  --green: #2c7a37;        /* accent text (5.3:1 on white) */
+  --green: #226429;        /* accent text (7.2:1 on white, ≥4.6:1 on the grey gradients) */
   --green-bright: #3fa34d; /* markers and icons only */
   --green-50: #ebf5ed;
   --on-dark: #ecedef;
@@ -456,9 +456,9 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
 .seq__chapter p { color: var(--ink-3); }
 .seq__chapter.is-active, .seq__chapter.is-active h3 { color: var(--ink); }
 .seq__chapter.is-active p { color: var(--ink-2); }
-.seq--dark .seq__chapter, .seq--dark .seq__chapter h3 { color: #7d8288; }
+.seq--dark .seq__chapter, .seq--dark .seq__chapter h3 { color: #a3a8ae; }
 .seq--dark .seq__chapter.is-active, .seq--dark .seq__chapter.is-active h3 { color: var(--white); }
-.seq--dark .seq__chapter p { color: #7d8288; }
+.seq--dark .seq__chapter p { color: #a3a8ae; }
 .seq--dark .seq__chapter.is-active p { color: var(--stage-ink-2); }
 .seq__num { position: absolute; left: 0; top: 0.2rem; font-size: var(--fs-sm); font-weight: 600; color: var(--green); }
 .seq--dark .seq__num { color: #9fd3a7; }
@@ -484,7 +484,7 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
 }
 /* Text follows the footage: the active chapter settles in, others recede. */
 .seq__chapter h3, .seq__chapter p { transition: color 400ms var(--ease-out), opacity 400ms var(--ease-out), transform 500ms var(--ease-emph); }
-.motion .seq__chapter:not(.is-active) p { opacity: 0.75; transform: translateY(4px); }
+.motion .seq__chapter:not(.is-active) p { transform: translateY(4px); }
 .motion .seq__chapter.is-active h3 { transform: translateX(2px); }
 
 .seq__jump {
@@ -856,7 +856,6 @@ body { background: var(--frame); padding-inline: var(--fg); padding-top: var(--f
 .form-result textarea { font-family: var(--font-mono); font-size: var(--fs-sm); background: var(--white); margin-top: 0.5rem; }
 .form-result .actions { margin-top: 1rem; }
 .copy-status { font-size: var(--fs-sm); margin-top: 0.75rem; color: var(--green); font-weight: 500; }
-.privacy-note { font-size: var(--fs-xs); color: var(--ink-2); margin-top: 1.25rem; }
 
 /* ---------- Footer ---------- */
 .site-footer { background: var(--white); border-radius: var(--r-panel); margin-bottom: var(--fg); padding-top: 3rem; font-size: var(--fs-sm); }
@@ -1070,7 +1069,7 @@ html.zt-loading, html.zt-loading * { cursor: progress; }
 
 /* Chapter qualification and in-chapter inquiry button (Pro 542 tour). */
 .seq__qual { margin-top: 0.5rem; font-size: var(--fs-sm); }
-.seq--dark .seq__chapter .seq__qual { color: #8b9096; }
+.seq--dark .seq__chapter .seq__qual { color: #a3a8ae; }
 .seq--dark .seq__chapter.is-active .seq__qual { color: rgba(244, 245, 246, 0.72); }
 .seq__chapter-cta { margin-top: 1.1rem; }
 
@@ -1463,3 +1462,35 @@ html.zt-loading, html.zt-loading * { cursor: progress; }
 /* Inside flex/grid controls (buttons, links with icons) the model name is
    part of the label text, not a separate item with its own gap. */
 .btn .model, .link-arrow .model, .mobile-bar .model, .teaser__cta .model, .showcase__more .model { display: contents; }
+
+/* ---------- Legal pages ---------- */
+.legal { max-width: 46em; }
+.legal h2 { font-size: var(--fs-lg); margin: 2.25rem 0 0.6rem; }
+.legal h2:first-child { margin-top: 0; }
+.legal h3 { font-size: var(--fs-md); margin: 1.5rem 0 0.4rem; }
+.legal p, .legal li { color: var(--ink-2); line-height: 1.65; }
+.legal ul { padding-left: 1.25rem; display: grid; gap: 0.4rem; margin: 0.5rem 0 1rem; }
+.legal__card { display: grid; gap: 8px; margin: 0.75rem 0 1rem; padding: 16px 20px; border-radius: var(--radius); background: var(--surface); }
+.legal__card div { display: grid; grid-template-columns: minmax(7em, auto) 1fr; gap: 12px; }
+.legal__card dt { font-weight: 700; }
+.legal__card dd { margin: 0; overflow-wrap: anywhere; }
+.legal__table th, .legal__table td { vertical-align: top; text-align: left; }
+.legal__updated { margin-top: 2.5rem; font-size: var(--fs-sm); }
+@media (max-width: 520px) { .legal__card div { grid-template-columns: 1fr; gap: 0; } }
+
+/* Footer: legal links. */
+.site-footer__bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; }
+.site-footer__bottom p { margin: 0; }
+.site-footer__legal { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 0; }
+.site-footer__legal a { color: var(--ink-2); }
+
+/* Form: acknowledgement checkbox. */
+.field--check { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: start; }
+.field--check input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--ink); }
+.field--check label { font-weight: 400; }
+.field--check .field__hint, .field--check .field__error { grid-column: 2; }
+.field--check input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.legal__table { table-layout: fixed; width: 100%; min-width: 560px; }
+.legal__table th:nth-child(1) { width: 20%; } .legal__table th:nth-child(2) { width: 22%; }
+.legal__table th:nth-child(3) { width: 36%; } .legal__table th:nth-child(4) { width: 22%; }
+.legal__table th, .legal__table td { width: auto; font-size: var(--fs-sm); line-height: 1.5; overflow-wrap: anywhere; }

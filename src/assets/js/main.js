@@ -188,6 +188,7 @@
       { el: form.querySelector('#f-email'), ok: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); } },
       { el: select, ok: function (v) { return v !== ''; } },
       { el: form.querySelector('#f-zprava'), ok: function (v) { return v.trim().length > 2; } },
+      { el: form.querySelector('#f-souhlas'), ok: function () { return form.querySelector('#f-souhlas').checked; } },
     ];
 
     function check(f) {
@@ -205,6 +206,7 @@
     fields.forEach(function (f) {
       f.el.addEventListener('blur', function () { if (f.el.hasAttribute('aria-invalid')) check(f); });
       f.el.addEventListener('input', function () { if (f.el.getAttribute('aria-invalid') === 'true') check(f); });
+      f.el.addEventListener('change', function () { if (f.el.getAttribute('aria-invalid') === 'true') check(f); });
     });
 
     form.addEventListener('submit', function (e) {

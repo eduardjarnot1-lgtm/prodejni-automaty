@@ -46,6 +46,10 @@ for (const f of files) {
   }
 }
 
+// Launch reminders (warnings only, the site is not public yet).
+const siteData = (await import('../src/data/site.js')).site;
+if (!siteData.contact.companyId) console.warn('WARNING: IČO (site.contact.companyId) is empty – required on the website before launch (§ 435 OZ).');
+
 if (errors.length) {
   console.error(errors.join('\n'));
   console.error(`\n${errors.length} problem(s) in ${files.length} pages`);

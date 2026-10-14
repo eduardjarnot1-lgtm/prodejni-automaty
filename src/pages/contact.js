@@ -30,7 +30,7 @@ ${pageHead({
     ${contactList()}
 
     <div class="map" data-map-src="${esc(mapLinks.embed)}">
-      <p class="map__note">Mapa se načte až po kliknutí. Poskytuje ji Google.</p>
+      <p class="map__note">Mapa se načte až po kliknutí. Poskytuje ji Google, který pak může zpracovávat vaši IP adresu a ukládat cookies. <a href="${r('cookies.html')}">Více o cookies</a></p>
       <div class="map__actions">
         <button class="btn btn--secondary" type="button" data-map-load data-size="sm">Zobrazit mapu</button>
         <a class="link-ext" href="${esc(mapLinks.mapy)}" target="_blank" rel="noopener">Mapy.com ${icons.external(16)}<span class="visually-hidden"> (otevře se v novém okně)</span></a>
@@ -78,6 +78,13 @@ ${pageHead({
         <p class="field__error" id="f-zprava-err" hidden>Napište nám prosím krátkou zprávu.</p>
       </div>
 
+      <div class="field field--check">
+        <input id="f-souhlas" name="souhlas" type="checkbox" value="ano" required aria-describedby="f-souhlas-hint">
+        <label for="f-souhlas">Beru na vědomí, že údaje z poptávky použijete k odpovědi a přípravě nabídky.</label>
+        <p class="field__hint" id="f-souhlas-hint">Podrobnosti najdete v <a href="${r('ochrana-osobnich-udaju.html')}">informacích o ochraně osobních údajů</a>.</p>
+        <p class="field__error" id="f-souhlas-err" hidden>Potvrďte prosím, že jste se s informacemi seznámili.</p>
+      </div>
+
       <div class="form__send">
         <button class="btn btn--primary" type="submit">Připravit e-mail s poptávkou</button>
         <p class="field__hint">Formulář zatím neodesílá data přímo. Otevře váš e-mailový program s připravenou zprávou na adresu <strong>${esc(c.email)}</strong>, kterou pak odešlete vy.</p>
@@ -97,7 +104,7 @@ ${pageHead({
       <p class="copy-status" role="status" aria-live="polite"></p>
     </div>
 
-    <p class="privacy-note">Údaje z poptávky použijeme jen k odpovědi na váš dotaz.</p>
+
   </section>
 </div>
 `;

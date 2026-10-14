@@ -17,7 +17,7 @@ export function categoryGallery(r, key, headingLevel = 3) {
   return `<div class="examples">
   <${h} class="examples__h">Ukázky provedení</${h}>
   <ul class="examples__list">
-    ${join(items, (p) => `<li><figure><div class="plinth plinth--sm">${photo(r, p.id, { sizes: '(min-width: 1000px) 320px, 45vw' })}</div><figcaption>${esc(p.alt)}</figcaption></figure></li>`)}
+    ${join(items, (p) => `<li><figure><div class="plinth plinth--sm">${photo(r, p.id, { sizes: '(min-width: 1000px) 320px, 45vw' })}</div><figcaption>${esc(p.title)}</figcaption></figure></li>`)}
   </ul>
   <p class="note">${key === 'boxove-systemy' ? 'Konkrétní provedení, počet a velikost schránek upřesníme podle vašich požadavků.' : 'Konkrétní provedení a výbavu upřesníme podle vašich požadavků.'}${other.length ? ` Fotografie nezobrazují model ${esc(other.join(', '))}.` : ''}</p>
 </div>`;
@@ -79,7 +79,7 @@ ${join(categories, (k, i) => {
       poster: media.lockerShowcase.chapters[1].poster, width: 704, height: 1024,
       eyebrow: 'Vizuální prohlídka',
       title: 'Automatický výdejní boxový systém',
-      text: 'Celá skříň, detail schránek a ovládacího panelu a ilustrační umístění v interiéru.',
+      text: 'Celá skříň, detail schránek a ovládacího panelu a ilustrační umístění v interiéru. Ilustrační vizualizace vytvořená pomocí AI.',
       href: r('automaty/automaticky-boxovy-system.html#prohlidka'),
       cta: 'Zobrazit prohlídku',
     }) : ''}
