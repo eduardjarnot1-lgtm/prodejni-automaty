@@ -1494,3 +1494,4 @@ html.zt-loading, html.zt-loading * { cursor: progress; }
 .legal__table th:nth-child(1) { width: 20%; } .legal__table th:nth-child(2) { width: 22%; }
 .legal__table th:nth-child(3) { width: 36%; } .legal__table th:nth-child(4) { width: 22%; }
 .legal__table th, .legal__table td { width: auto; font-size: var(--fs-sm); line-height: 1.5; overflow-wrap: anywhere; }
+.table-scroll:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }

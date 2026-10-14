@@ -100,7 +100,7 @@ export const cookies = legalPage({
     <p>Tento web sám žádné cookies nenastavuje. Nepoužíváme Google Analytics, reklamní pixely ani jiné nástroje pro měření návštěvnosti nebo sledování návštěvníků. Proto po vás nežádáme souhlas s cookies a nezobrazujeme cookie lištu.</p>
 
     <h2>Data uložená ve vašem prohlížeči</h2>
-    <div class="table-scroll"><table class="specs legal__table">
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Tabulka dat v prohlížeči (lze posouvat do stran)"><table class="specs legal__table">
       <caption class="visually-hidden">Data ukládaná do prohlížeče</caption>
       <thead><tr><th scope="col">Název</th><th scope="col">Typ</th><th scope="col">Účel</th><th scope="col">Doba uložení</th></tr></thead>
       <tbody>
