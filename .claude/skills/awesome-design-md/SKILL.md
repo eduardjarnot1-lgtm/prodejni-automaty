@@ -1,6 +1,7 @@
 ---
 name: awesome-design-md
 description: Library of 84 ready-made DESIGN.md design systems (colors, typography, spacing, components, rules) inspired by real brands such as Stripe, Apple, Linear, Vercel, Notion, Airbnb, Tesla and Spotify. Use when building or restyling UI "to look like" a known site, when picking a visual direction, or when the project needs a DESIGN.md.
+argument-hint: "[design-name] [what to build]"
 ---
 
 # Awesome DESIGN.md
@@ -12,6 +13,14 @@ YAML front matter with tokens (`colors`, `typography`, spacing, radii, shadows) 
 describing layout, components, do's and don'ts.
 
 ## How to use
+
+Invoked as `/awesome-design-md <design-name> [task]`, e.g. `/awesome-design-md stripe build the landing page`.
+Arguments: `$ARGUMENTS`
+
+- First word = design name, matched to a folder in `designs/` (case-insensitive; `linear` → `linear.app`,
+  `mistral` → `mistral.ai`). If nothing matches, list the closest names and ask.
+- The rest = the task to do in that style. No task → summarize the design and ask what to build.
+- No arguments → show the list below and ask which design to use.
 
 1. Pick a design from `designs/<name>/DESIGN.md`. If the user named a brand or site, use the matching
    folder; otherwise suggest 2–3 that fit the product and let the user choose.
